@@ -1102,3 +1102,25 @@ body {
 .card:hover img {
     transform: scale(1.1);
 }
+
+/* --- Hover Scale Utility --- */
+.hover-scale {
+    transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+}
+
+.hover-scale:hover {
+    transform: translateY(-8px) scale(1.02);
+    box-shadow: 0 20px 40px rgba(16, 185, 129, 0.15) !important;
+    border: 1px solid rgba(16, 185, 129, 0.3) !important;
+}
+
+.hover-scale:hover .bg-light {
+    background-color: rgba(16, 185, 129, 0.1) !important;
+    color: var(--brand-green);
+}
+
+.hover-scale:hover .btn-outline-brand-green {
+    background-color: var(--brand-green);
+    color: white;
+    box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+}
