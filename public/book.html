@@ -422,7 +422,13 @@
 
                 // Read from LocalStorage "Global DB"
                 const globalBookings = JSON.parse(localStorage.getItem('globalReservations')) || [];
-                state.bookedSlots = globalBookings;
+
+                // ALSO Read personal history for legacy bookings (Backward Compatibility)
+                const legacyHistory = JSON.parse(localStorage.getItem('bookingHistory')) || [];
+                const legacyConverted = legacyHistory.map(b => ({ date: b.date, time: b.time }));
+
+                // Combine both sources
+                state.bookedSlots = [...globalBookings, ...legacyConverted];
 
                 renderTimes(); // Refresh buttons
             } catch (err) {
@@ -466,7 +472,11 @@
             setTimeout(() => {
                 // 0. FINAL AVAILABILITY CHECK (Prevent Double Booking)
                 let globalCheck = JSON.parse(localStorage.getItem('globalReservations')) || [];
-                const isTaken = globalCheck.some(r => r.date === formObj.date && r.time === formObj.time);
+                let legacyCheck = JSON.parse(localStorage.getItem('bookingHistory')) || [];
+
+                // Check both sources
+                const allBookings = [...globalCheck, ...legacyCheck];
+                const isTaken = allBookings.some(r => r.date === formObj.date && r.time === formObj.time);
 
                 if (isTaken) {
                     alert('Apologies! This time slot was just booked by another user. Please select a different time.');
