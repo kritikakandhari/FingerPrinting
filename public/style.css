@@ -1282,6 +1282,55 @@ body {
     .text-reveal-section {
         min-height: 50vh !important;
     }
+
+    /* --- Global Mobile Typography Fixes --- */
+    h1,
+    .display-1,
+    .display-2,
+    .display-3 {
+        word-wrap: break-word;
+        /* Prevent overflow */
+        overflow-wrap: break-word;
+    }
+
+    .display-3 {
+        font-size: 2.2rem !important;
+        /* Drastically reduce from desktop size */
+        line-height: 1.2 !important;
+    }
+
+    .display-4 {
+        font-size: 2rem !important;
+    }
+
+    .display-5 {
+        font-size: 1.75rem !important;
+    }
+
+    /* Hero Section Specifics */
+    .lead {
+        font-size: 1rem !important;
+        /* Smaller body text */
+    }
+
+    .btn-lg {
+        padding: 0.75rem 1.5rem !important;
+        font-size: 1rem !important;
+        width: 100%;
+        /* Full width buttons on mobile for easier tapping */
+    }
+
+    /* Adjust container padding to prevent edge touching */
+    .container {
+        padding-left: 1.5rem;
+        padding-right: 1.5rem;
+    }
+
+    /* Stats Section Grid */
+    .stat-item .stat-number {
+        font-size: 2rem;
+        /* Reduce if needed */
+    }
 }
 
 /* Scroll Reveal Text Effect */
