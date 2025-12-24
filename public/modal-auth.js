@@ -30,7 +30,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     localStorage.setItem('authToken', 'mock-token-' + Date.now());
                     localStorage.setItem('userProfile', JSON.stringify(validUser));
 
-                    alert('Login successful! Welcome back, ' + validUser.firstName);
+                    alert('Sign In successful! Welcome back, ' + validUser.firstName);
 
                     const modal = bootstrap.Modal.getInstance(document.getElementById('loginModal'));
                     modal.hide();
@@ -81,7 +81,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
                 // Check if already exists
                 if (users.some(u => u.email.toLowerCase() === email.toLowerCase())) {
-                    alert('This email is already registered. Please Login.');
+                    alert('This email is already registered. Please Sign In.');
                     submitBtn.disabled = false;
                     submitBtn.innerHTML = originalText;
                     return;
