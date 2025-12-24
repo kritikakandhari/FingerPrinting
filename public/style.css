@@ -1343,6 +1343,29 @@ body {
         font-size: 2rem;
         /* Reduce if needed */
     }
+
+    /* --- Marquee Logos Mobile Fix --- */
+    .logo-card {
+        height: 70px !important;
+        min-width: 160px !important;
+        padding: 0.75rem 1.5rem !important;
+        margin: 0 0.75rem !important;
+    }
+
+    .logo-card img {
+        height: 35px !important;
+        /* Scale down from 50px */
+    }
+
+    .accreditation-section {
+        padding: 3rem 0 !important;
+        /* Reduce vertical padding */
+    }
+
+    .tracking-widest {
+        font-size: 0.7rem !important;
+        /* Smaller header text */
+    }
 }
 
 /* Scroll Reveal Text Effect */
