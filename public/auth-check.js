@@ -67,9 +67,17 @@ function updateAuthUI() {
         );
 
         bookingBtns.forEach(btn => {
+            // Remove bootstrap triggers just in case
             btn.removeAttribute('data-bs-toggle');
             btn.removeAttribute('data-bs-target');
             btn.href = 'book.html';
+
+            // Force click handling to override any lingering Bootstrap events
+            btn.onclick = function (e) {
+                e.preventDefault();
+                e.stopPropagation();
+                window.location.href = 'book.html';
+            };
         });
 
     } else {
