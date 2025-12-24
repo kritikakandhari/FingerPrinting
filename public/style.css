@@ -1233,19 +1233,35 @@ body {
     transform: scale(1.1) rotate(5deg);
 }
 
-@media (max-width: 768px) {
-    .accordion-wrapper {
-        flex-direction: column;
-        height: 600px !important;
-    }
+.accordion-card:hover,
+.accordion-card.active {
+    flex: 3;
+}
+}
 
-    .accordion-card {
-        width: 100%;
-        min-height: 80px;
-    }
+/* Scroll Reveal Text Effect */
+.text-reveal-section {
+    position: relative;
+}
 
-    .accordion-card:hover,
-    .accordion-card.active {
-        flex: 3;
-    }
+.reveal-text {
+    /* The magic gradient: Green/Black on left, Light Gray on right */
+    background-image: linear-gradient(to right,
+            var(--brand-dark) 0%,
+            var(--brand-dark) var(--scroll),
+            #d1d5db var(--scroll),
+            #d1d5db 100%);
+
+    /* Clip background to text */
+    -webkit-background-clip: text;
+    background-clip: text;
+
+    /* Make text transparent so background shows through */
+    color: transparent;
+
+    /* Smooth out the update jitter */
+    transition: --scroll 0.1s linear;
+
+    /* Improve font rendering */
+    -webkit-font-smoothing: antialiased;
 }
