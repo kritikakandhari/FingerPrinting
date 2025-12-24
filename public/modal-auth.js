@@ -23,8 +23,16 @@ document.addEventListener('DOMContentLoaded', function () {
                 const isSuccess = true;
 
                 if (isSuccess) {
-                    // Store mock token
+                    // Create Mock User Profile if not exists
+                    const mockUser = {
+                        firstName: 'Demo',
+                        lastName: 'User',
+                        email: emailOrPhone,
+                        userId: 'FP-' + Math.floor(100000 + Math.random() * 900000)
+                    };
+
                     localStorage.setItem('authToken', 'mock-token-12345');
+                    localStorage.setItem('userProfile', JSON.stringify(mockUser));
 
                     alert('Login successful!');
                     // Close modal
@@ -48,10 +56,12 @@ document.addEventListener('DOMContentLoaded', function () {
         signupForm.addEventListener('submit', function (e) {
             e.preventDefault();
 
+            const firstName = document.getElementById('signupFirstName').value;
+            const lastName = document.getElementById('signupLastName').value;
+            const email = document.getElementById('signupEmail').value;
             const password = document.getElementById('signupPassword').value;
             const confirmPassword = document.getElementById('signupConfirmPassword').value;
 
-            // Validate passwords match
             if (password !== confirmPassword) {
                 alert('Passwords do not match!');
                 return;
@@ -64,14 +74,21 @@ document.addEventListener('DOMContentLoaded', function () {
 
             // Simulate API Call
             setTimeout(() => {
-                alert('Account created successfully! Logging you in...');
+                const newUser = {
+                    firstName,
+                    lastName,
+                    email,
+                    userId: 'FP-' + Math.floor(100000 + Math.random() * 900000)
+                };
 
                 localStorage.setItem('authToken', 'mock-token-12345');
+                localStorage.setItem('userProfile', JSON.stringify(newUser));
+
+                alert('Account created successfully! User ID: ' + newUser.userId);
 
                 const signupModal = bootstrap.Modal.getInstance(document.getElementById('signupModal'));
                 signupModal.hide();
 
-                // Redirect directly to booking after signup, for smoother UX
                 window.location.href = 'book.html';
 
             }, 1500);

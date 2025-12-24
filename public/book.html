@@ -521,16 +521,26 @@
             updateUI();
         };
 
-        document.getElementById('booking-form').onsubmit = async (e) => {
+        document.getElementById('booking-form').onsubmit = (e) => {
             e.preventDefault();
 
+            // Check Authentication First
+            const userProfile = localStorage.getItem('userProfile');
+            if (!userProfile) {
+                alert('Please Log In or Sign Up to complete your booking.');
+                return;
+            }
+
             const formObj = {
+                id: Date.now(),
                 name: document.getElementById('booking-name').value,
                 email: document.getElementById('booking-email').value,
                 phone: document.getElementById('booking-phone').value,
                 service: document.getElementById('booking-service').value,
                 date: state.selectedDate.toLocaleDateString('en-US'),
-                time: state.selectedTime
+                time: state.selectedTime,
+                status: 'Confirmed',
+                timestamp: new Date().toISOString()
             };
 
             const btn = e.target.querySelector('button[type="submit"]');
@@ -538,33 +548,23 @@
             btn.disabled = true;
             btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Processing...';
 
-            try {
-                const response = await fetch('/api/book', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(formObj)
-                });
+            // Simulate Network Delay & Save to LocalStorage
+            setTimeout(() => {
+                // Save Booking
+                let currentBookings = JSON.parse(localStorage.getItem('bookingHistory')) || [];
+                currentBookings.push(formObj);
+                localStorage.setItem('bookingHistory', JSON.stringify(currentBookings));
 
-                if (response.ok) {
-                    state.step = 3;
-                    document.getElementById('confirm-date').textContent = state.selectedDate.toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
-                    document.getElementById('confirm-time').textContent = state.selectedTime;
-                    document.getElementById('confirm-email-display').textContent = formObj.email;
-                    updateUI();
-                } else if (response.status === 409) {
-                    alert('Sorry, this slot was just booked by someone else. Please choose another time.');
-                    fetchAvailability(); // Refresh list
-                    state.step = 1;
-                    updateUI();
-                } else {
-                    alert('Booking failed. Please try again.');
-                }
-            } catch (error) {
-                alert('Server connection error.');
-            } finally {
+                // Success UI
+                state.step = 3;
+                document.getElementById('confirm-date').textContent = state.selectedDate.toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+                document.getElementById('confirm-time').textContent = state.selectedTime;
+                document.getElementById('confirm-email-display').textContent = formObj.email;
+                updateUI();
+
                 btn.disabled = false;
                 btn.innerHTML = originalText;
-            }
+            }, 1000);
         };
 
         function updateUI() {
