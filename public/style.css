@@ -1124,3 +1124,98 @@ body {
     color: white;
     box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
 }
+
+/* --- Horizontal Accordion Styles --- */
+.accordion-wrapper {
+    width: 100%;
+    margin: 0 auto;
+}
+
+.accordion-card {
+    flex: 1;
+    cursor: pointer;
+    border-radius: 1.5rem;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    transition: flex 0.6s cubic-bezier(0.25, 1, 0.5, 1);
+    position: relative;
+    min-width: 60px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.accordion-card:hover,
+.accordion-card.active {
+    flex: 6;
+}
+
+.accordion-card .overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(180deg, rgba(0, 0, 0, 0.1) 0%, rgba(0, 0, 0, 0.8) 100%);
+    pointer-events: none;
+    transition: opacity 0.3s;
+}
+
+.accordion-card:hover .overlay {
+    background: linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.9) 100%);
+}
+
+.accordion-content {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all 0.4s ease 0.1s;
+    transition-delay: 0.1s;
+    white-space: nowrap;
+    width: 100%;
+}
+
+.accordion-card:hover .accordion-content,
+.accordion-card.active .accordion-content {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.accordion-card:hover .accordion-content h3,
+.accordion-card:hover .accordion-content p,
+.accordion-card:hover .accordion-content .description,
+.accordion-card.active .accordion-content h3,
+.accordion-card.active .accordion-content p,
+.accordion-card.active .accordion-content .description {
+    white-space: normal;
+}
+
+.accordion-card:hover .accordion-content .description,
+.accordion-card.active .accordion-content .description {
+    display: block;
+    opacity: 0.9;
+}
+
+.accordion-card .icon-circle {
+    transition: transform 0.4s ease;
+}
+
+.accordion-card:hover .icon-circle,
+.accordion-card.active .icon-circle {
+    transform: scale(1.1) rotate(5deg);
+}
+
+@media (max-width: 768px) {
+    .accordion-wrapper {
+        flex-direction: column;
+        height: 600px !important;
+    }
+
+    .accordion-card {
+        width: 100%;
+        min-height: 80px;
+    }
+
+    .accordion-card:hover,
+    .accordion-card.active {
+        flex: 3;
+    }
+}

@@ -25,6 +25,15 @@ document.addEventListener('DOMContentLoaded', () => {
         observer.observe(el);
     });
 
+    // Accordion Logic
+    const accordionCards = document.querySelectorAll('.accordion-card');
+    accordionCards.forEach(card => {
+        card.addEventListener('mouseenter', () => {
+            accordionCards.forEach(c => c.classList.remove('active'));
+            card.classList.add('active');
+        });
+    });
+
     // Remove preloader if it exists
     const preloader = document.getElementById('preloader');
     if (preloader) {
@@ -38,3 +47,4 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 });
+
