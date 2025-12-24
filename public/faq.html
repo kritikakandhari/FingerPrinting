@@ -1,0 +1,579 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FAQ - Point Zero Global Services</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="style.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .faq-card {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 1.5rem;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+
+        .accordion-item {
+            background: transparent;
+            border: none;
+            margin-bottom: 1rem;
+        }
+
+        .accordion-button {
+            border-radius: 1rem !important;
+            background: white;
+            color: #334155;
+            font-weight: 600;
+            padding: 1.25rem 1.5rem;
+            box-shadow: none;
+            border: 1px solid #e2e8f0;
+            transition: all 0.3s ease;
+        }
+
+        .accordion-button:not(.collapsed) {
+            background: var(--brand-green);
+            color: white;
+            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+            border-color: var(--brand-green);
+        }
+
+        .accordion-button:not(.collapsed)::after {
+            filter: brightness(0) invert(1);
+        }
+
+        .accordion-button:focus {
+            box-shadow: none;
+            border-color: var(--brand-green);
+        }
+
+        .accordion-body {
+            padding: 1.5rem;
+            color: #64748b;
+            line-height: 1.6;
+        }
+
+        .faq-icon-wrapper {
+            width: 50px;
+            height: 50px;
+            background: white;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            margin-bottom: 1.5rem;
+        }
+    </style>
+</head>
+
+<body class="bg-light premium-bg">
+    <!-- Animated Background Mesh -->
+    <div class="animated-bg">
+        <div class="bg-blob blob-1"></div>
+        <div class="bg-blob blob-2"></div>
+        <div class="bg-blob blob-3"></div>
+    </div>
+
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-md navbar-light fixed-top bg-white">
+        <div class="container">
+            <a class="navbar-brand d-flex align-items-center gap-2" href="index.html">
+                <img src="assets/images/logo.jpg" alt="Point Zero Global Services" style="height: 75px;">
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarContent">
+                <ul class="navbar-nav ms-auto mb-2 mb-lg-0 align-items-center gap-3">
+                    <li class="nav-item"><a class="nav-link text-secondary fw-medium" href="index.html">Home</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle text-secondary fw-medium" href="#" id="servicesDropdown"
+                            role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Services
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end shadow-lg border-0 rounded-3 mt-2"
+                            aria-labelledby="servicesDropdown" style="min-width: 250px;">
+                            <li><a class="dropdown-item py-2 px-3 small" href="services.html#service-1">Record
+                                    Suspension</a></li>
+                            <li><a class="dropdown-item py-2 px-3 small" href="services.html#service-2">Police Check
+                                    (Outside CA)</a></li>
+                            <li><a class="dropdown-item py-2 px-3 small" href="services.html#service-3">USA Entry
+                                    Waiver</a></li>
+                            <li><a class="dropdown-item py-2 px-3 small" href="services.html#service-4">Police
+                                    Certificate (ECPIC)</a></li>
+                            <li><a class="dropdown-item py-2 px-3 small" href="services.html#service-5">Digital
+                                    Fingerprinting</a></li>
+                            <li><a class="dropdown-item py-2 px-3 small" href="services.html#service-6">Name Change
+                                    Application</a></li>
+                            <li><a class="dropdown-item py-2 px-3 small" href="services.html#service-7">Employment
+                                    Screening</a></li>
+                            <li><a class="dropdown-item py-2 px-3 small" href="services.html#service-8">Security
+                                    License</a></li>
+                            <li><a class="dropdown-item py-2 px-3 small" href="services.html#service-9">Background
+                                    Checks</a></li>
+                            <li><a class="dropdown-item py-2 px-3 small" href="services.html#service-10">Ink & Roll
+                                    Fingerprinting</a></li>
+                            <li><a class="dropdown-item py-2 px-3 small" href="services.html#service-11">Criminal
+                                    Record
+                                    Checks</a></li>
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
+                            <li><a class="dropdown-item py-2 px-3 small fw-bold text-brand-green text-center"
+                                    href="services.html">View All Services</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item"><a class="nav-link text-secondary fw-medium" href="faq.html">FAQ</a></li>
+                    <li class="nav-item"><a class="nav-link text-secondary fw-medium" href="about.html">About Us</a>
+                    </li>
+                    <li class="nav-item"><a class="nav-link text-secondary fw-medium"
+                            href="index.html#contact">Contact</a></li>
+                    <li class="nav-item"><a class="nav-link text-secondary fw-medium" href="#" data-bs-toggle="modal"
+                            data-bs-target="#loginModal">Login</a></li>
+                    <li class="nav-item"><a class="nav-link text-secondary fw-medium" href="#" data-bs-toggle="modal"
+                            data-bs-target="#signupModal">Sign Up</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="book.html"
+                            class="btn btn-brand-green btn-aura text-white fw-semibold px-4 shadow-sm">Book
+                            Appointment</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Header Section -->
+    <header class="pt-5 mt-5 pb-5">
+        <div class="container pt-5 text-center">
+            <div
+                class="d-inline-flex align-items-center gap-2 px-3 py-2 rounded-pill bg-white border text-brand-green fw-medium small mb-4 animate-fade-in-up">
+                <i class="fa-solid fa-circle-question"></i> Got Questions? We have Answers
+            </div>
+            <h1 class="display-4 fw-bold text-dark animate-fade-in-up">Frequently Asked <span
+                    class="text-brand-green">Questions</span></h1>
+            <p class="text-secondary lead mx-auto w-75 animate-fade-in-up" style="animation-delay: 0.1s;">
+                Find quick answers to the most common questions about our identity verification and background check
+                services.
+            </p>
+        </div>
+    </header>
+
+    <!-- FAQ Section -->
+    <section class="pb-5">
+        <div class="container pb-5">
+            <div class="row g-5">
+                <!-- FAQ Accordion -->
+                <div class="col-lg-8 animate-slide-in-left">
+                    <div class="accordion" id="faqAccordion">
+                        <!-- Q1 -->
+                        <div class="accordion-item shadow-sm">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                                    data-bs-target="#collapseOne">
+                                    What identification do I need to bring for fingerprinting?
+                                </button>
+                            </h2>
+                            <div id="collapseOne" class="accordion-collapse collapse show"
+                                data-bs-parent="#faqAccordion">
+                                <div class="accordion-body">
+                                    You must bring **two valid pieces of government-issued identification**. At
+                                    least
+                                    one must be a **photo ID**.
+                                    Accepted IDs include: Passport, Driver's License, Permanent Resident Card,
+                                    Citizenship Card, and Provincial ID Cards.
+                                    Please ensure all documents are not expired.
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Q2 -->
+                        <div class="accordion-item shadow-sm">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                    data-bs-target="#collapseTwo">
+                                    How long does the digital fingerprinting process take?
+                                </button>
+                            </h2>
+                            <div id="collapseTwo" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                                <div class="accordion-body">
+                                    The actual appointment for digital fingerprinting usually takes between **10 to
+                                    15
+                                    minutes**.
+                                    The results are then securely submitted to the RCMP. If no criminal record is
+                                    found,
+                                    the RCMP typically processes applications within **7 to 10 working days**.
+                                    If a record is found, it can take up to 120 days or more.
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Q3 -->
+                        <div class="accordion-item shadow-sm">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                    data-bs-target="#collapseThree">
+                                    What is the difference between a Canadian Police Check and ECPIC?
+                                </button>
+                            </h2>
+                            <div id="collapseThree" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                                <div class="accordion-body">
+                                    A **Canadian Police Check** (Level 1 or 2) is name-and-date-of-birth based.
+                                    **ECPIC** (Electronic Police Information Check) is a computerized search of the
+                                    National Repository of Criminal Records.
+                                    While both are fast, some employers or organizations specifically require
+                                    fingerprint-based checks (Certified Criminal Record Check) for higher security
+                                    clearance.
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Q4 -->
+                        <div class="accordion-item shadow-sm">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                    data-bs-target="#collapseFour">
+                                    Can I get a US Entry Waiver if I have a criminal record?
+                                </button>
+                            </h2>
+                            <div id="collapseFour" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                                <div class="accordion-body">
+                                    **Yes.** If you have been denied entry to the USA due to a criminal record, you
+                                    can
+                                    apply for an I-192 or I-212 waiver.
+                                    Our team assists in gathering the required court documents, fingerprints, and
+                                    preparing a complete application package to help you regain travel access.
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Q5 -->
+                        <div class="accordion-item shadow-sm">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                    data-bs-target="#collapseFive">
+                                    What payment methods do you accept?
+                                </button>
+                            </h2>
+                            <div id="collapseFive" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                                <div class="accordion-body">
+                                    For your convenience, we accept multiple payment methods:
+                                    <ul>
+                                        <li>Cash</li>
+                                        <li>Debit Cards</li>
+                                        <li>Credit Cards (Visa, Mastercard)</li>
+                                        <li>E-Transfer (E-TFR)</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Q6 -->
+                        <div class="accordion-item shadow-sm">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                    data-bs-target="#collapseSix">
+                                    Do I need an appointment or can I walk in?
+                                </button>
+                            </h2>
+                            <div id="collapseSix" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                                <div class="accordion-body">
+                                    While we do try to accommodate walk-ins, we highly recommend **booking an
+                                    appointment** to ensure you are seen promptly.
+                                    Booking online through our website takes less than 2 minutes and guarantees your
+                                    slot.
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Q7: Employment Screening -->
+                        <div class="accordion-item shadow-sm">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                    data-bs-target="#collapseSeven">
+                                    How can I verify a candidate's work and education history?
+                                </button>
+                            </h2>
+                            <div id="collapseSeven" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                                <div class="accordion-body">
+                                    Employment verification enables us to verify a candidate's employment history,
+                                    including previous job titles and descriptions including the start and end
+                                    dates.
+                                    Our highly professional team will contact the former employers to verify all the
+                                    required information, including the accuracy of all information on the
+                                    candidate's
+                                    consent form. Similarly, Our experts also contact former educational institutes
+                                    to
+                                    verify the candidate's education and credential information that was provided.
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Q8 -->
+                        <div class="accordion-item shadow-sm">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                    data-bs-target="#collapseEight">
+                                    Should I run an employment background check before making a job offer?
+                                </button>
+                            </h2>
+                            <div id="collapseEight" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                                <div class="accordion-body">
+                                    **Absolutely.** Running a check before an offer ensures you are hiring a
+                                    candidate
+                                    with a clean record and verified credentials, significantly mitigating risk for
+                                    your
+                                    organization and ensuring a safe workplace environment.
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Q9 -->
+                        <div class="accordion-item shadow-sm">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                    data-bs-target="#collapseNine">
+                                    Can you do vulnerable sector checks?
+                                </button>
+                            </h2>
+                            <div id="collapseNine" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                                <div class="accordion-body">
+                                    Vulnerable sector checks must be **initiated by your local police department**.
+                                    However, if they require you to provide fingerprints as part of that check, we
+                                    can
+                                    officially capture and submit those digital fingerprints for you.
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Q10 -->
+                        <div class="accordion-item shadow-sm">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                    data-bs-target="#collapseTen">
+                                    Do you offer refunds if my employer does not accept your criminal record checks?
+                                </button>
+                            </h2>
+                            <div id="collapseTen" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                                <div class="accordion-body">
+                                    We highly recommend checking with your employer *before* the appointment.
+                                    Because
+                                    our services involve immediate processing and submission to official databases
+                                    (like
+                                    the RCMP), **fees are non-refundable once the service has been performed**.
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Q11: Same Day -->
+                        <div class="accordion-item shadow-sm">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                    data-bs-target="#collapseEleven">
+                                    Do you offer same-day background checks?
+                                </button>
+                            </h2>
+                            <div id="collapseEleven" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                                <div class="accordion-body">
+                                    **Yes.** For basic name and date-of-birth based checks (CPIC), we can often
+                                    provide
+                                    results within the same day, sometimes in less than an hour, depending on the
+                                    volume
+                                    and system availability.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Contact Sidebar -->
+                <div class="col-lg-4 animate-slide-in-right">
+                    <div class="faq-card p-4">
+                        <div class="faq-icon-wrapper">
+                            <i class="fa-solid fa-headset text-brand-green fs-4"></i>
+                        </div>
+                        <h4 class="fw-bold text-dark mb-3">Still have questions?</h4>
+                        <p class="text-secondary small mb-4">
+                            If you couldn't find the answer you were looking for, our experts are here to help you
+                            directly.
+                        </p>
+
+                        <div class="d-grid gap-3">
+                            <a href="book.html" class="btn btn-brand-green text-white py-3 rounded-pill fw-bold">
+                                Contact an Expert
+                            </a>
+                            <a href="book.html" class="btn btn-outline-secondary py-3 rounded-pill fw-bold">
+                                Book Appointment
+                            </a>
+                        </div>
+
+                        <hr class="my-4 opacity-10">
+
+                        <div class="d-flex align-items-center gap-3 mb-3">
+                            <div class="bg-light rounded-circle p-2 text-brand-green">
+                                <i class="fa-solid fa-phone"></i>
+                            </div>
+                            <div>
+                                <p class="small text-muted mb-0">Call us</p>
+                                <p class="fw-bold text-dark mb-0">(+1) 778-297-2000</p>
+                            </div>
+                        </div>
+
+                        <div class="d-flex align-items-center gap-3">
+                            <div class="bg-light rounded-circle p-2 text-brand-green">
+                                <i class="fa-solid fa-location-dot"></i>
+                            </div>
+                            <div>
+                                <p class="small text-muted mb-0">Visit us</p>
+                                <p class="fw-bold text-dark mb-0">203-12885 80th Avenue, Surrey, BC</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer-premium">
+        <!-- Subscription Bar -->
+        <div class="footer-sub-bar py-4">
+            <div class="container">
+                <div class="row align-items-center">
+                    <div class="col-lg-7 text-center text-lg-start mb-3 mb-lg-0">
+                        <h4 class="mb-1">Get New Jobs Notification!</h4>
+                        <p class="text-secondary small mb-0">Subscribe & get all related Services notification.</p>
+                    </div>
+                    <div class="col-lg-5">
+                        <form class="d-flex shadow-sm">
+                            <input type="email" class="footer-sub-input form-control">
+                            <button type="submit" class="footer-sub-btn">Subscribe</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Footer Content -->
+        <div class="container py-5">
+            <div class="row g-4 justify-content-between">
+                <!-- Column 1: Brand -->
+                <div class="col-lg-4 col-md-12">
+                    <div class="mb-4">
+                        <img src="assets/images/logo.jpg" alt="Point Zero" style="height: 75px;">
+                    </div>
+                    <p class="mb-4 lh-base" style="font-size: 0.9rem;">
+                        Point Zero Global Services – We started this company in the amidst of Lockdown because we
+                        analyzed the need for fingerprinting and security screening of the people as the crime is
+                        increasing in the country due... <a href="about.html"
+                            class="text-brand-green text-decoration-none">read more</a>
+                    </p>
+                </div>
+
+                <!-- Column 2: Quick Links -->
+                <div class="col-lg-2 col-md-4">
+                    <h5 class="footer-col-title">Quick Links</h5>
+                    <ul class="list-unstyled">
+                        <li class="footer-list-item"><a href="about.html" class="footer-link"><i
+                                    class="fa-solid fa-chevron-right"></i> About</a></li>
+                        <li class="footer-list-item"><a href="services.html" class="footer-link"><i
+                                    class="fa-solid fa-chevron-right"></i> Services</a></li>
+                        <li class="footer-list-item"><a href="index.html#team" class="footer-link"><i
+                                    class="fa-solid fa-chevron-right"></i> Team</a></li>
+                        <li class="footer-list-item"><a href="index.html#blog" class="footer-link"><i
+                                    class="fa-solid fa-chevron-right"></i> Latest News</a></li>
+                    </ul>
+                </div>
+
+                <!-- Column 3: Services -->
+                <div class="col-lg-3 col-md-4">
+                    <h5 class="footer-col-title">Services</h5>
+                    <ul class="list-unstyled">
+                        <li class="footer-list-item"><a href="services.html#service-3" class="footer-link"><i
+                                    class="fa-solid fa-chevron-right"></i> USA Entry Waiver</a></li>
+                        <li class="footer-list-item"><a href="services.html#service-10" class="footer-link"><i
+                                    class="fa-solid fa-chevron-right"></i> Ink & Roll Fingerprinting</a></li>
+                        <li class="footer-list-item"><a href="services.html#service-8" class="footer-link"><i
+                                    class="fa-solid fa-chevron-right"></i> Security License Application</a></li>
+                        <li class="footer-list-item"><a href="services.html#service-6" class="footer-link"><i
+                                    class="fa-solid fa-chevron-right"></i> Name Change Application</a></li>
+                        <li class="footer-list-item"><a href="services.html#service-4" class="footer-link"><i
+                                    class="fa-solid fa-chevron-right"></i> Police Certificate (ECPIC)</a></li>
+                    </ul>
+                </div>
+
+                <!-- Column 4: Contact Us -->
+                <div class="col-lg-3 col-md-4">
+                    <h5 class="footer-col-title">Contact Us</h5>
+                    <div class="contact-info-item d-flex align-items-start gap-2">
+                        <i class="fa-solid fa-envelope mt-1"></i>
+                        <a href="mailto:info@pzfingerprinting.com"
+                            class="text-decoration-none text-light opacity-75 small">info@pzfingerprinting.com</a>
+                    </div>
+                    <div class="contact-info-item d-flex align-items-start gap-2">
+                        <i class="fa-solid fa-location-dot mt-1"></i>
+                        <span class="opacity-75 small">Office: 203-12885 80th Avenue, Surrey, BC, V3W 0E6</span>
+                    </div>
+                    <div class="contact-info-item d-flex align-items-start gap-2">
+                        <i class="fa-solid fa-phone mt-1"></i>
+                        <span class="opacity-75 small">(+1) 778-297-2000</span>
+                    </div>
+                    <div class="d-flex gap-2 mt-4 pt-2">
+                        <a href="#" class="social-icon-circle"><i class="fa-brands fa-facebook-f"></i></a>
+                        <a href="#" class="social-icon-circle"><i class="fa-brands fa-twitter"></i></a>
+                        <a href="#" class="social-icon-circle"><i class="fa-brands fa-linkedin-in"></i></a>
+                        <a href="#" class="social-icon-circle"><i class="fa-brands fa-instagram"></i></a>
+                        <a href="#" class="social-icon-circle"><i class="fa-brands fa-youtube"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Bottom Bar -->
+        <div class="footer-bottom text-center">
+            <div class="container">
+                <p class="mb-0 opacity-75">© 2025 All Rights Reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Accessibility Options -->
+    <!-- Master Interaction Suite -->
+    <script>
+        const navbar = document.querySelector('.navbar');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) navbar.classList.add('scrolled');
+            else navbar.classList.remove('scrolled');
+        });
+
+        document.addEventListener('mousemove', (e) => {
+            const moveX = (e.clientX - window.innerWidth / 2) * 0.01;
+            const moveY = (e.clientY - window.innerHeight / 2) * 0.01;
+            const blobs = document.querySelectorAll('.bg-blob');
+            blobs.forEach((blob, index) => {
+                const depth = (index + 1) * 0.5;
+                blob.style.transform = `translate(${moveX * depth}px, ${moveY * depth}px)`;
+            });
+        });
+    </script>
+    <script src="accessibility.js"></script>
+
+    <!-- Auth Modals -->
+    <script>
+        // Load modal-auth.html content
+        fetch('modal-auth.html')
+            .then(response => response.text())
+            .then(html => {
+                document.body.insertAdjacentHTML('beforeend', html);
+            })
+            .catch(err => console.error('Failed to load auth modals:', err));
+    </script>
+</body>
+
+</html>

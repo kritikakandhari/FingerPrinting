@@ -1,0 +1,624 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book Appointment - FingerPrint</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="style.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/date-fns@2.30.0/index.min.js"></script>
+    <!-- Optional polyfill if needed, relying on native JS Date here -->
+</head>
+
+<body class="bg-light pb-5 premium-bg">
+    <!-- Animated Background Mesh -->
+    <div class="animated-bg">
+        <div class="bg-blob blob-1"></div>
+        <div class="bg-blob blob-2"></div>
+        <div class="bg-blob blob-3"></div>
+    </div>
+
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-md navbar-light fixed-top bg-white border-bottom">
+        <div class="container">
+            <a class="navbar-brand d-flex align-items-center gap-2" href="index.html">
+                <img src="assets/images/logo.jpg" alt="Point Zero Global Services" style="height: 75px;">
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarContent">
+                <ul class="navbar-nav ms-auto mb-2 mb-lg-0 align-items-center gap-3">
+                    <li class="nav-item"><a class="nav-link text-secondary fw-medium" href="index.html">Home</a></li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle text-secondary fw-medium" href="#" id="servicesDropdown"
+                            role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Services
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end shadow-lg border-0 rounded-3 mt-2"
+                            aria-labelledby="servicesDropdown" style="min-width: 250px;">
+                            <li><a class="dropdown-item py-2 px-3 small" href="services.html#service-1">Record
+                                    Suspension</a></li>
+                            <li><a class="dropdown-item py-2 px-3 small" href="services.html#service-2">Police Check
+                                    (Outside CA)</a></li>
+                            <li><a class="dropdown-item py-2 px-3 small" href="services.html#service-3">USA Entry
+                                    Waiver</a></li>
+                            <li><a class="dropdown-item py-2 px-3 small" href="services.html#service-4">Police
+                                    Certificate (ECPIC)</a></li>
+                            <li><a class="dropdown-item py-2 px-3 small" href="services.html#service-5">Digital
+                                    Fingerprinting</a></li>
+                            <li><a class="dropdown-item py-2 px-3 small" href="services.html#service-6">Name Change
+                                    Application</a></li>
+                            <li><a class="dropdown-item py-2 px-3 small" href="services.html#service-7">Employment
+                                    Screening</a></li>
+                            <li><a class="dropdown-item py-2 px-3 small" href="services.html#service-8">Security
+                                    License</a></li>
+                            <li><a class="dropdown-item py-2 px-3 small" href="services.html#service-9">Background
+                                    Checks</a></li>
+                            <li><a class="dropdown-item py-2 px-3 small" href="services.html#service-10">Ink & Roll
+                                    Fingerprinting</a></li>
+                            <li><a class="dropdown-item py-2 px-3 small" href="services.html#service-11">Criminal Record
+                                    Checks</a></li>
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
+                            <li><a class="dropdown-item py-2 px-3 small fw-bold text-brand-green text-center"
+                                    href="services.html">View All Services</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item"><a class="nav-link text-secondary fw-medium" href="faq.html">FAQ</a></li>
+                    <li class="nav-item"><a class="nav-link text-secondary fw-medium" href="about.html">About Us</a>
+                    </li>
+                    <li class="nav-item"><a class="nav-link text-secondary fw-medium"
+                            href="index.html#contact">Contact</a></li>
+                    <li class="nav-item"><a class="nav-link text-secondary fw-medium" href="#" data-bs-toggle="modal"
+                            data-bs-target="#loginModal">Login</a></li>
+                    <li class="nav-item"><a class="nav-link text-secondary fw-medium" href="#" data-bs-toggle="modal"
+                            data-bs-target="#signupModal">Sign Up</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="book.html"
+                            class="btn btn-brand-green btn-aura text-white fw-semibold px-4 shadow-sm">Book
+                            Appointment</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container pt-5 mt-5">
+        <div class="text-center mb-5 mt-4">
+            <h1 class="display-5 fw-bold text-dark mb-2">Book Your Appointment</h1>
+            <p class="lead text-secondary">Secure your spot for professional fingerprinting services.</p>
+        </div>
+
+        <!-- Cancellation Overlay -->
+        <div id="cancel-overlay" class="d-none animate-fade-in-up text-center py-5">
+            <div class="bg-white rounded-5 shadow-lg p-5 mx-auto" style="max-width: 500px;">
+                <i class="fa-solid fa-circle-xmark text-danger fa-4x mb-4"></i>
+                <h2 class="fw-bold mb-3">Appointment Cancelled</h2>
+                <p class="text-secondary mb-4">Your appointment has been successfully removed from our schedule.</p>
+                <a href="book.html" class="btn btn-brand-green text-white px-5 rounded-pill fw-bold">Book a New Slot</a>
+            </div>
+        </div>
+
+        <div id="booking-wizard" class="card shadow border-0 rounded-4 overflow-hidden mx-auto"
+            style="max-width: 800px;">
+            <!-- Progress Bar -->
+            <div class="card-header bg-light border-bottom border-light p-3">
+                <div class="d-flex align-items-center justify-content-center gap-2 small fw-medium text-secondary">
+                    <span id="badge-step-1" class="badge rounded-pill px-3 py-2 bg-brand-green text-white">1.
+                        Time</span>
+                    <i class="fa-solid fa-chevron-right text-secondary opacity-50 small"></i>
+                    <span id="badge-step-2" class="badge rounded-pill px-3 py-2 bg-secondary-subtle text-secondary">2.
+                        Details</span>
+                    <i class="fa-solid fa-chevron-right text-secondary opacity-50 small"></i>
+                    <span id="badge-step-3" class="badge rounded-pill px-3 py-2 bg-secondary-subtle text-secondary">3.
+                        Confirmation</span>
+                </div>
+            </div>
+
+            <div class="card-body p-4 p-md-5 position-relative">
+
+                <!-- STEP 1: Date & Time -->
+                <div id="step-1" class="animate-fade-in-up">
+                    <h3 class="h5 fw-bold mb-3 d-flex align-items-center gap-2">
+                        <i class="fa-regular fa-calendar text-brand-green"></i> Select Date
+                    </h3>
+
+                    <!-- Dates Generated via JS -->
+                    <div id="date-container" class="d-flex gap-3 overflow-auto pb-3 mb-4 date-picker-scroll">
+                        <!-- Date buttons injected here -->
+                    </div>
+
+                    <h3 class="h5 fw-bold mb-3 d-flex align-items-center gap-2">
+                        <i class="fa-regular fa-clock text-brand-green"></i> Select Time
+                    </h3>
+
+                    <div id="time-container" class="row row-cols-3 row-cols-sm-4 row-cols-md-5 g-2 mb-4">
+                        <!-- Time buttons injected here -->
+                    </div>
+
+                    <div class="d-flex justify-content-end">
+                        <button id="btn-step-1-next" disabled
+                            class="btn btn-brand-green text-white fw-bold px-4 py-2 rounded-4 shadow-sm d-flex align-items-center gap-2"
+                            style="opacity: 0.6;">
+                            Continue <i class="fa-solid fa-chevron-right"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- STEP 2: Details -->
+                <div id="step-2" class="d-none animate-fade-in-up">
+                    <h3 class="h5 fw-bold mb-4">Enter Your Details</h3>
+                    <form id="booking-form" class="d-grid gap-4">
+                        <div class="row g-4">
+                            <div class="col-sm-6">
+                                <label class="form-label fw-medium text-secondary small">Full Name</label>
+                                <input type="text" id="booking-name" required class="form-control">
+                            </div>
+                            <div class="col-sm-6">
+                                <label class="form-label fw-medium text-secondary small">Email</label>
+                                <input type="email" id="booking-email" required class="form-control">
+                            </div>
+                            <div class="col-sm-6">
+                                <label class="form-label fw-medium text-secondary small">Phone</label>
+                                <input type="tel" id="booking-phone" required class="form-control">
+                            </div>
+                            <div class="col-sm-6">
+                                <label class="form-label fw-medium text-secondary small">Service Type</label>
+                                <select id="booking-service" class="form-select">
+                                    <option>FBI Background Check</option>
+                                    <option>Ink Fingerprinting</option>
+                                    <option>Live Scan</option>
+                                    <option>Notary Services</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="d-flex justify-content-between pt-4 border-top">
+                            <button type="button" id="btn-step-2-back"
+                                class="btn btn-link text-secondary text-decoration-none fw-medium d-flex align-items-center gap-1 ps-0">
+                                <i class="fa-solid fa-chevron-left"></i> Back
+                            </button>
+                            <button type="submit"
+                                class="btn btn-brand-green text-white fw-bold px-4 py-2 rounded-4 shadow-sm d-flex align-items-center gap-2">
+                                Confirm Booking <i class="fa-solid fa-circle-check"></i>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- STEP 3: Confirmation -->
+                <div id="step-3" class="d-none animate-fade-in-up text-center py-5">
+                    <div class="position-relative d-inline-block mb-4">
+                        <div class="d-inline-flex align-items-center justify-content-center bg-success-subtle text-brand-green rounded-circle"
+                            style="width: 100px; height: 100px;">
+                            <i class="fa-solid fa-circle-check fa-4x"></i>
+                        </div>
+                        <!-- Pulse effect ring -->
+                        <div class="position-absolute top-50 start-50 translate-middle rounded-circle border border-success opacity-50"
+                            style="width: 120px; height: 120px; animation: ping 1.5s cubic-bezier(0, 0, 0.2, 1) infinite;">
+                        </div>
+                    </div>
+
+                    <h2 class="h2 fw-bold text-dark mb-3">Booking Confirmed!</h2>
+                    <p class="text-secondary mb-4 mx-auto w-75">
+                        Your appointment has been successfully scheduled.
+                    </p>
+
+                    <!-- Professional Notification Simulation -->
+                    <div class="card bg-light border-0 rounded-4 mx-auto mb-5 text-start overflow-hidden"
+                        style="max-width: 500px;">
+                        <div class="card-body p-4">
+                            <h6 class="fw-bold text-dark mb-3 small text-uppercase tracking-wide">Notifications Sent
+                            </h6>
+
+                            <div class="d-flex align-items-center gap-3 mb-3">
+                                <div class="bg-white p-2 rounded shadow-sm text-primary">
+                                    <i class="fa-regular fa-envelope fa-lg"></i>
+                                </div>
+                                <div>
+                                    <div class="fw-bold text-dark small">Email Confirmation</div>
+                                    <div class="text-secondary small" style="font-size: 0.8rem;">Sent to provider &
+                                        <span id="confirm-email-display">you</span>
+                                    </div>
+                                </div>
+                                <i class="fa-solid fa-check text-success ms-auto"></i>
+                            </div>
+
+                            <div class="d-flex align-items-center gap-3 mb-3">
+                                <div class="bg-white p-2 rounded shadow-sm text-danger">
+                                    <i class="fa-regular fa-calendar-check fa-lg"></i>
+                                </div>
+                                <div>
+                                    <div class="fw-bold text-dark small">Calendar Invite</div>
+                                    <div class="text-secondary small" style="font-size: 0.8rem;">Added to schedule
+                                        (Alarm set 1 day prior)</div>
+                                </div>
+                                <i class="fa-solid fa-check text-success ms-auto"></i>
+                            </div>
+
+                            <div class="d-flex align-items-center gap-3">
+                                <div class="bg-white p-2 rounded shadow-sm text-warning">
+                                    <i class="fa-solid fa-bell fa-lg"></i>
+                                </div>
+                                <div>
+                                    <div class="fw-bold text-dark small">Reminders</div>
+                                    <div class="text-secondary small" style="font-size: 0.8rem;">SMS & Email reminders
+                                        enabled</div>
+                                </div>
+                                <i class="fa-solid fa-toggle-on text-success ms-auto"></i>
+                            </div>
+                        </div>
+                        <div class="bg-brand-green-subtle p-3 text-center border-top border-success-subtle">
+                            <div class="small fw-bold text-brand-green">
+                                <i class="fa-regular fa-clock me-1"></i> <span id="confirm-date"></span> at <span
+                                    id="confirm-time"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <a href="index.html" class="btn btn-outline-secondary px-5 py-2 fw-semibold rounded-pill">
+                        Return Home
+                    </a>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer-premium">
+        <!-- Subscription Bar -->
+        <div class="footer-sub-bar py-4">
+            <div class="container">
+                <div class="row align-items-center">
+                    <div class="col-lg-7 text-center text-lg-start mb-3 mb-lg-0">
+                        <h4 class="mb-1">Get New Jobs Notification!</h4>
+                        <p class="text-secondary small mb-0">Subscribe & get all related Services notification.</p>
+                    </div>
+                    <div class="col-lg-5">
+                        <form class="d-flex shadow-sm">
+                            <input type="email" class="footer-sub-input form-control" placeholder="Enter your email">
+                            <button type="submit" class="footer-sub-btn">Subscribe</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Footer Content -->
+        <div class="container py-5">
+            <div class="row g-4 justify-content-between">
+                <!-- Column 1: Brand -->
+                <div class="col-lg-4 col-md-12">
+                    <div class="mb-4">
+                        <img src="assets/images/logo.jpg" alt="Point Zero" style="height: 75px;">
+                    </div>
+                    <p class="mb-4 lh-base" style="font-size: 0.9rem;">
+                        Point Zero Global Services – We started this company in the amidst of Lockdown because we
+                        analyzed the need for fingerprinting and security screening of the people as the crime is
+                        increasing in the country due... <a href="about.html"
+                            class="text-brand-green text-decoration-none">read more</a>
+                    </p>
+                </div>
+
+                <!-- Column 2: Quick Links -->
+                <div class="col-lg-2 col-md-4">
+                    <h5 class="footer-col-title">Quick Links</h5>
+                    <ul class="list-unstyled">
+                        <li class="footer-list-item"><a href="about.html" class="footer-link"><i
+                                    class="fa-solid fa-chevron-right"></i> About</a></li>
+                        <li class="footer-list-item"><a href="services.html" class="footer-link"><i
+                                    class="fa-solid fa-chevron-right"></i> Services</a></li>
+                        <li class="footer-list-item"><a href="index.html#team" class="footer-link"><i
+                                    class="fa-solid fa-chevron-right"></i> Team</a></li>
+                        <li class="footer-list-item"><a href="index.html#blog" class="footer-link"><i
+                                    class="fa-solid fa-chevron-right"></i> Latest News</a></li>
+                    </ul>
+                </div>
+
+                <!-- Column 3: Services -->
+                <div class="col-lg-3 col-md-4">
+                    <h5 class="footer-col-title">Services</h5>
+                    <ul class="list-unstyled">
+                        <li class="footer-list-item"><a href="services.html#service-3" class="footer-link"><i
+                                    class="fa-solid fa-chevron-right"></i> USA Entry Waiver</a></li>
+                        <li class="footer-list-item"><a href="services.html#service-10" class="footer-link"><i
+                                    class="fa-solid fa-chevron-right"></i> Ink & Roll Fingerprinting</a></li>
+                        <li class="footer-list-item"><a href="services.html#service-8" class="footer-link"><i
+                                    class="fa-solid fa-chevron-right"></i> Security License Application</a></li>
+                        <li class="footer-list-item"><a href="services.html#service-6" class="footer-link"><i
+                                    class="fa-solid fa-chevron-right"></i> Name Change Application</a></li>
+                        <li class="footer-list-item"><a href="services.html#service-4" class="footer-link"><i
+                                    class="fa-solid fa-chevron-right"></i> Police Certificate (ECPIC)</a></li>
+                    </ul>
+                </div>
+
+                <!-- Column 4: Contact Us -->
+                <div class="col-lg-3 col-md-4">
+                    <h5 class="footer-col-title">Contact Us</h5>
+                    <div class="contact-info-item d-flex align-items-start gap-2">
+                        <i class="fa-solid fa-envelope mt-1"></i>
+                        <a href="mailto:info@pzfingerprinting.com"
+                            class="text-decoration-none text-light opacity-75 small">info@pzfingerprinting.com</a>
+                    </div>
+                    <div class="contact-info-item d-flex align-items-start gap-2">
+                        <i class="fa-solid fa-location-dot mt-1"></i>
+                        <span class="opacity-75 small">Office: 203-12885 80th Avenue, Surrey, BC, V3W 0E6</span>
+                    </div>
+                    <div class="contact-info-item d-flex align-items-start gap-2">
+                        <i class="fa-solid fa-phone mt-1"></i>
+                        <span class="opacity-75 small">(+1) 778-297-2000</span>
+                    </div>
+                    <div class="d-flex gap-2 mt-4 pt-2">
+                        <a href="#" class="social-icon-circle"><i class="fa-brands fa-facebook-f"></i></a>
+                        <a href="#" class="social-icon-circle"><i class="fa-brands fa-twitter"></i></a>
+                        <a href="#" class="social-icon-circle"><i class="fa-brands fa-linkedin-in"></i></a>
+                        <a href="#" class="social-icon-circle"><i class="fa-brands fa-instagram"></i></a>
+                        <a href="#" class="social-icon-circle"><i class="fa-brands fa-youtube"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Bottom Bar -->
+        <div class="footer-bottom text-center">
+            <div class="container">
+                <p class="mb-0 opacity-75">© 2025 All Rights Reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Logic for booking wizard
+        const state = {
+            step: 1,
+            selectedDate: new Date(),
+            selectedTime: null,
+            bookedSlots: []
+        };
+
+        const timeSlots = [
+            "09:00 AM", "09:30 AM", "10:00 AM", "10:30 AM",
+            "11:00 AM", "11:30 AM", "12:00 PM", "01:00 PM",
+            "01:30 PM", "02:00 PM", "02:30 PM", "03:00 PM",
+            "03:30 PM", "04:00 PM", "04:30 PM"
+        ];
+
+        // 1. Check for Cancellation Link
+        async function checkCancellation() {
+            const params = new URLSearchParams(window.location.search);
+            const cancelToken = params.get('cancel');
+            if (cancelToken) {
+                document.getElementById('booking-wizard').classList.add('d-none');
+                document.querySelector('h1').textContent = 'Managing Appointment';
+
+                try {
+                    const res = await fetch('/api/cancel-booking', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ token: cancelToken })
+                    });
+                    if (res.ok) {
+                        document.getElementById('cancel-overlay').classList.remove('d-none');
+                    }
+                } catch (err) {
+                    console.error('Cancel error:', err);
+                }
+            }
+        }
+
+        // 2. Fetch Booked Slots
+        async function fetchAvailability() {
+            try {
+                const res = await fetch('/api/booked-slots');
+                state.bookedSlots = await res.json();
+                renderTimes(); // Refresh buttons
+            } catch (err) {
+                console.error('Availability error:', err);
+            }
+        }
+
+        // Init Dates
+        const dateContainer = document.getElementById('date-container');
+        for (let i = 0; i < 14; i++) {
+            const d = new Date();
+            d.setDate(d.getDate() + i);
+
+            const isSelected = i === 0; // Default Select Today
+            const btn = document.createElement('button');
+            btn.className = `btn flex-shrink-0 p-3 rounded-4 border text-center transition-all ${isSelected ? 'btn-brand-green border-brand-green text-white shadow' : 'btn-outline-light text-dark border-secondary-subtle'}`;
+            btn.style.width = '90px';
+            btn.innerHTML = `
+                <div class="small fw-bold text-uppercase opacity-75">${d.toLocaleDateString('en-US', { weekday: 'short' })}</div>
+                <div class="h4 mb-0 fw-bold">${d.getDate()}</div>
+                <div class="small opacity-75">${d.toLocaleDateString('en-US', { month: 'short' })}</div>
+            `;
+
+            btn.onclick = () => {
+                Array.from(dateContainer.children).forEach(b => {
+                    b.className = 'btn flex-shrink-0 p-3 rounded-4 border text-center transition-all btn-outline-light text-dark border-secondary-subtle';
+                });
+                btn.className = 'btn flex-shrink-0 p-3 rounded-4 border text-center transition-all btn-brand-green border-brand-green text-white shadow';
+                state.selectedDate = d;
+                renderTimes(); // Refresh times for new date
+            };
+            dateContainer.appendChild(btn);
+        }
+
+        // Render Times Logic
+        function renderTimes() {
+            const timeContainer = document.getElementById('time-container');
+            timeContainer.innerHTML = '';
+
+            const now = new Date();
+            const dateStr = state.selectedDate.toLocaleDateString('en-US');
+            const isToday = state.selectedDate.toDateString() === now.toDateString();
+
+            timeSlots.forEach(time => {
+                const isBooked = state.bookedSlots.some(s => s.date === dateStr && s.time === time);
+
+                // Logic to check if time has passed
+                let isPast = false;
+                if (isToday) {
+                    // Convert "09:00 AM" to a date object for comparison
+                    const [timePart, ampm] = time.split(' ');
+                    let [hours, minutes] = timePart.split(':').map(Number);
+                    if (ampm === 'PM' && hours < 12) hours += 12;
+                    if (ampm === 'AM' && hours === 12) hours = 0;
+
+                    const slotTime = new Date(now);
+                    slotTime.setHours(hours, minutes, 0, 0);
+                    isPast = slotTime < now;
+                }
+
+                const col = document.createElement('div');
+                col.className = 'col';
+                const btn = document.createElement('button');
+
+                const isDisabled = isBooked || isPast;
+
+                btn.className = 'btn w-100 py-2 sm-px-1 small rounded-3 transition-all ' +
+                    (isDisabled ? 'btn-light text-muted border-0 opacity-50' : 'btn-outline-secondary border-secondary-subtle text-secondary');
+                btn.textContent = time;
+                btn.disabled = isDisabled;
+
+                if (!isDisabled) {
+                    btn.onclick = () => {
+                        Array.from(timeContainer.querySelectorAll('button')).forEach(b => {
+                            if (!b.disabled) b.className = 'btn w-100 py-2 sm-px-1 small rounded-3 transition-all btn-outline-secondary border-secondary-subtle text-secondary';
+                        });
+                        btn.className = 'btn w-100 py-2 sm-px-1 small rounded-3 transition-all btn-brand-green text-white shadow-sm';
+                        state.selectedTime = time;
+
+                        const nextBtn = document.getElementById('btn-step-1-next');
+                        nextBtn.disabled = false;
+                        nextBtn.style.opacity = '1';
+                    };
+                } else {
+                    btn.title = isBooked ? "This slot is already booked" : "This time has already passed";
+                }
+
+                col.appendChild(btn);
+                timeContainer.appendChild(col);
+            });
+        }
+
+        // Navigation
+        document.getElementById('btn-step-1-next').onclick = () => {
+            state.step = 2;
+            updateUI();
+        };
+
+        document.getElementById('btn-step-2-back').onclick = () => {
+            state.step = 1;
+            updateUI();
+        };
+
+        document.getElementById('booking-form').onsubmit = async (e) => {
+            e.preventDefault();
+
+            const formObj = {
+                name: document.getElementById('booking-name').value,
+                email: document.getElementById('booking-email').value,
+                phone: document.getElementById('booking-phone').value,
+                service: document.getElementById('booking-service').value,
+                date: state.selectedDate.toLocaleDateString('en-US'),
+                time: state.selectedTime
+            };
+
+            const btn = e.target.querySelector('button[type="submit"]');
+            const originalText = btn.innerHTML;
+            btn.disabled = true;
+            btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Processing...';
+
+            try {
+                const response = await fetch('/api/book', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(formObj)
+                });
+
+                if (response.ok) {
+                    state.step = 3;
+                    document.getElementById('confirm-date').textContent = state.selectedDate.toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+                    document.getElementById('confirm-time').textContent = state.selectedTime;
+                    document.getElementById('confirm-email-display').textContent = formObj.email;
+                    updateUI();
+                } else if (response.status === 409) {
+                    alert('Sorry, this slot was just booked by someone else. Please choose another time.');
+                    fetchAvailability(); // Refresh list
+                    state.step = 1;
+                    updateUI();
+                } else {
+                    alert('Booking failed. Please try again.');
+                }
+            } catch (error) {
+                alert('Server connection error.');
+            } finally {
+                btn.disabled = false;
+                btn.innerHTML = originalText;
+            }
+        };
+
+        function updateUI() {
+            document.getElementById('step-1').classList.add('d-none');
+            document.getElementById('step-2').classList.add('d-none');
+            document.getElementById('step-3').classList.add('d-none');
+            document.getElementById(`step-${state.step}`).classList.remove('d-none');
+
+            const updateBadge = (id, active) => {
+                const el = document.getElementById(id);
+                el.className = active ? 'badge rounded-pill px-3 py-2 bg-brand-green text-white' : 'badge rounded-pill px-3 py-2 bg-secondary-subtle text-secondary';
+            };
+
+            updateBadge('badge-step-1', state.step >= 1);
+            updateBadge('badge-step-2', state.step >= 2);
+            updateBadge('badge-step-3', state.step >= 3);
+        }
+
+        // Start
+        checkCancellation();
+        renderTimes(); // Show slots immediately (empty availability fallback)
+        fetchAvailability();
+
+    </script>
+    <!-- Accessibility Options -->
+    <!-- Master Interaction Suite -->
+    <script>
+        const navbar = document.querySelector('.navbar');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) navbar.classList.add('scrolled');
+            else navbar.classList.remove('scrolled');
+        });
+
+        document.addEventListener('mousemove', (e) => {
+            const moveX = (e.clientX - window.innerWidth / 2) * 0.01;
+            const moveY = (e.clientY - window.innerHeight / 2) * 0.01;
+            const blobs = document.querySelectorAll('.bg-blob');
+            blobs.forEach((blob, index) => {
+                const depth = (index + 1) * 0.5;
+                blob.style.transform = `translate(${moveX * depth}px, ${moveY * depth}px)`;
+            });
+        });
+    </script>
+    <script src="accessibility.js"></script>
+
+    <!-- Auth Modals -->
+    <script>
+        // Load modal-auth.html content
+        fetch('modal-auth.html')
+            .then(response => response.text())
+            .then(html => {
+                document.body.insertAdjacentHTML('beforeend', html);
+            })
+            .catch(err => console.error('Failed to load auth modals:', err));
+    </script>
+</body>
+
+</html>

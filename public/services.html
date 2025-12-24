@@ -1,0 +1,1475 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Our Services - Point Zero Global Services</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="style.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Custom Carousel Styles */
+        .carousel-item {
+            height: 85vh;
+            min-height: 600px;
+            background-color: transparent;
+        }
+
+        .service-content {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 3rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .carousel-control-prev,
+        .carousel-control-next {
+            width: 5%;
+            opacity: 1;
+        }
+
+        .carousel-control-prev-icon,
+        .carousel-control-next-icon {
+            background-color: var(--brand-green);
+            border-radius: 50%;
+            padding: 2rem;
+            background-size: 50%;
+        }
+    </style>
+</head>
+
+<body class="premium-bg">
+    <!-- Animated Background Mesh -->
+    <div class="animated-bg">
+        <div class="bg-blob blob-1"></div>
+        <div class="bg-blob blob-2"></div>
+        <div class="bg-blob blob-3"></div>
+    </div>
+
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-md navbar-light fixed-top bg-white border-bottom">
+        <div class="container">
+            <a class="navbar-brand d-flex align-items-center gap-2" href="index.html">
+                <img src="assets/images/logo.jpg" alt="Point Zero Global Services" style="height: 75px;">
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarContent">
+                <ul class="navbar-nav ms-auto mb-2 mb-lg-0 align-items-center gap-3">
+                    <li class="nav-item"><a class="nav-link text-secondary fw-medium" href="index.html">Home</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle text-secondary fw-medium" href="#" id="servicesDropdown"
+                            role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Services
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end shadow-lg border-0 rounded-3 mt-2"
+                            aria-labelledby="servicesDropdown" style="min-width: 250px;">
+                            <li><a class="dropdown-item py-2 px-3 small" href="services.html#service-1">Record
+                                    Suspension</a></li>
+                            <li><a class="dropdown-item py-2 px-3 small" href="services.html#service-2">Police Check
+                                    (Outside CA)</a></li>
+                            <li><a class="dropdown-item py-2 px-3 small" href="services.html#service-3">USA Entry
+                                    Waiver</a></li>
+                            <li><a class="dropdown-item py-2 px-3 small" href="services.html#service-4">Police
+                                    Certificate (ECPIC)</a></li>
+                            <li><a class="dropdown-item py-2 px-3 small" href="services.html#service-5">Digital
+                                    Fingerprinting</a></li>
+                            <li><a class="dropdown-item py-2 px-3 small" href="services.html#service-6">Name Change
+                                    Application</a></li>
+                            <li><a class="dropdown-item py-2 px-3 small" href="services.html#service-7">Employment
+                                    Screening</a></li>
+                            <li><a class="dropdown-item py-2 px-3 small" href="services.html#service-8">Security
+                                    License</a></li>
+                            <li><a class="dropdown-item py-2 px-3 small" href="services.html#service-9">Background
+                                    Checks</a></li>
+                            <li><a class="dropdown-item py-2 px-3 small" href="services.html#service-10">Ink & Roll
+                                    Fingerprinting</a></li>
+                            <li><a class="dropdown-item py-2 px-3 small" href="services.html#service-11">Criminal
+                                    Record
+                                    Checks</a></li>
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
+                            <li><a class="dropdown-item py-2 px-3 small fw-bold text-brand-green text-center"
+                                    href="services.html">View All Services</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item"><a class="nav-link text-secondary fw-medium" href="faq.html">FAQ</a></li>
+                    <li class="nav-item"><a class="nav-link text-secondary fw-medium" href="about.html">About Us</a>
+                    </li>
+                    <li class="nav-item"><a class="nav-link text-secondary fw-medium"
+                            href="index.html#contact">Contact</a></li>
+                    <li class="nav-item"><a class="nav-link text-secondary fw-medium" href="#" data-bs-toggle="modal"
+                            data-bs-target="#loginModal">Login</a></li>
+                    <li class="nav-item"><a class="nav-link text-secondary fw-medium" href="#" data-bs-toggle="modal"
+                            data-bs-target="#signupModal">Sign Up</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="book.html"
+                            class="btn btn-brand-green btn-aura text-white fw-semibold px-4 shadow-sm">Book
+                            Appointment</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Services Carousel -->
+    <div id="servicesCarousel" class="carousel slide mt-5 pt-4" data-bs-ride="false">
+        <!-- data-bs-ride="carousel" for auto play, false for manual -->
+        <div class="carousel-indicators">
+            <button type="button" data-bs-target="#servicesCarousel" data-bs-slide-to="0" class="active bg-brand-green"
+                aria-current="true" aria-label="Slide 1"></button>
+            <button type="button" data-bs-target="#servicesCarousel" data-bs-slide-to="1" class="bg-brand-green"
+                aria-label="Slide 2"></button>
+            <button type="button" data-bs-target="#servicesCarousel" data-bs-slide-to="2" class="bg-brand-green"
+                aria-label="Slide 3"></button>
+            <button type="button" data-bs-target="#servicesCarousel" data-bs-slide-to="3" class="bg-brand-green"
+                aria-label="Slide 4"></button>
+            <button type="button" data-bs-target="#servicesCarousel" data-bs-slide-to="4" class="bg-brand-green"
+                aria-label="Slide 5"></button>
+            <button type="button" data-bs-target="#servicesCarousel" data-bs-slide-to="5" class="bg-brand-green"
+                aria-label="Slide 6"></button>
+            <button type="button" data-bs-target="#servicesCarousel" data-bs-slide-to="6" class="bg-brand-green"
+                aria-label="Slide 7"></button>
+            <button type="button" data-bs-target="#servicesCarousel" data-bs-slide-to="7" class="bg-brand-green"
+                aria-label="Slide 8"></button>
+            <button type="button" data-bs-target="#servicesCarousel" data-bs-slide-to="8" class="bg-brand-green"
+                aria-label="Slide 9"></button>
+            <button type="button" data-bs-target="#servicesCarousel" data-bs-slide-to="9" class="bg-brand-green"
+                aria-label="Slide 10"></button>
+            <button type="button" data-bs-target="#servicesCarousel" data-bs-slide-to="10" class="bg-brand-green"
+                aria-label="Slide 11"></button>
+        </div>
+
+        <div class="carousel-inner">
+
+            <!-- Slide 1: Record Suspension -->
+            <div class="carousel-item active">
+
+                <div class="container h-100 d-flex align-items-center justify-content-center position-relative"
+                    style="z-index: 1;">
+                    <div class="row align-items-center g-5 w-100">
+                        <div class="col-lg-5 animate-slide-in-left">
+                            <img src="assets/images/service_record_suspension.png" alt="Record Suspension"
+                                class="img-fluid rounded-4 shadow-lg hover-scale border border-4 border-white">
+                        </div>
+                        <div class="col-lg-7 animate-slide-in-right">
+                            <div class="service-content" style="max-height: 75vh; overflow-y: auto;">
+                                <div
+                                    class="d-inline-flex align-items-center gap-2 px-3 py-2 rounded-pill bg-light text-brand-green fw-bold small mb-3 uppercase tracking-wide border">
+                                    <i class="fa-solid fa-unlock"></i> Service 01
+                                </div>
+                                <h1 class="display-5 fw-bold text-dark mb-3">Record Suspension Services</h1>
+                                <p class="lead text-secondary mb-4">
+                                    At Point Zero Global Services, we understand the importance of a clean slate.
+                                    Formerly known as a "pardon," a Record Suspension removes your criminal record
+                                    from
+                                    the public domain, opening doors to employment, housing, and travel.
+                                </p>
+
+                                <div class="row g-4">
+                                    <div class="col-md-6">
+                                        <h5 class="fw-bold mb-3 text-brand-green"><i
+                                                class="fa-solid fa-hand-holding-heart me-2"></i>How We Assist You
+                                        </h5>
+                                        <ul class="list-unstyled text-secondary small">
+                                            <li class="mb-2"><i
+                                                    class="fa-solid fa-check-circle text-brand-green me-2"></i>
+                                                <strong>Assessment:</strong> Eligibility review & process guide.
+                                            </li>
+                                            <li class="mb-2"><i
+                                                    class="fa-solid fa-check-circle text-brand-green me-2"></i>
+                                                <strong>Documentation:</strong> Gathering required documents.
+                                            </li>
+                                            <li class="mb-2"><i
+                                                    class="fa-solid fa-check-circle text-brand-green me-2"></i>
+                                                <strong>Preparation:</strong> Meticulous application completion.
+                                            </li>
+                                            <li class="mb-2"><i
+                                                    class="fa-solid fa-check-circle text-brand-green me-2"></i>
+                                                <strong>Support:</strong> Regular updates & query resolution.
+                                            </li>
+                                            <li class="mb-2"><i
+                                                    class="fa-solid fa-check-circle text-brand-green me-2"></i>
+                                                <strong>Follow-Up:</strong> Advocating on your behalf.
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <h5 class="fw-bold mb-3 text-brand-green"><i
+                                                class="fa-solid fa-star me-2"></i>Why Choose Us</h5>
+                                        <ul class="list-unstyled text-secondary small">
+                                            <li class="mb-2"><strong>Experience:</strong> Deep legal understanding.
+                                            </li>
+                                            <li class="mb-2"><strong>Confidentiality:</strong> Utmost discretion
+                                                with
+                                                your data.</li>
+                                            <li class="mb-2"><strong>Professionalism:</strong> Skilled experts.</li>
+                                            <li class="mb-2"><strong>Efficiency:</strong> Prompt & accurate
+                                                handling.
+                                            </li>
+                                            <li class="mb-2"><strong>Empowerment:</strong> Helping you rebuild your
+                                                life.</li>
+                                        </ul>
+                                    </div>
+                                </div>
+
+                                <div class="mt-4 p-3 bg-light rounded border-start border-4 border-success">
+                                    <p class="small text-secondary mb-0"><em>"If you're ready to leave your past
+                                            behind
+                                            and embrace a brighter future, our Record Suspension services are here
+                                            to
+                                            assist you."</em></p>
+                                </div>
+
+                                <div class="d-flex gap-3 mt-4">
+                                    <a href="book.html"
+                                        class="btn btn-brand-green text-white px-4 py-2 rounded-pill shadow-sm fw-bold">Get
+                                        Started</a>
+                                    <!-- <button class="btn btn-outline-secondary px-4 py-2 rounded-pill fw-bold" data-bs-target="#servicesCarousel" data-bs-slide="next">Next <i class="fa-solid fa-arrow-right ms-2"></i></button> -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 2: Police Check Outside Canada -->
+            <div class="carousel-item">
+
+                <div class="container h-100 d-flex align-items-center justify-content-center position-relative"
+                    style="z-index: 1;">
+                    <div class="row align-items-center g-5 w-100">
+                        <div class="col-lg-5 animate-slide-in-left text-center">
+                            <!-- Placeholder Image using Icon -->
+                            <div class="d-flex align-items-center justify-content-center bg-white rounded-4 shadow-lg border border-4 border-white"
+                                style="height: 400px; width: 100%;">
+                                <div class="text-center">
+                                    <i class="fa-solid fa-globe text-brand-green"
+                                        style="font-size: 8rem; opacity: 0.8;"></i>
+                                    <p class="mt-3 text-brand-green fw-bold">Global Services</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-7 animate-slide-in-right">
+                            <div class="service-content" style="max-height: 75vh; overflow-y: auto;">
+                                <div
+                                    class="d-inline-flex align-items-center gap-2 px-3 py-2 rounded-pill bg-light text-brand-green fw-bold small mb-3 uppercase tracking-wide border">
+                                    <i class="fa-solid fa-passport"></i> Service 02
+                                </div>
+                                <h1 class="display-5 fw-bold text-dark mb-3">Police Check Outside Canada</h1>
+                                <p class="lead text-secondary mb-4">
+                                    For Visitors, Students, and Workers seeking Canadian Police Clearance after
+                                    residing
+                                    in Canada for six months or more. We specialize in converting fingerprints into
+                                    digital files for RCMP verification.
+                                </p>
+
+                                <div class="row g-4">
+                                    <div class="col-md-6">
+                                        <h5 class="fw-bold mb-3 text-brand-green"><i
+                                                class="fa-solid fa-list-check me-2"></i>Key Information</h5>
+                                        <ul class="list-unstyled text-secondary small">
+                                            <li class="mb-2"><i class="fa-solid fa-clock text-brand-green me-2"></i>
+                                                <strong>Timeline:</strong> 8-10 days (processing).
+                                            </li>
+                                            <li class="mb-2"><i class="fa-solid fa-bolt text-brand-green me-2"></i>
+                                                <strong>Digitization:</strong> Files within 72 hours.
+                                            </li>
+                                            <li class="mb-2"><i class="fa-solid fa-envelope text-brand-green me-2"></i>
+                                                <strong>Delivery:</strong> Mailed to Canadian address.
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <h5 class="fw-bold mb-3 text-brand-green"><i
+                                                class="fa-solid fa-id-card me-2"></i>Acceptable ID</h5>
+                                        <ul class="list-unstyled text-secondary small">
+                                            <li class="mb-1"><i class="fa-solid fa-check text-success me-2"></i>Passport
+                                                / Driver's License</li>
+                                            <li class="mb-1"><i
+                                                    class="fa-solid fa-check text-success me-2"></i>Citizenship / PR
+                                                Card</li>
+                                            <li class="mb-1"><i class="fa-solid fa-check text-success me-2"></i>Birth
+                                                Certificate / Nexus</li>
+                                        </ul>
+                                        <p class="small text-muted mt-2"><em>*Submit 2 notarized IDs + Consent
+                                                Form</em>
+                                        </p>
+                                    </div>
+                                </div>
+
+                                <div class="mt-4 p-3 bg-light rounded border-start border-4 border-success">
+                                    <h6 class="fw-bold text-dark mb-1">Fingerprint Status?</h6>
+                                    <p class="small text-secondary mb-0">Our experts submit everything to the RCMP.
+                                        Queries? Contact <strong>CCRTIS-SCICTR@rcmp-grc.gc.ca</strong>.</p>
+                                </div>
+
+                                <div class="d-flex gap-3 mt-4">
+                                    <a href="book.html"
+                                        class="btn btn-brand-green text-white px-4 py-2 rounded-pill shadow-sm fw-bold">Book
+                                        Now</a>
+                                    <!-- <button class="btn btn-outline-secondary px-4 py-2 rounded-pill fw-bold" data-bs-target="#servicesCarousel" data-bs-slide="next">Next <i class="fa-solid fa-arrow-right ms-2"></i></button> -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 3: USA Entry Waiver -->
+            <div class="carousel-item">
+
+                <div class="container h-100 d-flex align-items-center justify-content-center position-relative"
+                    style="z-index: 1;">
+                    <div class="row align-items-center g-5 w-100">
+                        <div class="col-lg-5 animate-slide-in-left text-center">
+                            <!-- Placeholder Image -->
+                            <div class="d-flex align-items-center justify-content-center bg-white rounded-4 shadow-lg border border-4 border-white"
+                                style="height: 400px; width: 100%;">
+                                <div class="text-center">
+                                    <i class="fa-solid fa-plane-circle-exclamation text-brand-green"
+                                        style="font-size: 8rem; opacity: 0.8;"></i>
+                                    <p class="mt-3 text-brand-green fw-bold">Cross-Border Solutions</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-7 animate-slide-in-right">
+                            <div class="service-content" style="max-height: 75vh; overflow-y: auto;">
+                                <div
+                                    class="d-inline-flex align-items-center gap-2 px-3 py-2 rounded-pill bg-light text-brand-green fw-bold small mb-3 uppercase tracking-wide border">
+                                    <i class="fa-solid fa-file-contract"></i> Service 03
+                                </div>
+                                <h1 class="display-5 fw-bold text-dark mb-3">USA Entry Waiver</h1>
+                                <p class="lead text-secondary mb-4">
+                                    Don't let restrictions stop you. We provide professional USA Entry Waiver
+                                    services
+                                    in Surrey, BC, for those denied entry due to criminal records or other
+                                    regulatory
+                                    grounds.
+                                </p>
+
+                                <div class="row g-4 mb-4">
+                                    <div class="col-md-6">
+                                        <h5 class="fw-bold mb-3 text-brand-green small-caps"><i
+                                                class="fa-solid fa-ban me-2"></i>Common Rejection Grounds</h5>
+                                        <ul class="list-unstyled text-secondary small">
+                                            <li class="mb-1"><i
+                                                    class="fa-solid fa-circle-xmark text-danger me-2"></i>Criminal
+                                                record (Moral turpitude)</li>
+                                            <li class="mb-1"><i
+                                                    class="fa-solid fa-circle-xmark text-danger me-2"></i>Possession/Trafficking
+                                                cases</li>
+                                            <li class="mb-1"><i
+                                                    class="fa-solid fa-circle-xmark text-danger me-2"></i>Previous
+                                                deportations or overstays</li>
+                                            <li class="mb-1"><i
+                                                    class="fa-solid fa-circle-xmark text-danger me-2"></i>Terrorism/Money
+                                                Laundering claims</li>
+                                        </ul>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <h5 class="fw-bold mb-3 text-brand-green small-caps"><i
+                                                class="fa-solid fa-shield-halved me-2"></i>Why Apply?</h5>
+                                        <p class="small text-secondary">
+                                            Cross-border security is critical. Anyone with a criminal record (even
+                                            if
+                                            charges were dismissed or stayed) can be denied entry. A copy of the
+                                            waiver
+                                            is essential to travel legally into the USA.
+                                        </p>
+                                    </div>
+                                </div>
+
+                                <div class="row g-3 mb-4">
+                                    <div class="col-md-6">
+                                        <div class="p-3 bg-white border rounded h-100 shadow-sm">
+                                            <h6 class="fw-bold text-dark mb-2"><i
+                                                    class="fa-solid fa-money-bill-wave text-brand-green me-2"></i>Associated
+                                                Fees</h6>
+                                            <p class="small text-secondary mb-1"><strong>DHS Fee:</strong> $585 USD
+                                            </p>
+                                            <p class="small text-secondary mb-0 text-muted fst-italic">Application
+                                                fee
+                                                varies by case.</p>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="p-3 bg-white border rounded h-100 shadow-sm">
+                                            <h6 class="fw-bold text-dark mb-2"><i
+                                                    class="fa-solid fa-fingerprint text-brand-green me-2"></i>Process
+                                                Detail</h6>
+                                            <p class="small text-secondary mb-0">
+                                                Traditional <strong>Ink & Roll Fingerprinting</strong> is often
+                                                required
+                                                for FBI clearances and specific passport renewals.
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="d-flex gap-3 mt-4">
+                                    <a href="book.html"
+                                        class="btn btn-brand-green text-white px-4 py-2 rounded-pill shadow-sm fw-bold">Consult
+                                        an Expert</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 4: Police Certificate (ECPIC) -->
+            <div class="carousel-item">
+
+                <div class="container h-100 d-flex align-items-center justify-content-center position-relative"
+                    style="z-index: 1;">
+                    <div class="row align-items-center g-5 w-100">
+                        <div class="col-lg-5 animate-slide-in-left text-center">
+                            <!-- Placeholder Image -->
+                            <div class="d-flex align-items-center justify-content-center bg-white rounded-4 shadow-lg border border-4 border-white"
+                                style="height: 400px; width: 100%;">
+                                <div class="text-center">
+                                    <i class="fa-solid fa-file-shield text-brand-green"
+                                        style="font-size: 8rem; opacity: 0.8;"></i>
+                                    <p class="mt-3 text-brand-green fw-bold">Certified Clearance</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-7 animate-slide-in-right">
+                            <div class="service-content" style="max-height: 75vh; overflow-y: auto;">
+                                <div
+                                    class="d-inline-flex align-items-center gap-2 px-3 py-2 rounded-pill bg-light text-brand-green fw-bold small mb-3 uppercase tracking-wide border">
+                                    <i class="fa-solid fa-certificate"></i> Service 04
+                                </div>
+                                <h1 class="display-5 fw-bold text-dark mb-3">Police Certificate (ECPIC)</h1>
+                                <p class="lead text-secondary mb-4">
+                                    Essential for visa applicants, foreign travel, work permits, or rental
+                                    applications.
+                                    We electronically submit your request for fast, secure processing.
+                                </p>
+
+                                <div class="row g-4">
+                                    <div class="col-md-6">
+                                        <h5 class="fw-bold mb-3 text-brand-green"><i
+                                                class="fa-solid fa-user-check me-2"></i>Requirements</h5>
+                                        <ul class="list-unstyled text-secondary small">
+                                            <li class="mb-2"><i class="fa-solid fa-id-card text-brand-green me-2"></i>
+                                                <strong>Two Valid IDs:</strong> Driver's License, Passport, PR Card,
+                                                etc.
+                                            </li>
+                                            <li class="mb-2"><i class="fa-solid fa-ban text-danger me-2"></i>
+                                                <strong>Note:</strong> Not for those with criminal convictions (see
+                                                Record Suspension).
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <h5 class="fw-bold mb-3 text-brand-green"><i
+                                                class="fa-solid fa-briefcase me-2"></i>For
+                                            Employers</h5>
+                                        <ul class="list-unstyled text-secondary small">
+                                            <li class="mb-1"><i class="fa-solid fa-check text-success me-2"></i>Predict
+                                                employee performance.</li>
+                                            <li class="mb-1"><i class="fa-solid fa-check text-success me-2"></i>Identify
+                                                unacceptable behaviors.</li>
+                                            <li class="mb-1"><i class="fa-solid fa-check text-success me-2"></i>Minimize
+                                                hiring risks & costs.</li>
+                                        </ul>
+                                    </div>
+                                </div>
+
+                                <div class="mt-4 p-3 bg-light rounded border-start border-4 border-success">
+                                    <h6 class="fw-bold text-dark mb-1">Electronic Submission</h6>
+                                    <p class="small text-secondary mb-0">Our specialists send reports directly to
+                                        police
+                                        authorities electronically (ECPIC) for speed and accuracy.</p>
+                                </div>
+
+                                <div class="d-flex gap-3 mt-4">
+                                    <a href="book.html"
+                                        class="btn btn-brand-green text-white px-4 py-2 rounded-pill shadow-sm fw-bold">Request
+                                        Certificate</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 5: Digital Fingerprinting Services -->
+            <div class="carousel-item">
+
+                <div class="container h-100 d-flex align-items-center justify-content-center position-relative"
+                    style="z-index: 1;">
+                    <div class="row align-items-center g-5 w-100">
+                        <div class="col-lg-5 animate-slide-in-left text-center">
+                            <!-- Placeholder Image -->
+                            <div class="d-flex align-items-center justify-content-center bg-white rounded-4 shadow-lg border border-4 border-white"
+                                style="height: 400px; width: 100%;">
+                                <div class="text-center">
+                                    <i class="fa-solid fa-fingerprint text-brand-green"
+                                        style="font-size: 8rem; opacity: 0.8;"></i>
+                                    <p class="mt-3 text-brand-green fw-bold">Certified Technology</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-7 animate-slide-in-right">
+                            <div class="service-content" style="max-height: 75vh; overflow-y: auto;">
+                                <div
+                                    class="d-inline-flex align-items-center gap-2 px-3 py-2 rounded-pill bg-light text-brand-green fw-bold small mb-3 uppercase tracking-wide border">
+                                    <i class="fa-solid fa-fingerprint"></i> Service 05
+                                </div>
+                                <h1 class="display-5 fw-bold text-dark mb-3">Digital Fingerprinting</h1>
+                                <p class="lead text-secondary mb-4">
+                                    RCMP-accredited, Certified, and Trusted. We use advanced optical scanners to
+                                    capture
+                                    fingerprints and submit them securely to police services in minutes.
+                                </p>
+
+                                <div class="row g-4 mb-4">
+                                    <div class="col-md-6">
+                                        <h5 class="fw-bold mb-3 text-brand-green small-caps"><i
+                                                class="fa-solid fa-clock me-2"></i>Processing Times</h5>
+                                        <div class="p-3 bg-white border border-light rounded shadow-sm">
+                                            <p class="small text-secondary mb-2"><strong>No Record Found:</strong>
+                                                7-10
+                                                working
+                                                days</p>
+                                            <p class="small text-secondary mb-0"><strong>Record Found:</strong> 120
+                                                days
+                                                or more
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <h5 class="fw-bold mb-3 text-brand-green small-caps"><i
+                                                class="fa-solid fa-id-card-clip me-2"></i>Core Requirements</h5>
+                                        <p class="small text-secondary mb-0">
+                                            Provide <strong>two valid government-issued IDs</strong> (one must be a
+                                            photo ID).
+                                            Ensure they are not expired.
+                                        </p>
+                                    </div>
+                                </div>
+
+                                <div class="row g-4 mb-4">
+                                    <div class="col-12">
+                                        <h5 class="fw-bold mb-3 text-brand-green small-caps"><i
+                                                class="fa-solid fa-briefcase me-2"></i>When Do You Need It?</h5>
+                                        <ul class="list-unstyled text-secondary small d-flex flex-wrap gap-x-4">
+                                            <li class="mb-1"><i
+                                                    class="fa-solid fa-check text-brand-green me-2"></i>Employment
+                                                screening</li>
+                                            <li class="mb-1"><i class="fa-solid fa-check text-brand-green me-2"></i>PR,
+                                                Immigration & Citizenship</li>
+                                            <li class="mb-1"><i
+                                                    class="fa-solid fa-check text-brand-green me-2"></i>Passports &
+                                                Visas</li>
+                                            <li class="mb-1"><i
+                                                    class="fa-solid fa-check text-brand-green me-2"></i>Record
+                                                Suspensions (Pardons)</li>
+                                            <li class="mb-1"><i
+                                                    class="fa-solid fa-check text-brand-green me-2"></i>International
+                                                Adoptions
+                                            </li>
+                                            <li class="mb-1"><i
+                                                    class="fa-solid fa-check text-brand-green me-2"></i>Security
+                                                License/Name Change</li>
+                                        </ul>
+                                    </div>
+                                </div>
+
+                                <div class="mt-4 p-3 bg-light rounded border-start border-4 border-success">
+                                    <h6 class="fw-bold text-dark mb-1">Status Tracking</h6>
+                                    <p class="small text-secondary mb-0">We submit all proceedings to the RCMP. For
+                                        queries,
+                                        contact <strong>CCRTIS-SCICTR@rcmp-grc.gc.ca</strong>. Payment via cash,
+                                        debit,
+                                        E-TFR,
+                                        or credit.</p>
+                                </div>
+
+                                <div class="d-flex gap-3 mt-4">
+                                    <a href="book.html"
+                                        class="btn btn-brand-green text-white px-4 py-2 rounded-pill shadow-sm fw-bold">Book
+                                        Digital Scan</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 6: Name Change Application -->
+            <div class="carousel-item">
+
+                <div class="container h-100 d-flex align-items-center justify-content-center position-relative"
+                    style="z-index: 1;">
+                    <div class="row align-items-center g-5 w-100">
+                        <div class="col-lg-5 animate-slide-in-left text-center">
+                            <!-- Placeholder Image -->
+                            <div class="d-flex align-items-center justify-content-center bg-white rounded-4 shadow-lg border border-4 border-white"
+                                style="height: 400px; width: 100%;">
+                                <div class="text-center">
+                                    <i class="fa-solid fa-signature text-brand-green"
+                                        style="font-size: 8rem; opacity: 0.8;"></i>
+                                    <p class="mt-3 text-brand-green fw-bold">Legal Name Change</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-7 animate-slide-in-right">
+                            <div class="service-content" style="max-height: 75vh; overflow-y: auto;">
+                                <div
+                                    class="d-inline-flex align-items-center gap-2 px-3 py-2 rounded-pill bg-light text-brand-green fw-bold small mb-3 uppercase tracking-wide border">
+                                    <i class="fa-solid fa-pen-nib"></i> Service 06
+                                </div>
+                                <h1 class="display-5 fw-bold text-dark mb-3">Name Change Application</h1>
+                                <p class="lead text-secondary mb-4">
+                                    Professional name change application service in Surrey, BC with proven results.
+                                    We
+                                    handle the entire process including digital fingerprinting and submission to
+                                    Vital
+                                    Statistics.
+                                </p>
+
+                                <div class="row g-4">
+                                    <div class="col-md-6">
+                                        <h5 class="fw-bold mb-3 text-brand-green"><i
+                                                class="fa-solid fa-user-check me-2"></i>Eligibility Criteria</h5>
+                                        <ul class="list-unstyled text-secondary small">
+                                            <li class="mb-2"><i class="fa-solid fa-check text-success me-2"></i>Changing
+                                                own name or child's name.</li>
+                                            <li class="mb-2"><i
+                                                    class="fa-solid fa-check text-success me-2"></i><strong>19 years
+                                                    or
+                                                    older.</strong></li>
+                                            <li class="mb-2"><i
+                                                    class="fa-solid fa-check text-success me-2"></i><strong>Residency:</strong>
+                                                BC resident for at least 3 months prior to application.</li>
+                                        </ul>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <h5 class="fw-bold mb-3 text-brand-green"><i
+                                                class="fa-solid fa-fingerprint me-2"></i>Mandatory Checks</h5>
+                                        <p class="small text-secondary mb-2">The process requires digital
+                                            fingerprint
+                                            recording for a Criminal Record Check by RCMP Ottawa.</p>
+                                        <ul class="list-unstyled text-secondary small">
+                                            <li><i
+                                                    class="fa-solid fa-arrow-right text-brand-green me-2"></i>Fingerprints
+                                                forwarded to RCMP.</li>
+                                            <li><i class="fa-solid fa-arrow-right text-brand-green me-2"></i>Submission
+                                                to Vital Statistics Agency.</li>
+                                        </ul>
+                                    </div>
+                                </div>
+
+                                <div class="mt-4 p-3 bg-light rounded border-start border-4 border-success">
+                                    <h6 class="fw-bold text-dark mb-1">Full Service Handling</h6>
+                                    <p class="small text-secondary mb-0">We submit fingerprint copies, consent
+                                        forms,
+                                        and receipts directly via secure channels. Flexible payment options
+                                        available.
+                                    </p>
+                                </div>
+
+                                <div class="d-flex gap-3 mt-4">
+                                    <a href="book.html"
+                                        class="btn btn-brand-green text-white px-4 py-2 rounded-pill shadow-sm fw-bold">Start
+                                        Name Change</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 7: Employment Screening -->
+            <div class="carousel-item">
+
+                <div class="container h-100 d-flex align-items-center justify-content-center position-relative"
+                    style="z-index: 1;">
+                    <div class="row align-items-center g-5 w-100">
+                        <div class="col-lg-5 animate-slide-in-left text-center">
+                            <!-- Placeholder Image -->
+                            <div class="d-flex align-items-center justify-content-center bg-white rounded-4 shadow-lg border border-4 border-white"
+                                style="height: 400px; width: 100%;">
+                                <div class="text-center">
+                                    <i class="fa-solid fa-users-viewfinder text-brand-green"
+                                        style="font-size: 8rem; opacity: 0.8;"></i>
+                                    <p class="mt-3 text-brand-green fw-bold">Comprehensive Screening</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-7 animate-slide-in-right">
+                            <div class="service-content" style="max-height: 75vh; overflow-y: auto;">
+                                <div
+                                    class="d-inline-flex align-items-center gap-2 px-3 py-2 rounded-pill bg-light text-brand-green fw-bold small mb-3 uppercase tracking-wide border">
+                                    <i class="fa-solid fa-briefcase"></i> Service 07
+                                </div>
+                                <h1 class="display-5 fw-bold text-dark mb-3">Employment Screening</h1>
+                                <p class="lead text-secondary mb-4">
+                                    Building a reliable workforce is a top priority. Our screening verifications are
+                                    tailored to fit your industry, ensuring hiring decisions are based on accurate
+                                    information.
+                                </p>
+
+                                <h5 class="fw-bold mb-3 text-brand-green"><i
+                                        class="fa-solid fa-layer-group me-2"></i>Our
+                                    Screening Services</h5>
+                                <div class="row g-3">
+                                    <div class="col-md-6">
+                                        <div class="p-3 bg-white border rounded h-100">
+                                            <h6 class="fw-bold text-dark"><i
+                                                    class="fa-solid fa-user-check text-brand-green me-2"></i>Reference
+                                                &
+                                                Backcheck</h6>
+                                            <p class="small text-secondary mb-0">Standard reference interviews to
+                                                verify
+                                                candidate history.</p>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="p-3 bg-white border rounded h-100">
+                                            <h6 class="fw-bold text-dark"><i
+                                                    class="fa-solid fa-graduation-cap text-brand-green me-2"></i>Education
+                                                Verification</h6>
+                                            <p class="small text-secondary mb-0">Confirming qualifications, degrees,
+                                                and
+                                                professional certifications.</p>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="p-3 bg-white border rounded h-100">
+                                            <h6 class="fw-bold text-dark"><i
+                                                    class="fa-solid fa-car text-brand-green me-2"></i>Driver’s
+                                                Abstracts
+                                            </h6>
+                                            <p class="small text-secondary mb-0">Driving history, violations, and
+                                                license status for relevant roles.</p>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="p-3 bg-white border rounded h-100">
+                                            <h6 class="fw-bold text-dark"><i
+                                                    class="fa-solid fa-gavel text-brand-green me-2"></i>Criminal
+                                                Records
+                                                (CPIC)</h6>
+                                            <p class="small text-secondary mb-0">Fundamental checks for criminal
+                                                history
+                                                and suitability.</p>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="p-3 bg-white border rounded h-100">
+                                            <h6 class="fw-bold text-dark"><i
+                                                    class="fa-solid fa-credit-card text-brand-green me-2"></i>Credit
+                                                Bureau Inquiry</h6>
+                                            <p class="small text-secondary mb-0">Insights into financial
+                                                responsibility
+                                                and credibility.</p>
+                                        </div>
+                                    </div>
+
+
+                                    <div class="col-md-6">
+                                        <div class="p-3 bg-white border rounded h-100">
+                                            <h6 class="fw-bold text-dark"><i
+                                                    class="fa-solid fa-globe text-brand-green me-2"></i>International
+                                                Checks</h6>
+                                            <p class="small text-secondary mb-0">Name-based criminal record checks
+                                                from
+                                                multiple jurisdictions.</p>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="p-3 bg-white border rounded h-100">
+                                            <h6 class="fw-bold text-dark"><i
+                                                    class="fa-solid fa-hashtag text-brand-green me-2"></i>Social
+                                                Media
+                                                Check</h6>
+                                            <p class="small text-secondary mb-0">Review of online presence for
+                                                values
+                                                and behavior alignment.</p>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="p-3 bg-white border rounded h-100">
+                                            <h6 class="fw-bold text-dark"><i
+                                                    class="fa-solid fa-door-open text-brand-green me-2"></i>Exit
+                                                Interviews</h6>
+                                            <p class="small text-secondary mb-0">Gathering candid feedback from
+                                                departing employees.</p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="d-flex gap-3 mt-4">
+                                    <a href="book.html"
+                                        class="btn btn-brand-green text-white px-4 py-2 rounded-pill shadow-sm fw-bold">Contact
+                                        for Screening</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 8: Security License Application -->
+            <div class="carousel-item">
+
+                <div class="container h-100 d-flex align-items-center justify-content-center position-relative"
+                    style="z-index: 1;">
+                    <div class="row align-items-center g-5 w-100">
+                        <div class="col-lg-5 animate-slide-in-left text-center">
+                            <!-- Placeholder Image -->
+                            <div class="d-flex align-items-center justify-content-center bg-white rounded-4 shadow-lg border border-4 border-white"
+                                style="height: 400px; width: 100%;">
+                                <div class="text-center">
+                                    <i class="fa-solid fa-shield-halved text-brand-green"
+                                        style="font-size: 8rem; opacity: 0.8;"></i>
+                                    <p class="mt-3 text-brand-green fw-bold">Official Licensing</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-7 animate-slide-in-right">
+                            <div class="service-content" style="max-height: 75vh; overflow-y: auto;">
+                                <div
+                                    class="d-inline-flex align-items-center gap-2 px-3 py-2 rounded-pill bg-light text-brand-green fw-bold small mb-3 uppercase tracking-wide border">
+                                    <i class="fa-solid fa-id-badge"></i> Service 08
+                                </div>
+                                <h1 class="display-5 fw-bold text-dark mb-3">Security License Application</h1>
+                                <p class="lead text-secondary mb-4">
+                                    Cleared your BST I & II exams? We help you obtain your official Security License
+                                    in
+                                    Surrey, BC. Our experts assist with applications, renewals, and digital
+                                    fingerprinting submission.
+                                </p>
+
+                                <div class="row g-4">
+                                    <div class="col-md-6">
+                                        <h5 class="fw-bold mb-3 text-brand-green"><i
+                                                class="fa-solid fa-list-ol me-2"></i>The
+                                            Process</h5>
+                                        <ul class="list-unstyled text-secondary small">
+                                            <li class="mb-2"><i
+                                                    class="fa-solid fa-check text-brand-green me-2"></i><strong>Step
+                                                    1:</strong> Pass BST Exams.</li>
+                                            <li class="mb-2"><i
+                                                    class="fa-solid fa-check text-brand-green me-2"></i><strong>Step
+                                                    2:</strong> Digital Fingerprinting at Point Zero.</li>
+                                            <li class="mb-2"><i
+                                                    class="fa-solid fa-check text-brand-green me-2"></i><strong>Step
+                                                    3:</strong> Application review & submission.</li>
+                                            <li class="mb-2"><i
+                                                    class="fa-solid fa-clock text-brand-green me-2"></i><strong>Result:</strong>
+                                                License in ~10-15 days.</li>
+                                        </ul>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <h5 class="fw-bold mb-3 text-brand-green"><i
+                                                class="fa-solid fa-passport me-2"></i>Acceptable ID (2 Required)
+                                        </h5>
+                                        <ul class="list-unstyled text-secondary small mb-0" style="column-count: 2;">
+                                            <li>Passport</li>
+                                            <li>Driver's License</li>
+                                            <li>Citizenship Card</li>
+                                            <li>Birth Certificate</li>
+                                            <li>PR Card</li>
+                                            <li>Work/Student Permit</li>
+                                            <li>BC Care Card</li>
+                                            <li>Nexus Card</li>
+                                        </ul>
+                                    </div>
+                                </div>
+
+                                <div class="mt-4 p-3 bg-light rounded border-start border-4 border-success">
+                                    <h6 class="fw-bold text-dark mb-1">RCMP Accredited Experts</h6>
+                                    <p class="small text-secondary mb-0">We record valid digital fingerprints and
+                                        request RCMP Ottawa to mail results directly to the Registrar in Victoria,
+                                        BC.
+                                    </p>
+                                </div>
+
+                                <div class="d-flex gap-3 mt-4">
+                                    <a href="book.html"
+                                        class="btn btn-brand-green text-white px-4 py-2 rounded-pill shadow-sm fw-bold">Get
+                                        Licensed</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 9: Background Checks -->
+            <div class="carousel-item">
+
+                <div class="container h-100 d-flex align-items-center justify-content-center position-relative"
+                    style="z-index: 1;">
+                    <div class="row align-items-center g-5 w-100">
+                        <div class="col-lg-5 animate-slide-in-left text-center">
+                            <!-- Placeholder Image -->
+                            <div class="d-flex align-items-center justify-content-center bg-white rounded-4 shadow-lg border border-4 border-white"
+                                style="height: 400px; width: 100%;">
+                                <div class="text-center">
+                                    <i class="fa-solid fa-magnifying-glass-location text-brand-green"
+                                        style="font-size: 8rem; opacity: 0.8;"></i>
+                                    <p class="mt-3 text-brand-green fw-bold">Global Insight</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-7 animate-slide-in-right">
+                            <div class="service-content" style="max-height: 75vh; overflow-y: auto;">
+                                <div
+                                    class="d-inline-flex align-items-center gap-2 px-3 py-2 rounded-pill bg-light text-brand-green fw-bold small mb-3 uppercase tracking-wide border">
+                                    <i class="fa-solid fa-clipboard-check"></i> Service 09
+                                </div>
+                                <h1 class="display-5 fw-bold text-dark mb-3">Background Checks</h1>
+                                <p class="lead text-secondary mb-4">
+                                    Complete suite of background screening services (in-person & online). We
+                                    leverage
+                                    technology and international alliances to clear the mist around global
+                                    candidates.
+                                </p>
+
+                                <div class="row g-4 mb-4">
+                                    <div class="col-md-6">
+                                        <h5 class="fw-bold mb-3 text-brand-green"><i
+                                                class="fa-solid fa-earth-americas me-2"></i>International Reach</h5>
+                                        <p class="small text-secondary">
+                                            Gone are the days of uncertainty. Our skilled in-house team uses
+                                            advanced
+                                            tools to verified past records from around the world, making
+                                            international
+                                            hiring and clearance seamless.
+                                        </p>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <h5 class="fw-bold mb-3 text-brand-green"><i
+                                                class="fa-solid fa-scale-balanced me-2"></i>Why It Matters</h5>
+                                        <p class="small text-secondary">
+                                            Crucial for informed decisions by employers, embassies, universities,
+                                            and
+                                            immigration departments. Avoid the disadvantage of unknown histories.
+                                        </p>
+                                    </div>
+                                </div>
+
+
+                                <div class="p-4 bg-light rounded border border-light shadow-sm">
+                                    <h5 class="fw-bold text-center text-dark mb-4">Simple 3-Step Process</h5>
+                                    <div class="row text-center g-4 position-relative">
+                                        <div class="col-4">
+                                            <div class="mx-auto bg-white rounded-circle d-flex align-items-center justify-content-center border border-2 border-brand-green mb-2"
+                                                style="width: 60px; height: 60px;">
+                                                <i class="fa-solid fa-file-pen text-brand-green fs-4"></i>
+                                            </div>
+                                            <p class="small fw-bold mb-0">1. Questionnaire</p>
+                                        </div>
+                                        <div class="col-4">
+                                            <div class="mx-auto bg-white rounded-circle d-flex align-items-center justify-content-center border border-2 border-brand-green mb-2"
+                                                style="width: 60px; height: 60px;">
+                                                <i class="fa-solid fa-user-shield text-brand-green fs-4"></i>
+                                            </div>
+                                            <p class="small fw-bold mb-0">2. Police Review</p>
+                                        </div>
+                                        <div class="col-4">
+                                            <div class="mx-auto bg-white rounded-circle d-flex align-items-center justify-content-center border border-2 border-brand-green mb-2"
+                                                style="width: 60px; height: 60px;">
+                                                <i class="fa-solid fa-check-double text-brand-green fs-4"></i>
+                                            </div>
+                                            <p class="small fw-bold mb-0">3. Results</p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="d-flex gap-3 mt-4">
+                                    <a href="book.html"
+                                        class="btn btn-brand-green text-white px-4 py-2 rounded-pill shadow-sm fw-bold">Start
+                                        Background Check</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 10: Ink & Roll Fingerprinting -->
+            <div class="carousel-item">
+
+                <div class="container h-100 d-flex align-items-center justify-content-center position-relative"
+                    style="z-index: 1;">
+                    <div class="row align-items-center g-5 w-100">
+                        <div class="col-lg-5 animate-slide-in-left text-center">
+                            <!-- Placeholder Image -->
+                            <div class="d-flex align-items-center justify-content-center bg-white rounded-4 shadow-lg border border-4 border-white"
+                                style="height: 400px; width: 100%;">
+                                <div class="text-center">
+                                    <i class="fa-solid fa-stamp text-brand-green"
+                                        style="font-size: 8rem; opacity: 0.8;"></i>
+                                    <p class="mt-3 text-brand-green fw-bold">Traditional Methods</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-7 animate-slide-in-right">
+                            <div class="service-content" style="max-height: 75vh; overflow-y: auto;">
+                                <div
+                                    class="d-inline-flex align-items-center gap-2 px-3 py-2 rounded-pill bg-light text-brand-green fw-bold small mb-3 uppercase tracking-wide border">
+                                    <i class="fa-solid fa-fingerprint"></i> Service 10
+                                </div>
+                                <h1 class="display-5 fw-bold text-dark mb-3">Ink & Roll Fingerprinting</h1>
+                                <p class="lead text-secondary mb-4">
+                                    Conventional ink & roll fingerprinting is still a vital requirement for specific
+                                    international and secure processes. We provide RCMP-accredited, certified, and
+                                    trusted expertise.
+                                </p>
+
+                                <div class="row g-4 mb-4">
+                                    <div class="col-md-6">
+                                        <h5 class="fw-bold mb-3 text-brand-green"><i
+                                                class="fa-solid fa-check-to-slot me-2"></i>When You Need It</h5>
+                                        <ul class="list-unstyled text-secondary small">
+                                            <li class="mb-2"><i
+                                                    class="fa-solid fa-check text-brand-green me-2"></i>Police
+                                                certificates from other countries.</li>
+                                            <li class="mb-2"><i class="fa-solid fa-check text-brand-green me-2"></i>FBI
+                                                Clearances (USA).</li>
+                                            <li class="mb-2"><i class="fa-solid fa-check text-brand-green me-2"></i>Old
+                                                Passport Renewal.</li>
+                                        </ul>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <h5 class="fw-bold mb-3 text-brand-green"><i
+                                                class="fa-solid fa-shield me-2"></i>Additional Uses</h5>
+                                        <ul class="list-unstyled text-secondary small">
+                                            <li class="mb-2"><i class="fa-solid fa-check text-brand-green me-2"></i>ID
+                                                creation for previous countries.</li>
+                                            <li class="mb-2"><i
+                                                    class="fa-solid fa-check text-brand-green me-2"></i>Specialized
+                                                Security Clearances.</li>
+                                            <li class="mb-2"><i
+                                                    class="fa-solid fa-check text-brand-green me-2"></i>Foreign
+                                                government requirements.</li>
+                                        </ul>
+                                    </div>
+                                </div>
+
+                                <div class="mt-4 p-3 bg-light rounded border-start border-4 border-success">
+                                    <h6 class="fw-bold text-dark mb-1">Accredited Experts</h6>
+                                    <p class="small text-secondary mb-0">Trust Point Zero for precise, accepted ink
+                                        depositions on official charts/cards.</p>
+                                </div>
+
+                                <div class="d-flex gap-3 mt-4">
+                                    <a href="book.html"
+                                        class="btn btn-brand-green text-white px-4 py-2 rounded-pill shadow-sm fw-bold">Book
+                                        Appointment</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 11: Criminal Record Checks -->
+            <div class="carousel-item">
+
+                <div class="container h-100 d-flex align-items-center justify-content-center position-relative"
+                    style="z-index: 1;">
+                    <div class="row align-items-center g-5 w-100">
+                        <div class="col-lg-5 animate-slide-in-left text-center">
+                            <!-- Placeholder Image -->
+                            <div class="d-flex align-items-center justify-content-center bg-white rounded-4 shadow-lg border border-4 border-white"
+                                style="height: 400px; width: 100%;">
+                                <div class="text-center">
+                                    <i class="fa-solid fa-file-contract text-brand-green"
+                                        style="font-size: 8rem; opacity: 0.8;"></i>
+                                    <p class="mt-3 text-brand-green fw-bold">Result in Minutes</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-7 animate-slide-in-right">
+                            <div class="service-content" style="max-height: 75vh; overflow-y: auto;">
+                                <div
+                                    class="d-inline-flex align-items-center gap-2 px-3 py-2 rounded-pill bg-light text-brand-green fw-bold small mb-3 uppercase tracking-wide border">
+                                    <i class="fa-solid fa-gavel"></i> Service 11
+                                </div>
+                                <h1 class="display-5 fw-bold text-dark mb-3">Criminal Record Checks</h1>
+                                <p class="lead text-secondary mb-4">
+                                    Save time and money with our fast, name and date-of-birth based checks. Ideal
+                                    for
+                                    employment and licensing requiring basic or Level-2 screening.
+                                </p>
+
+                                <div class="row g-4 mb-3">
+                                    <div class="col-12">
+                                        <div class="p-3 bg-white border rounded shadow-sm">
+                                            <h6 class="fw-bold text-dark"><i
+                                                    class="fa-solid fa-id-card text-brand-green me-2"></i>Basic Name
+                                                &
+                                                DOB Check (CPIC)</h6>
+                                            <p class="small text-secondary mb-0">
+                                                A standard check running your name/DOB against the National Police
+                                                Information database. <br>
+                                                <span class="text-muted fst-italic">*Note: If a possible match
+                                                    occurs, a
+                                                    fingerprint-based check by RCMP will be required.</span>
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div class="col-12">
+                                        <div class="p-3 bg-white border rounded shadow-sm">
+                                            <h6 class="fw-bold text-dark"><i
+                                                    class="fa-solid fa-scale-balanced text-brand-green me-2"></i>Judicial
+                                                Matters Check</h6>
+                                            <p class="small text-secondary mb-0">
+                                                An enhanced Level-2 screening suitable for many employment and
+                                                licensing
+                                                needs.
+                                            </p>
+                                            <div class="d-flex align-items-center gap-2 mt-2">
+                                                <span class="badge bg-success bg-opacity-10 text-success"><i
+                                                        class="fa-regular fa-clock me-1"></i> Fast Processing (&lt;
+                                                    1
+                                                    Hour)</span>
+                                                <span class="badge bg-primary bg-opacity-10 text-primary"><i
+                                                        class="fa-solid fa-briefcase me-1"></i> Employment
+                                                    Ready</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="p-3 bg-light rounded border-start border-4 border-warning">
+                                    <h6 class="fw-bold text-dark mb-1"><i
+                                            class="fa-solid fa-triangle-exclamation text-warning me-2"></i>When are
+                                        Fingerprints Needed?</h6>
+                                    <p class="small text-secondary mb-0">
+                                        Some local and foreign authorities do not accept basic checks. If a name
+                                        match
+                                        is found, or for specific requirements, a full fingerprint-based check is
+                                        mandatory.
+                                    </p>
+                                </div>
+
+                                <div class="d-flex gap-3 mt-4">
+                                    <a href="book.html"
+                                        class="btn btn-brand-green text-white px-4 py-2 rounded-pill shadow-sm fw-bold">Check
+                                        Status Now</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <button class="carousel-control-prev" type="button" data-bs-target="#servicesCarousel" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon shadow-lg" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#servicesCarousel" data-bs-slide="next">
+            <span class="carousel-control-next-icon shadow-lg" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+        </button>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer-premium">
+        <!-- Subscription Bar -->
+        <div class="footer-sub-bar py-4">
+            <div class="container">
+                <div class="row align-items-center">
+                    <div class="col-lg-7 text-center text-lg-start mb-3 mb-lg-0">
+                        <h4 class="mb-1">Get New Jobs Notification!</h4>
+                        <p class="text-secondary small mb-0">Subscribe & get all related Services notification.</p>
+                    </div>
+                    <div class="col-lg-5">
+                        <form class="d-flex shadow-sm">
+                            <input type="email" class="footer-sub-input form-control">
+                            <button type="submit" class="footer-sub-btn">Subscribe</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Footer Content -->
+        <div class="container py-5">
+            <div class="row g-4 justify-content-between">
+                <!-- Column 1: Brand -->
+                <div class="col-lg-4 col-md-12">
+                    <div class="mb-4">
+                        <img src="assets/images/logo.jpg" alt="Point Zero" style="height: 75px;">
+                    </div>
+                    <p class="mb-4 lh-base" style="font-size: 0.9rem;">
+                        Point Zero Global Services – We started this company in the amidst of Lockdown because we
+                        analyzed the need for fingerprinting and security screening of the people as the crime is
+                        increasing in the country due... <a href="about.html"
+                            class="text-brand-green text-decoration-none">read more</a>
+                    </p>
+                </div>
+
+                <!-- Column 2: Quick Links -->
+                <div class="col-lg-2 col-md-4">
+                    <h5 class="footer-col-title">Quick Links</h5>
+                    <ul class="list-unstyled">
+                        <li class="footer-list-item"><a href="about.html" class="footer-link"><i
+                                    class="fa-solid fa-chevron-right"></i> About</a></li>
+                        <li class="footer-list-item"><a href="services.html" class="footer-link"><i
+                                    class="fa-solid fa-chevron-right"></i> Services</a></li>
+                        <li class="footer-list-item"><a href="index.html#team" class="footer-link"><i
+                                    class="fa-solid fa-chevron-right"></i> Team</a></li>
+                        <li class="footer-list-item"><a href="index.html#blog" class="footer-link"><i
+                                    class="fa-solid fa-chevron-right"></i> Latest News</a></li>
+                    </ul>
+                </div>
+
+                <!-- Column 3: Services -->
+                <div class="col-lg-3 col-md-4">
+                    <h5 class="footer-col-title">Services</h5>
+                    <ul class="list-unstyled">
+                        <li class="footer-list-item"><a href="services.html#service-3" class="footer-link"><i
+                                    class="fa-solid fa-chevron-right"></i> USA Entry Waiver</a></li>
+                        <li class="footer-list-item"><a href="services.html#service-10" class="footer-link"><i
+                                    class="fa-solid fa-chevron-right"></i> Ink & Roll Fingerprinting</a></li>
+                        <li class="footer-list-item"><a href="services.html#service-8" class="footer-link"><i
+                                    class="fa-solid fa-chevron-right"></i> Security License Application</a></li>
+                        <li class="footer-list-item"><a href="services.html#service-6" class="footer-link"><i
+                                    class="fa-solid fa-chevron-right"></i> Name Change Application</a></li>
+                        <li class="footer-list-item"><a href="services.html#service-4" class="footer-link"><i
+                                    class="fa-solid fa-chevron-right"></i> Police Certificate (ECPIC)</a></li>
+                    </ul>
+                </div>
+
+                <!-- Column 4: Contact Us -->
+                <div class="col-lg-3 col-md-4">
+                    <h5 class="footer-col-title">Contact Us</h5>
+                    <div class="contact-info-item d-flex align-items-start gap-2">
+                        <i class="fa-solid fa-envelope mt-1"></i>
+                        <a href="mailto:info@pzfingerprinting.com"
+                            class="text-decoration-none text-light opacity-75 small">info@pzfingerprinting.com</a>
+                    </div>
+                    <div class="contact-info-item d-flex align-items-start gap-2">
+                        <i class="fa-solid fa-location-dot mt-1"></i>
+                        <span class="opacity-75 small">Office: 203-12885 80th Avenue, Surrey, BC, V3W 0E6</span>
+                    </div>
+                    <div class="contact-info-item d-flex align-items-start gap-2">
+                        <i class="fa-solid fa-phone mt-1"></i>
+                        <span class="opacity-75 small">(+1) 778-297-2000</span>
+                    </div>
+                    <div class="d-flex gap-2 mt-4 pt-2">
+                        <a href="#" class="social-icon-circle"><i class="fa-brands fa-facebook-f"></i></a>
+                        <a href="#" class="social-icon-circle"><i class="fa-brands fa-twitter"></i></a>
+                        <a href="#" class="social-icon-circle"><i class="fa-brands fa-linkedin-in"></i></a>
+                        <a href="#" class="social-icon-circle"><i class="fa-brands fa-instagram"></i></a>
+                        <a href="#" class="social-icon-circle"><i class="fa-brands fa-youtube"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Bottom Bar -->
+        <div class="footer-bottom text-center">
+            <div class="container">
+                <p class="mb-0 opacity-75">© 2025 All Rights Reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Deep Linking for Carousel
+        document.addEventListener('DOMContentLoaded', function () {
+            const carouselElement = document.getElementById('servicesCarousel');
+            const carousel = new bootstrap.Carousel(carouselElement);
+
+            // Check URL Hash on load
+            const hash = window.location.hash;
+            if (hash && hash.startsWith('#service-')) {
+                const slideIndex = parseInt(hash.replace('#service-', '')) - 1;
+                if (!isNaN(slideIndex)) {
+                    carousel.to(slideIndex);
+                }
+            }
+
+            // Optional: Listen for hash changes
+            window.addEventListener('hashchange', function () {
+                const newHash = window.location.hash;
+                if (newHash && newHash.startsWith('#service-')) {
+                    const slideIndex = parseInt(newHash.replace('#service-', '')) - 1;
+                    carousel.to(slideIndex);
+                }
+            });
+        });
+
+        function toggleServiceMenu() {
+            const menu = document.getElementById('serviceSideMenu');
+            menu.classList.toggle('active');
+        }
+    </script>
+
+    <!-- Browse All Menu Button -->
+    <button
+        class="btn btn-brand-green text-white position-fixed shadow-lg d-flex align-items-center gap-2 px-4 py-2 rounded-pill fw-bold"
+        style="bottom: 80px; right: 30px; z-index: 1050; border: 2px solid white;" onclick="toggleServiceMenu()">
+        <i class="fa-solid fa-list-ul"></i> Browse All Services
+    </button>
+
+    <!-- Side Menu Overlay -->
+    <div id="serviceSideMenu" class="service-side-menu">
+        <div class="p-4">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h5 class="fw-bold mb-0 text-dark">Our Services</h5>
+                <button class="btn-close" onclick="toggleServiceMenu()"></button>
+            </div>
+            <div class="list-group list-group-flush">
+                <a href="#service-1"
+                    class="list-group-item list-group-item-action border-0 py-3 d-flex align-items-center gap-3 rounded-3 mb-2"
+                    onclick="toggleServiceMenu()">
+                    <span class="badge bg-light text-brand-green px-2 py-1">01</span> Record Suspension
+                </a>
+                <a href="#service-2"
+                    class="list-group-item list-group-item-action border-0 py-3 d-flex align-items-center gap-3 rounded-3 mb-2"
+                    onclick="toggleServiceMenu()">
+                    <span class="badge bg-light text-brand-green px-2 py-1">02</span> Police Check (Outside Canada)
+                </a>
+                <a href="#service-3"
+                    class="list-group-item list-group-item-action border-0 py-3 d-flex align-items-center gap-3 rounded-3 mb-2"
+                    onclick="toggleServiceMenu()">
+                    <span class="badge bg-light text-brand-green px-2 py-1">03</span> USA Entry Waiver
+                </a>
+                <a href="#service-4"
+                    class="list-group-item list-group-item-action border-0 py-3 d-flex align-items-center gap-3 rounded-3 mb-2"
+                    onclick="toggleServiceMenu()">
+                    <span class="badge bg-light text-brand-green px-2 py-1">04</span> Police Certificate (ECPIC)
+                </a>
+                <a href="#service-5"
+                    class="list-group-item list-group-item-action border-0 py-3 d-flex align-items-center gap-3 rounded-3 mb-2"
+                    onclick="toggleServiceMenu()">
+                    <span class="badge bg-light text-brand-green px-2 py-1">05</span> Digital Fingerprinting
+                </a>
+                <a href="#service-6"
+                    class="list-group-item list-group-item-action border-0 py-3 d-flex align-items-center gap-3 rounded-3 mb-2"
+                    onclick="toggleServiceMenu()">
+                    <span class="badge bg-light text-brand-green px-2 py-1">06</span> Name Change Application
+                </a>
+                <a href="#service-7"
+                    class="list-group-item list-group-item-action border-0 py-3 d-flex align-items-center gap-3 rounded-3 mb-2"
+                    onclick="toggleServiceMenu()">
+                    <span class="badge bg-light text-brand-green px-2 py-1">07</span> Employment Screening
+                </a>
+                <a href="#service-8"
+                    class="list-group-item list-group-item-action border-0 py-3 d-flex align-items-center gap-3 rounded-3 mb-2"
+                    onclick="toggleServiceMenu()">
+                    <span class="badge bg-light text-brand-green px-2 py-1">08</span> Security License
+                </a>
+                <a href="#service-9"
+                    class="list-group-item list-group-item-action border-0 py-3 d-flex align-items-center gap-3 rounded-3 mb-2"
+                    onclick="toggleServiceMenu()">
+                    <span class="badge bg-light text-brand-green px-2 py-1">09</span> Background Checks
+                </a>
+                <a href="#service-10"
+                    class="list-group-item list-group-item-action border-0 py-3 d-flex align-items-center gap-3 rounded-3 mb-2"
+                    onclick="toggleServiceMenu()">
+                    <span class="badge bg-light text-brand-green px-2 py-1">10</span> Ink & Roll Fingerprinting
+                </a>
+                <a href="#service-11"
+                    class="list-group-item list-group-item-action border-0 py-3 d-flex align-items-center gap-3 rounded-3 mb-2"
+                    onclick="toggleServiceMenu()">
+                    <span class="badge bg-light text-brand-green px-2 py-1">11</span> Criminal Record Checks
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <style>
+        .service-side-menu {
+            position: fixed;
+            top: 0;
+            right: -400px;
+            width: 400px;
+            height: 100vh;
+            background: white;
+            box-shadow: -10px 0 30px rgba(0, 0, 0, 0.1);
+            z-index: 2000;
+            transition: right 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            overflow-y: auto;
+        }
+
+        .service-side-menu.active {
+            right: 0;
+        }
+
+        .list-group-item {
+            transition: all 0.3s ease;
+            font-weight: 500;
+            color: #4a5568;
+        }
+
+        .list-group-item:hover {
+            background-color: #f7fafc !important;
+            color: var(--brand-green);
+            transform: translateX(5px);
+        }
+
+        .list-group-item .badge {
+            font-size: 0.75rem;
+        }
+    </style>
+    <!-- Master Interaction Suite -->
+    <script>
+        // 1. Glassmorphism Navbar Scroll Effect
+        const navbar = document.querySelector('.navbar');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+
+        // 2. Mouse Parallax for Background Elements
+        document.addEventListener('mousemove', (e) => {
+            const moveX = (e.clientX - window.innerWidth / 2) * 0.01;
+            const moveY = (e.clientY - window.innerHeight / 2) * 0.01;
+
+            const icons = document.querySelectorAll('.floating-icon');
+            icons.forEach((icon, index) => {
+                const depth = (index + 1) * 2;
+                icon.style.transform = `translate(${moveX * depth}px, ${moveY * depth}px) rotate(${moveX * 0.5}deg)`;
+            });
+
+            const blobs = document.querySelectorAll('.bg-blob');
+            blobs.forEach((blob, index) => {
+                const depth = (index + 1) * 0.5;
+                blob.style.transform = `translate(${moveX * depth}px, ${moveY * depth}px)`;
+            });
+        });
+    </script>
+    <!-- Accessibility Options -->
+    <script src="accessibility.js"></script>
+
+    <!-- Auth Modals -->
+    <script>
+        // Load modal-auth.html content
+        fetch('modal-auth.html')
+            .then(response => response.text())
+            .then(html => {
+                document.body.insertAdjacentHTML('beforeend', html);
+            })
+            .catch(err => console.error('Failed to load auth modals:', err));
+    </script>
+</body>
+
+</html>

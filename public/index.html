@@ -1,0 +1,1117 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FingerPrint - Professional Identity Verification</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="style.css" rel="stylesheet">
+    <!-- Using FontAwesome for icons as a widely available alternative to lucide-react in static HTML -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body class="overflow-hidden"> <!-- Prevent scroll during load -->
+
+    <!-- Preloader -->
+    <div id="preloader">
+        <div style="position: relative; width: 80px; height: 100px;">
+            <!-- Base Gray Fingerprint -->
+            <i class="fa-solid fa-fingerprint"
+                style="font-size: 80px; color: #e2e8f0; position: absolute; top: 0; left: 0;"></i>
+            <!-- Green Fingerprint (Animated Clip) -->
+            <div id="scan-progress"
+                style="position: absolute; top: 0; left: 0; width: 100%; height: 0%; overflow: hidden; transition: height 0.1s linear;">
+                <i class="fa-solid fa-fingerprint text-brand-green" style="font-size: 80px;"></i>
+            </div>
+            <!-- Scanning Line -->
+            <div class="scan-line"></div>
+        </div>
+        <div class="loading-text">Verifying Identity...</div>
+    </div>
+
+    <!-- Animated Background Mesh -->
+    <div class="animated-bg">
+        <div class="bg-blob blob-1"></div>
+        <div class="bg-blob blob-2"></div>
+        <div class="bg-blob blob-3"></div>
+
+        <!-- Floating Elements for "Heavy" feel -->
+        <i class="fa-solid fa-fingerprint floating-icon floating-1"></i>
+        <i class="fa-solid fa-shield-halved floating-icon floating-2"></i>
+        <i class="fa-solid fa-file-contract floating-icon floating-3"></i>
+    </div>
+
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-md navbar-light fixed-top bg-white border-bottom">
+        <div class="container">
+            <a class="navbar-brand d-flex align-items-center gap-2" href="index.html">
+                <img src="assets/images/logo.jpg" alt="Point Zero Global Services" style="height: 75px;">
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarContent">
+                <ul class="navbar-nav ms-auto mb-2 mb-lg-0 align-items-center gap-3">
+                    <li class="nav-item"><a class="nav-link text-secondary fw-medium" href="index.html">Home</a></li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle text-secondary fw-medium" href="#" id="servicesDropdown"
+                            role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Services
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end shadow-lg border-0 rounded-3 mt-2"
+                            aria-labelledby="servicesDropdown" style="min-width: 250px;">
+                            <li><a class="dropdown-item py-2 px-3 small" href="services.html#service-1">Record
+                                    Suspension</a></li>
+                            <li><a class="dropdown-item py-2 px-3 small" href="services.html#service-2">Police Check
+                                    (Outside CA)</a></li>
+                            <li><a class="dropdown-item py-2 px-3 small" href="services.html#service-3">USA Entry
+                                    Waiver</a></li>
+                            <li><a class="dropdown-item py-2 px-3 small" href="services.html#service-4">Police
+                                    Certificate (ECPIC)</a></li>
+                            <li><a class="dropdown-item py-2 px-3 small" href="services.html#service-5">Digital
+                                    Fingerprinting</a></li>
+                            <li><a class="dropdown-item py-2 px-3 small" href="services.html#service-6">Name Change
+                                    Application</a></li>
+                            <li><a class="dropdown-item py-2 px-3 small" href="services.html#service-7">Employment
+                                    Screening</a></li>
+                            <li><a class="dropdown-item py-2 px-3 small" href="services.html#service-8">Security
+                                    License</a></li>
+                            <li><a class="dropdown-item py-2 px-3 small" href="services.html#service-9">Background
+                                    Checks</a></li>
+                            <li><a class="dropdown-item py-2 px-3 small" href="services.html#service-10">Ink & Roll
+                                    Fingerprinting</a></li>
+                            <li><a class="dropdown-item py-2 px-3 small" href="services.html#service-11">Criminal Record
+                                    Checks</a></li>
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
+                            <li><a class="dropdown-item py-2 px-3 small fw-bold text-brand-green text-center"
+                                    href="services.html">View All Services</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item"><a class="nav-link text-secondary fw-medium" href="faq.html">FAQ</a></li>
+                    <li class="nav-item"><a class="nav-link text-secondary fw-medium" href="about.html">About Us</a>
+                    </li>
+                    <li class="nav-item"><a class="nav-link text-secondary fw-medium"
+                            href="index.html#contact">Contact</a></li>
+                    <li class="nav-item"><a class="nav-link text-secondary fw-medium" href="#" data-bs-toggle="modal"
+                            data-bs-target="#loginModal">Login</a></li>
+                    <li class="nav-item"><a class="nav-link text-secondary fw-medium" href="#" data-bs-toggle="modal"
+                            data-bs-target="#signupModal">Sign Up</a></li>
+                    <li class="nav-item">
+                        <a href="book.html"
+                            class="btn btn-brand-green btn-aura text-white fw-semibold px-4 shadow-sm">Book
+                            Appointment</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="position-relative pt-5 pb-5 mt-5 overflow-hidden">
+        <div class="container position-relative z-1 text-center pt-5">
+            <div
+                class="d-inline-flex align-items-center gap-2 px-3 py-2 rounded-pill bg-white border text-brand-green fw-medium small mb-4 animate-fade-in-up">
+                <i class="fa-solid fa-shield-halved"></i> Certified & Secure Fingerprinting Services
+            </div>
+
+            <div style="display: inline-block;">
+                <h1 class="display-3 fw-bold tracking-tight text-dark mb-4 typing-line">
+                    Professional Identity Verification
+                </h1>
+            </div>
+            <h1 class="display-3 fw-bold tracking-tight text-dark mb-4">
+                <span class="text-brand-green">Trusted Global Solutions</span>
+            </h1>
+
+            <p class="mx-auto fs-5 text-secondary mb-5 w-75 lead">
+                Fast, accurate, and secure fingerprinting for background checks, employment, and licensing. Book your
+                appointment today.
+            </p>
+
+            <div class="d-flex flex-column flex-sm-row align-items-center justify-content-center gap-3">
+                <a href="book.html"
+                    class="btn btn-brand-green btn-aura btn-lg px-5 py-3 rounded-4 shadow fw-bold d-flex align-items-center justify-content-center gap-2">
+                    Schedule Appointment <i class="fa-solid fa-arrow-right"></i>
+                </a>
+                <a href="#services" class="btn btn-outline-secondary btn-lg px-5 py-3 rounded-4 fw-bold">
+                    View Services
+                </a>
+            </div>
+
+            <div class="mt-5 d-flex flex-wrap justify-content-center gap-4 text-secondary fw-medium">
+                <div class="d-flex align-items-center gap-2"><i class="fa-solid fa-circle-check text-brand-green"></i>
+                    FBI Approved</div>
+                <div class="d-flex align-items-center gap-2"><i class="fa-solid fa-circle-check text-brand-green"></i>
+                    Walk-ins Welcome</div>
+                <div class="d-flex align-items-center gap-2"><i class="fa-solid fa-circle-check text-brand-green"></i>
+                    Instant Results</div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Stats Section -->
+    <section class="py-5 bg-white position-relative reveal">
+        <div class="container py-4">
+            <div class="row g-4 text-center">
+                <div class="col-6 col-md-3">
+                    <div class="stat-item glass-panel rounded-4">
+                        <div class="stat-number">10k+</div>
+                        <div class="text-secondary small fw-bold">Profiles Verified</div>
+                    </div>
+                </div>
+                <div class="col-6 col-md-3">
+                    <div class="stat-item glass-panel rounded-4">
+                        <div class="stat-number">99%</div>
+                        <div class="text-secondary small fw-bold">Success Rate</div>
+                    </div>
+                </div>
+                <div class="col-6 col-md-3">
+                    <div class="stat-item glass-panel rounded-4">
+                        <div class="stat-number">15+</div>
+                        <div class="text-secondary small fw-bold">Expert Services</div>
+                    </div>
+                </div>
+                <div class="col-6 col-md-3">
+                    <div class="stat-item glass-panel rounded-4">
+                        <div class="stat-number">24h</div>
+                        <div class="text-secondary small fw-bold">Avg. Turnaround</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Trusted By Accreditation Cards -->
+    <section class="accreditation-section border-bottom reveal">
+        <div class="container">
+            <div class="text-center mb-5">
+                <span class="text-secondary small fw-bold text-uppercase tracking-widest">Global Accreditation &
+                    Trust</span>
+                <div class="section-divider"></div>
+            </div>
+
+            <div class="marquee-container">
+                <div class="marquee-content">
+                    <!-- Logo Card 1: RCMP -->
+                    <div class="logo-card">
+                        <img src="assets/images/RMPC.jpeg" alt="RCMP Accreditation">
+                    </div>
+                    <!-- Logo Card 2: Government of Canada -->
+                    <div class="logo-card">
+                        <img src="assets/images/Government of canada.jpg" alt="Government of Canada">
+                    </div>
+                    <!-- Logo Card 3: BC Government -->
+                    <div class="logo-card">
+                        <img src="assets/images/BC Government Verified.jpeg" alt="BC Government Verified">
+                    </div>
+                    <!-- Logo Card 4: FBI Seal -->
+                    <div class="logo-card">
+                        <img src="assets/images/FBI approved partner.webp" alt="FBI approved partner">
+                    </div>
+                    <!-- Logo Card 5: Canada Post -->
+                    <div class="logo-card">
+                        <img src="assets/images/Canada Post Trusted Vendor.jpg" alt="Canada Post Trusted Vendor"
+                            style="height: 35px;">
+                    </div>
+
+                    <!-- Loop items (Duplicate for seamless effect) -->
+                    <div class="logo-card">
+                        <img src="assets/images/RMPC.jpeg" alt="RCMP">
+                    </div>
+                    <div class="logo-card">
+                        <img src="assets/images/Government of canada.jpg" alt="Gov Canada">
+                    </div>
+                    <div class="logo-card">
+                        <img src="assets/images/BC Government Verified.jpeg" alt="BC Gov">
+                    </div>
+                    <div class="logo-card">
+                        <img src="assets/images/FBI approved partner.webp" alt="FBI">
+                    </div>
+                    <div class="logo-card">
+                        <img src="assets/images/Canada Post Trusted Vendor.jpg" alt="Canada Post" style="height: 35px;">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SVG Divider Curve -->
+    <div class="section-divider-curve">
+        <svg viewBox="0 0 1440 320" preserveAspectRatio="none">
+            <path fill="#f8f9fa" fill-opacity="1"
+                d="M0,96L48,112C96,128,192,160,288,186.7C384,213,480,235,576,213.3C672,192,768,128,864,128C960,128,1056,192,1152,213.3C1248,235,1344,213,1392,202.7L1440,192L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z">
+            </path>
+        </svg>
+    </div>
+
+    <!-- Our Process Section -->
+    <section class="py-5 bg-light position-relative overflow-hidden reveal">
+        <div class="container py-5">
+            <div class="text-center mb-5">
+                <h2 class="display-5 fw-bold text-dark mb-3">Our Seamless Process</h2>
+                <p class="text-secondary mx-auto" style="max-width: 600px;">Getting your background check shouldn't be
+                    stressful. We've optimized every step for your convenience.</p>
+            </div>
+
+            <div class="row g-4 position-relative">
+                <!-- Step 1 -->
+                <div class="col-md-4">
+                    <div class="process-step">
+                        <div class="step-number">1</div>
+                        <h4 class="fw-bold text-dark mb-3 mt-3">Book Online</h4>
+                        <p class="text-secondary">Select your service and pick a convenient time slot through our
+                            real-time booking system.</p>
+                        <i
+                            class="fa-solid fa-calendar-check text-brand-green fa-2x opacity-25 position-absolute bottom-0 end-0 m-4"></i>
+                    </div>
+                </div>
+                <!-- Step 2 -->
+                <div class="col-md-4">
+                    <div class="process-step">
+                        <div class="step-number">2</div>
+                        <h4 class="fw-bold text-dark mb-3 mt-3">Visit & Verify</h4>
+                        <p class="text-secondary">Bring your ID to our Surrey office. Our certified technicians will
+                            handle your digital scanning in minutes.</p>
+                        <i
+                            class="fa-solid fa-fingerprint text-brand-green fa-2x opacity-25 position-absolute bottom-0 end-0 m-4"></i>
+                    </div>
+                </div>
+                <!-- Step 3 -->
+                <div class="col-md-4">
+                    <div class="process-step">
+                        <div class="step-number">3</div>
+                        <h4 class="fw-bold text-dark mb-3 mt-3">Fast Results</h4>
+                        <p class="text-secondary">We transmit your results directly to the RCMP/FBI, ensuring the
+                            fastest possible processing times.</p>
+                        <i
+                            class="fa-solid fa-paper-plane text-brand-green fa-2x opacity-25 position-absolute bottom-0 end-0 m-4"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Featured Services Section -->
+    <section id="services" class="py-5 bg-light">
+        <div class="container py-5">
+            <div class="text-center mb-5 animate-fade-in-up">
+                <h2 class="display-5 fw-bold text-dark mb-3">Our Featured Services</h2>
+                <p class="text-secondary mx-auto" style="max-width: 600px;">
+                    We provide a comprehensive range of identity verification and legal background services tailored to
+                    your needs.
+                </p>
+            </div>
+
+            <div class="row g-4 mb-5">
+                <!-- Service Card 1: Digital Fingerprinting -->
+                <div class="col-md-3 animate-fade-in-up" style="animation-delay: 0.1s;">
+                    <div class="card border-0 rounded-4 shadow-sm h-100 hover-scale">
+                        <div class="card-body p-4 text-center">
+                            <div class="bg-light rounded-circle d-flex align-items-center justify-content-center mx-auto mb-4"
+                                style="width: 70px; height: 70px;">
+                                <i class="fa-solid fa-fingerprint text-brand-green fs-3"></i>
+                            </div>
+                            <h5 class="fw-bold text-dark mb-3">Digital Fingerprinting</h5>
+                            <p class="text-secondary small mb-4">RCMP-accredited high-definition scanning for PR,
+                                Citizenship, and Employment checks.</p>
+                            <a href="services.html#service-5"
+                                class="btn btn-sm btn-outline-brand-green rounded-pill px-3 fw-bold">Read More</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Service Card 2: Name Change Application -->
+                <div class="col-md-3 animate-fade-in-up" style="animation-delay: 0.2s;">
+                    <div class="card border-0 rounded-4 shadow-sm h-100 hover-scale">
+                        <div class="card-body p-4 text-center">
+                            <div class="bg-light rounded-circle d-flex align-items-center justify-content-center mx-auto mb-4"
+                                style="width: 70px; height: 70px;">
+                                <i class="fa-solid fa-user-pen text-brand-green fs-3"></i>
+                            </div>
+                            <h5 class="fw-bold text-dark mb-3">Name Change Application</h5>
+                            <p class="text-secondary small mb-4">Complete legal assistance for surname and given name
+                                change applications with legal precision.</p>
+                            <a href="services.html#service-6"
+                                class="btn btn-sm btn-outline-brand-green rounded-pill px-3 fw-bold">Read More</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Service Card 3: Security License -->
+                <div class="col-md-3 animate-fade-in-up" style="animation-delay: 0.3s;">
+                    <div class="card border-0 rounded-4 shadow-sm h-100 hover-scale">
+                        <div class="card-body p-4 text-center">
+                            <div class="bg-light rounded-circle d-flex align-items-center justify-content-center mx-auto mb-4"
+                                style="width: 70px; height: 70px;">
+                                <i class="fa-solid fa-user-shield text-brand-green fs-3"></i>
+                            </div>
+                            <h5 class="fw-bold text-dark mb-3">Security License Application</h5>
+                            <p class="text-secondary small mb-4">End-to-end processing for security guard licenses,
+                                including fingerprinting and documentation.</p>
+                            <a href="services.html#service-8"
+                                class="btn btn-sm btn-outline-brand-green rounded-pill px-3 fw-bold">Read More</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Service Card 4: Ink & Roll -->
+                <div class="col-md-3 animate-fade-in-up" style="animation-delay: 0.4s;">
+                    <div class="card border-0 rounded-4 shadow-sm h-100 hover-scale">
+                        <div class="card-body p-4 text-center">
+                            <div class="bg-light rounded-circle d-flex align-items-center justify-content-center mx-auto mb-4"
+                                style="width: 70px; height: 70px;">
+                                <i class="fa-solid fa-hand text-brand-green fs-3"></i>
+                            </div>
+                            <h5 class="fw-bold text-dark mb-3">Ink and Roll Fingerprinting</h5>
+                            <p class="text-secondary small mb-4">Traditional ink-based fingerprinting for RCMP, FBI and
+                                various foreign government clearance applications.</p>
+                            <a href="services.html#service-10"
+                                class="btn btn-sm btn-outline-brand-green rounded-pill px-3 fw-bold">Read More</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="text-center animate-fade-in-up" style="animation-delay: 0.5s;">
+                <p class="text-secondary mb-4">Looking for something else? We offer a total of 11 professional services.
+                </p>
+                <a href="services.html" class="btn btn-brand-green text-white px-5 py-3 rounded-pill fw-bold shadow-lg">
+                    For more services, click here <i class="fa-solid fa-arrow-right-long ms-2"></i>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Why Choose Point Zero Section -->
+    <section class="py-5 bg-white reveal">
+        <div class="container py-5">
+            <div class="row g-5 align-items-center">
+                <div class="col-lg-6">
+                    <div class="badge bg-brand-green-light text-white rounded-pill px-4 py-2 mb-4 shadow-sm fw-bold">
+                        <i class="fa-solid fa-star me-2"></i>THE POINT ZERO ADVANTAGE
+                    </div>
+                    <h2 class="display-4 fw-bold text-dark mb-4">Why Thousands Trust Our <span
+                            class="text-brand-green">Verification Experts</span></h2>
+                    <p class="lead text-secondary mb-5">With over a decade of experience and government-grade
+                        technology, we provide the gold standard in biometric and background verification services.</p>
+
+                    <div class="d-flex flex-column gap-4">
+                        <div class="d-flex align-items-start gap-3">
+                            <div class="feature-icon-box flex-shrink-0">
+                                <i class="fa-solid fa-bolt"></i>
+                            </div>
+                            <div>
+                                <h5 class="fw-bold text-dark mb-1">Industry-Leading Speed</h5>
+                                <p class="text-secondary small mb-0">Our digital scanning process is up to 5x faster
+                                    than traditional ink-and-roll methods, with results transmitted instantly.</p>
+                            </div>
+                        </div>
+                        <div class="d-flex align-items-start gap-3">
+                            <div class="feature-icon-box flex-shrink-0">
+                                <i class="fa-solid fa-user-shield"></i>
+                            </div>
+                            <div>
+                                <h5 class="fw-bold text-dark mb-1">Privacy & Data Security</h5>
+                                <p class="text-secondary small mb-0">We employ bank-level encryption and strictly follow
+                                    RCMP-mandated privacy protocols to protect your sensitive data.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="row g-4">
+                        <div class="col-sm-6">
+                            <div class="feature-card-premium text-center">
+                                <div class="feature-icon-box mx-auto">
+                                    <i class="fa-solid fa-award"></i>
+                                </div>
+                                <h5 class="fw-bold text-dark mb-3">Certified Technicians</h5>
+                                <p class="text-secondary small mb-0">Fully trained and accredited by the RCMP to handle
+                                    digital fingerprinting with 100% precision.</p>
+                            </div>
+                        </div>
+                        <div class="col-sm-6 mt-sm-5">
+                            <div class="feature-card-premium text-center">
+                                <div class="feature-icon-box mx-auto">
+                                    <i class="fa-solid fa-globe"></i>
+                                </div>
+                                <h5 class="fw-bold text-dark mb-3">Global Recognition</h5>
+                                <p class="text-secondary small mb-0">Our results are accepted by immigration
+                                    authorities, law enforcement, and employers worldwide.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials / Google Reviews Section -->
+    <section class="py-5 bg-white reveal">
+        <div class="container py-5">
+            <div class="row align-items-center mb-5">
+                <div class="col-lg-7">
+                    <h2 class="display-5 fw-bold text-dark mb-0">Our Customers <span class="text-brand-green">Love
+                            Us</span></h2>
+                    <p class="text-secondary lead mt-3">Trusted by thousands for professional identity and background
+                        verification.</p>
+                </div>
+                <div class="col-lg-5 text-lg-end">
+                    <a href="#" class="btn btn-google shadow-sm">
+                        <img src="https://www.google.com/images/branding/googlelogo/2x/googlelogo_color_92x30dp.png"
+                            alt="Google" style="height: 18px;">
+                        <span>Give Your Review</span>
+                    </a>
+                </div>
+            </div>
+
+            <div class="row g-4">
+                <!-- Review 1 -->
+                <div class="col-md-4">
+                    <div class="testimonial-card">
+                        <div class="star-rating">
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                        </div>
+                        <p class="text-secondary small mb-0">"Amazing service! I was stressed about my PR fingerprints,
+                            but the team here made it so easy. Fast, professional, and very helpful. Highly recommend to
+                            anyone in Surrey!"</p>
+                        <div class="review-author d-flex align-items-center gap-3">
+                            <div class="author-initials">SP</div>
+                            <div>
+                                <h6 class="fw-bold mb-0">Shreya P.</h6>
+                                <p class="text-muted small mb-0">Local Guide</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Review 2 -->
+                <div class="col-md-4">
+                    <div class="testimonial-card">
+                        <div class="star-rating">
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                        </div>
+                        <p class="text-secondary small mb-0">"The online booking is a game changer. I showed up, was
+                            done in 10 minutes, and the staff was very courteous. Definitely the best fingerprinting
+                            experience I've had."</p>
+                        <div class="review-author d-flex align-items-center gap-3">
+                            <div class="author-initials">JK</div>
+                            <div>
+                                <h6 class="fw-bold mb-0">Jason K.</h6>
+                                <p class="text-muted small mb-0">Certified Professional</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Review 3 -->
+                <div class="col-md-4">
+                    <div class="testimonial-card">
+                        <div class="star-rating">
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                        </div>
+                        <p class="text-secondary small mb-0">"Professional and quick. They explained the whole process
+                            and ensured everything was accurate before I left. Great support for my background check
+                            requirements."</p>
+                        <div class="review-author d-flex align-items-center gap-3">
+                            <div class="author-initials">AM</div>
+                            <div>
+                                <h6 class="fw-bold mb-0">Arjun M.</h6>
+                                <p class="text-muted small mb-0">Verified Customer</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Latest Insights / Blog Section -->
+    <section id="blog" class="py-5 position-relative">
+        <div class="container py-5">
+            <div class="row align-items-end mb-5 animate-fade-in-up">
+                <div class="col-lg-8">
+                    <div
+                        class="d-inline-flex align-items-center gap-2 px-3 py-2 rounded-pill bg-white border text-brand-green fw-medium small mb-3">
+                        <i class="fa-solid fa-feather-pointed"></i> Stay Informed
+                    </div>
+                    <h2 class="display-5 fw-bold text-dark mb-0">Latest <span class="text-brand-green">Insights</span> &
+                        Blogs</h2>
+                    <p class="text-secondary mt-3 mb-0 lead">Expert advice and guides to help you navigate legal and
+                        professional identity requirements.</p>
+                </div>
+                <div class="col-lg-4 text-lg-end d-none d-lg-block">
+                    <a href="#" class="btn btn-outline-brand-green rounded-pill px-4 fw-bold">View All Posts <i
+                            class="fa-solid fa-arrow-up-right-from-square ms-2"></i></a>
+                </div>
+            </div>
+
+            <div class="row g-4">
+                <!-- Blog Post 1 -->
+                <div class="col-md-4 animate-fade-in-up" style="animation-delay: 0.1s;">
+                    <div class="card border-0 rounded-4 shadow-sm h-100 overflow-hidden hover-scale">
+                        <div class="position-relative" style="height: 200px; overflow: hidden;">
+                            <img src="https://images.unsplash.com/photo-1633265486064-086b219458ec?w=600&h=400&fit=crop&q=80"
+                                alt="Digital Fingerprinting" class="w-100 h-100" style="object-fit: cover;">
+                            <div class="position-absolute bottom-0 start-0 p-3">
+                                <span
+                                    class="badge bg-white text-brand-green rounded-pill px-3 shadow-sm">Technology</span>
+                            </div>
+                        </div>
+                        <div class="card-body p-4">
+                            <div class="text-muted small mb-2"><i class="fa-regular fa-calendar me-2"></i>Oct
+                                24, 2025</div>
+                            <h5 class="fw-bold text-dark mb-3">Digital Fingerprinting: The Gold Standard for PR
+                                & Citizenship</h5>
+                            <p class="text-secondary small mb-4">Discover why RCMP-accredited digital scanning
+                                is essential for modern applications and how it significantly reduces processing
+                                times...</p>
+                            <a href="https://www.canada.ca/en/immigration-refugees-citizenship/services/biometrics/when-to-give-permanent-residence.html"
+                                target="_blank"
+                                class="text-brand-green fw-bold text-decoration-none small stretched-link">Read
+                                Full Guide <i class="fa-solid fa-arrow-right ms-1"></i></a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Blog Post 2 -->
+                <div class="col-md-4 animate-fade-in-up" style="animation-delay: 0.2s;">
+                    <div class="card border-0 rounded-4 shadow-sm h-100 overflow-hidden hover-scale">
+                        <div class="position-relative" style="height: 200px; overflow: hidden;">
+                            <img src="https://images.unsplash.com/photo-1450101499163-c8848c66ca85?w=600&h=400&fit=crop&q=80"
+                                alt="Legal Documents" class="w-100 h-100" style="object-fit: cover;">
+                            <div class="position-absolute bottom-0 start-0 p-3">
+                                <span class="badge bg-white text-primary rounded-pill px-3 shadow-sm">Legal Guide</span>
+                            </div>
+                        </div>
+                        <div class="card-body p-4">
+                            <div class="text-muted small mb-2"><i class="fa-regular fa-calendar me-2"></i>Oct
+                                20, 2025</div>
+                            <h5 class="fw-bold text-dark mb-3">Step-by-Step: Navigating Name Change Applications
+                                in BC</h5>
+                            <p class="text-secondary small mb-4">Changing your legal name can be overwhelming.
+                                We break down the forms, fees, and fingerprinting requirements you need to
+                                know...</p>
+                            <a href="https://westsidefamilylaw.ca/blogs/family-law-blog/how-do-i-change-my-legal-name-in-bc-updated-2024"
+                                target="_blank"
+                                class="text-brand-green fw-bold text-decoration-none small stretched-link">Read
+                                Full Guide <i class="fa-solid fa-arrow-right ms-1"></i></a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Blog Post 3 -->
+                <div class="col-md-4 animate-fade-in-up" style="animation-delay: 0.3s;">
+                    <div class="card border-0 rounded-4 shadow-sm h-100 overflow-hidden hover-scale">
+                        <div class="position-relative" style="height: 200px; overflow: hidden;">
+                            <img src="https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=600&h=400&fit=crop&q=80"
+                                alt="Security Professional" class="w-100 h-100" style="object-fit: cover;">
+                            <div class="position-absolute bottom-0 start-0 p-3">
+                                <span class="badge bg-white text-dark rounded-pill px-3 shadow-sm">Career</span>
+                            </div>
+                        </div>
+                        <div class="card-body p-4">
+                            <div class="text-muted small mb-2"><i class="fa-regular fa-calendar me-2"></i>Oct
+                                15, 2025</div>
+                            <h5 class="fw-bold text-dark mb-3">5 Reasons to Pursue a Security License Career in
+                                Surrey</h5>
+                            <p class="text-secondary small mb-4">With growing demand for security professionals,
+                                getting licensed opens doors to diverse opportunities in public and private
+                                sectors...</p>
+                            <a href="https://sekcheck.ca/how-to-apply-for-security-license-in-surrey-bc/"
+                                target="_blank"
+                                class="text-brand-green fw-bold text-decoration-none small stretched-link">Read
+                                Full Guide <i class="fa-solid fa-arrow-right ms-1"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="py-5 bg-light position-relative overflow-hidden">
+        <div class="container py-5">
+            <div class="row g-5 align-items-center">
+                <div class="col-lg-6 animate-slide-in-left">
+                    <div class="pe-lg-5">
+                        <div
+                            class="d-inline-flex align-items-center gap-2 px-3 py-2 rounded-pill bg-white border text-brand-green fw-medium small mb-4">
+                            <i class="fa-solid fa-envelope"></i> Reach Out
+                        </div>
+                        <h2 class="display-5 fw-bold text-dark mb-4">Get in <span class="text-brand-green">Touch</span>
+                        </h2>
+                        <p class="text-secondary lead mb-5">Have unique requirements or need assistance with your
+                            application? Our team is ready to help you every step of the way.</p>
+
+                        <div class="d-flex align-items-center gap-4 mb-4 p-3 bg-white rounded-4 shadow-sm hover-scale">
+                            <div class="bg-light rounded-circle p-3 text-brand-green">
+                                <i class="fa-solid fa-phone fs-4"></i>
+                            </div>
+                            <div>
+                                <p class="text-muted small mb-0">Call Support</p>
+                                <p class="fw-bold text-dark mb-0 fs-5">(+1) 778-297-2000</p>
+                            </div>
+                        </div>
+
+                        <div class="d-flex align-items-center gap-4 mb-4 p-3 bg-white rounded-4 shadow-sm hover-scale">
+                            <div class="bg-light rounded-circle p-3 text-brand-green">
+                                <i class="fa-solid fa-location-dot fs-4"></i>
+                            </div>
+                            <div>
+                                <p class="text-muted small mb-0">Visit Newton Office</p>
+                                <p class="fw-bold text-dark mb-0 fs-5">203-12885 80th Avenue, Surrey, BC, V3W 0E6</p>
+                            </div>
+                        </div>
+
+                        <div class="d-flex align-items-center gap-3 mt-5">
+                            <a href="#" class="btn btn-light rounded-circle text-brand-green shadow-sm"><i
+                                    class="fa-brands fa-facebook-f"></i></a>
+                            <a href="#" class="btn btn-light rounded-circle text-brand-green shadow-sm"><i
+                                    class="fa-brands fa-instagram"></i></a>
+                            <a href="#" class="btn btn-light rounded-circle text-brand-green shadow-sm"><i
+                                    class="fa-brands fa-linkedin-in"></i></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6 animate-slide-in-right">
+                    <div class="card border-0 rounded-4 shadow-lg p-4 p-md-5">
+                        <form id="contact-form" class="row g-3">
+                            <div class="col-md-6">
+                                <label class="form-label fw-bold small text-secondary">First Name</label>
+                                <input type="text" name="firstName" required
+                                    class="form-control form-control-lg bg-light border-0">
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label fw-bold small text-secondary">Last Name</label>
+                                <input type="text" name="lastName"
+                                    class="form-control form-control-lg bg-light border-0">
+                            </div>
+                            <div class="col-12">
+                                <label class="form-label fw-bold small text-secondary">Email Address</label>
+                                <input type="email" name="email" required
+                                    class="form-control form-control-lg bg-light border-0">
+                            </div>
+                            <div class="col-12">
+                                <label class="form-label fw-bold small text-secondary">Select Service</label>
+                                <select name="service" class="form-select form-select-lg bg-light border-0">
+                                    <option selected>General Inquiry</option>
+                                    <option>Fingerprinting</option>
+                                    <option>Background Check</option>
+                                    <option>US Entry Waiver</option>
+                                </select>
+                            </div>
+                            <div class="col-12">
+                                <label class="form-label fw-bold small text-secondary">Your Message</label>
+                                <textarea name="message" required class="form-control bg-light border-0"
+                                    rows="4"></textarea>
+                            </div>
+                            <div class="col-12 mt-4">
+                                <button type="submit"
+                                    class="btn btn-brand-green text-white w-100 py-3 fw-bold rounded-pill shadow-lg">
+                                    Send Message <i class="fa-solid fa-paper-plane ms-2"></i>
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer-premium">
+        <!-- Subscription Bar -->
+        <div class="footer-sub-bar py-4">
+            <div class="container">
+                <div class="row align-items-center">
+                    <div class="col-lg-7 text-center text-lg-start mb-3 mb-lg-0">
+                        <h4 class="mb-1">Get New Jobs Notification!</h4>
+                        <p class="text-secondary small mb-0">Subscribe & get all related Services notification.</p>
+                    </div>
+                    <div class="col-lg-5">
+                        <form id="subscribe-form" class="d-flex shadow-sm">
+                            <input type="email" name="email" required class="footer-sub-input form-control">
+                            <button type="submit" class="footer-sub-btn">Subscribe</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Footer Content -->
+        <div class="container py-5">
+            <div class="row g-4 justify-content-between">
+                <!-- Column 1: Brand -->
+                <div class="col-lg-4 col-md-12">
+                    <div class="mb-4">
+                        <img src="assets/images/logo.jpg" alt="Point Zero" style="height: 75px;">
+                    </div>
+                    <p class="mb-4 lh-base" style="font-size: 0.9rem;">
+                        Point Zero Global Services – We started this company in the amidst of Lockdown because we
+                        analyzed the need for fingerprinting and security screening of the people as the crime is
+                        increasing in the country due... <a href="about.html"
+                            class="text-brand-green text-decoration-none">read more</a>
+                    </p>
+                </div>
+
+                <!-- Column 2: Quick Links -->
+                <div class="col-lg-2 col-md-4">
+                    <h5 class="footer-col-title">Quick Links</h5>
+                    <ul class="list-unstyled">
+                        <li class="footer-list-item"><a href="about.html" class="footer-link"><i
+                                    class="fa-solid fa-chevron-right"></i> About</a></li>
+                        <li class="footer-list-item"><a href="services.html" class="footer-link"><i
+                                    class="fa-solid fa-chevron-right"></i> Services</a></li>
+                        <li class="footer-list-item"><a href="#team" class="footer-link"><i
+                                    class="fa-solid fa-chevron-right"></i> Team</a></li>
+                        <li class="footer-list-item"><a href="#blog" class="footer-link"><i
+                                    class="fa-solid fa-chevron-right"></i> Latest News</a></li>
+                    </ul>
+                </div>
+
+                <!-- Column 3: Services -->
+                <div class="col-lg-3 col-md-4">
+                    <h5 class="footer-col-title">Services</h5>
+                    <ul class="list-unstyled">
+                        <li class="footer-list-item"><a href="services.html#service-3" class="footer-link"><i
+                                    class="fa-solid fa-chevron-right"></i> USA Entry Waiver</a></li>
+                        <li class="footer-list-item"><a href="services.html#service-10" class="footer-link"><i
+                                    class="fa-solid fa-chevron-right"></i> Ink & Roll Fingerprinting</a></li>
+                        <li class="footer-list-item"><a href="services.html#service-8" class="footer-link"><i
+                                    class="fa-solid fa-chevron-right"></i> Security License Application</a></li>
+                        <li class="footer-list-item"><a href="services.html#service-6" class="footer-link"><i
+                                    class="fa-solid fa-chevron-right"></i> Name Change Application</a></li>
+                        <li class="footer-list-item"><a href="services.html#service-4" class="footer-link"><i
+                                    class="fa-solid fa-chevron-right"></i> Police Certificate (ECPIC)</a></li>
+                    </ul>
+                </div>
+
+                <!-- Column 4: Contact Us -->
+                <div class="col-lg-3 col-md-4">
+                    <h5 class="footer-col-title">Contact Us</h5>
+                    <div class="contact-info-item d-flex align-items-start gap-2">
+                        <i class="fa-solid fa-envelope mt-1"></i>
+                        <a href="mailto:info@pzfingerprinting.com"
+                            class="text-decoration-none text-light opacity-75 small">info@pzfingerprinting.com</a>
+                    </div>
+                    <div class="contact-info-item d-flex align-items-start gap-2">
+                        <i class="fa-solid fa-location-dot mt-1"></i>
+                        <span class="opacity-75 small">Office: 203-12885 80th Avenue, Surrey, BC, V3W 0E6</span>
+                    </div>
+                    <div class="contact-info-item d-flex align-items-start gap-2">
+                        <i class="fa-solid fa-phone mt-1"></i>
+                        <span class="opacity-75 small">(+1) 778-297-2000</span>
+                    </div>
+                    <div class="d-flex gap-2 mt-4 pt-2">
+                        <a href="#" class="social-icon-circle"><i class="fa-brands fa-facebook-f"></i></a>
+                        <a href="#" class="social-icon-circle"><i class="fa-brands fa-twitter"></i></a>
+                        <a href="#" class="social-icon-circle"><i class="fa-brands fa-linkedin-in"></i></a>
+                        <a href="#" class="social-icon-circle"><i class="fa-brands fa-instagram"></i></a>
+                        <a href="#" class="social-icon-circle"><i class="fa-brands fa-youtube"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Bottom Bar -->
+        <div class="footer-bottom text-center">
+            <div class="container">
+                <p class="mb-0 opacity-75">© 2025 All Rights Reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Contact Form Submission
+        document.getElementById('contact-form').onsubmit = async (e) => {
+            e.preventDefault();
+            const formData = new FormData(e.target);
+            const data = Object.fromEntries(formData.entries());
+
+            const btn = e.target.querySelector('button[type="submit"]');
+            const originalText = btn.innerHTML;
+            btn.disabled = true;
+            btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Sending...';
+
+            try {
+                const response = await fetch('/api/contact', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(data)
+                });
+
+                if (response.ok) {
+                    alert('Message sent successfully!');
+                    e.target.reset();
+                } else {
+                    alert('Failed to send message. Please try again.');
+                }
+            } catch (err) {
+                console.error('Error:', err);
+                alert('Connection error. Is the server running?');
+            } finally {
+                btn.disabled = false;
+                btn.innerHTML = originalText;
+            }
+        };
+
+        // Subscribe Form Submission
+        document.getElementById('subscribe-form').onsubmit = async (e) => {
+            e.preventDefault();
+            const email = e.target.querySelector('input[name="email"]').value;
+
+            try {
+                const response = await fetch('/api/subscribe', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email })
+                });
+
+                if (response.ok) {
+                    alert('Thanks for subscribing!');
+                    e.target.reset();
+                }
+            } catch (err) {
+                console.error('Error:', err);
+            }
+        };
+
+        // Scroll animations visibility
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.animate-slide-in-left, .animate-slide-in-right, .animate-zoom-in').forEach(el => {
+            observer.observe(el);
+        });
+
+        // High-Level Fingerprint Scanning Simulation
+        window.addEventListener('load', () => {
+            const preloader = document.getElementById('preloader');
+            const scanProgress = document.getElementById('scan-progress');
+            const body = document.body;
+
+            // Animate the height of the green fingerprint to simulate scanning
+            let height = 0;
+            const interval = setInterval(() => {
+                height += 2; // Speed of scan
+                if (height <= 100) {
+                    scanProgress.style.height = height + '%';
+                } else {
+                    clearInterval(interval);
+                    // access granted effect
+                    setTimeout(() => {
+                        preloader.classList.add('hidden');
+                        body.classList.remove('overflow-hidden');
+                    }, 500);
+                }
+            }, 30); // ~1.5 seconds total
+        });
+    </script>
+    <!-- Master Interaction Suite -->
+    <script>
+        // 1. Glassmorphism Navbar Scroll Effect
+        const navbar = document.querySelector('.navbar');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+
+        // 2. Mouse Parallax for Background Elements
+        document.addEventListener('mousemove', (e) => {
+            const moveX = (e.clientX - window.innerWidth / 2) * 0.01;
+            const moveY = (e.clientY - window.innerHeight / 2) * 0.01;
+
+            const icons = document.querySelectorAll('.floating-icon');
+            icons.forEach((icon, index) => {
+                const depth = (index + 1) * 2;
+                icon.style.transform = `translate(${moveX * depth}px, ${moveY * depth}px) rotate(${moveX * 0.5}deg)`;
+            });
+
+            // Subtle parallax for background blobs too
+            const blobs = document.querySelectorAll('.bg-blob');
+            blobs.forEach((blob, index) => {
+                const depth = (index + 1) * 0.5;
+                blob.style.transform = `translate(${moveX * depth}px, ${moveY * depth}px)`;
+            });
+        });
+
+        // 3. Staggered Reveal Logic
+        function reveal() {
+            const reveals = document.querySelectorAll(".reveal, .reveal-left, .reveal-right");
+            const windowHeight = window.innerHeight;
+            const elementVisible = 100;
+
+            reveals.forEach(element => {
+                const elementTop = element.getBoundingClientRect().top;
+                if (elementTop < windowHeight - elementVisible) {
+                    element.classList.add("active");
+
+                    // Stagger any direct children that are cards or steps
+                    const children = element.querySelectorAll('.logo-card, .process-step, .stat-item, .card');
+                    children.forEach((child, index) => {
+                        setTimeout(() => {
+                            child.style.opacity = '1';
+                            child.style.transform = 'translateY(0)';
+                        }, index * 100);
+                    });
+                }
+            });
+        }
+
+        window.addEventListener("scroll", reveal);
+        window.addEventListener("load", reveal);
+        setTimeout(reveal, 500);
+    </script>
+    <!-- Accessibility Options -->
+    <script src="accessibility.js"></script>
+
+    <!-- Login Modal -->
+    <div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content border-0 shadow-lg" style="border-radius: 20px;">
+                <div class="modal-header border-0 pb-0">
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body p-5 pt-0">
+                    <div class="text-center mb-4">
+                        <img src="assets/images/logo.jpg" alt="Point Zero Global Services" style="height: 60px;"
+                            class="mb-3">
+                        <h3 class="fw-bold text-dark">Welcome back</h3>
+                        <p class="text-secondary">Please enter your details to sign in.</p>
+                    </div>
+
+                    <form id="loginForm" class="d-flex flex-column gap-3">
+                        <div>
+                            <label for="loginEmailOrPhone" class="form-label fw-medium text-secondary">Email or Phone
+                                Number</label>
+                            <input id="loginEmailOrPhone" type="text" required class="form-control form-control-lg"
+                                placeholder="Enter email or phone number">
+                        </div>
+
+                        <div>
+                            <label for="loginPassword" class="form-label fw-medium text-secondary">Password</label>
+                            <input id="loginPassword" type="password" required class="form-control form-control-lg">
+                        </div>
+
+                        <div class="d-flex align-items-center justify-content-between mb-2">
+                            <div class="form-check">
+                                <input id="rememberMe" name="rememberMe" type="checkbox" class="form-check-input">
+                                <label for="rememberMe" class="form-check-label text-secondary small">Remember
+                                    me</label>
+                            </div>
+                            <div>
+                                <a href="#" class="small fw-medium link-brand-green">Forgot password?</a>
+                            </div>
+                        </div>
+
+                        <button type="submit"
+                            class="btn btn-brand-green btn-aura text-white w-100 py-3 fw-semibold d-flex align-items-center justify-content-center gap-2 shadow-sm">
+                            Sign in <i class="fa-solid fa-arrow-right"></i>
+                        </button>
+                    </form>
+
+                    <p class="mt-4 text-center text-secondary small">
+                        Don't have an account? <a href="#" class="fw-medium link-brand-green" data-bs-dismiss="modal"
+                            data-bs-toggle="modal" data-bs-target="#signupModal">Sign up for free</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Signup Modal -->
+    <div class="modal fade" id="signupModal" tabindex="-1" aria-labelledby="signupModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content border-0 shadow-lg" style="border-radius: 20px;">
+                <div class="modal-header border-0 pb-0">
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body p-5 pt-0">
+                    <div class="text-center mb-4">
+                        <img src="assets/images/logo.jpg" alt="Point Zero Global Services" style="height: 60px;"
+                            class="mb-3">
+                        <h3 class="fw-bold text-dark">Create your account</h3>
+                        <p class="text-secondary">Join us to book appointments easily.</p>
+                    </div>
+
+                    <form id="signupForm" class="d-flex flex-column gap-3">
+                        <div class="row g-3">
+                            <div class="col-6">
+                                <label for="signupFirstName" class="form-label fw-medium text-secondary">First
+                                    name</label>
+                                <input id="signupFirstName" type="text" required class="form-control form-control-lg">
+                            </div>
+                            <div class="col-6">
+                                <label for="signupLastName" class="form-label fw-medium text-secondary">Last
+                                    name</label>
+                                <input id="signupLastName" type="text" required class="form-control form-control-lg">
+                            </div>
+                        </div>
+
+                        <div>
+                            <label for="signupEmail" class="form-label fw-medium text-secondary">Email address</label>
+                            <input id="signupEmail" type="email" required class="form-control form-control-lg">
+                        </div>
+
+                        <div>
+                            <label for="signupPhone" class="form-label fw-medium text-secondary">Phone Number</label>
+                            <input id="signupPhone" type="tel" required class="form-control form-control-lg"
+                                placeholder="+1 (555) 123-4567">
+                        </div>
+
+                        <div>
+                            <label for="signupPassword" class="form-label fw-medium text-secondary">Password</label>
+                            <input id="signupPassword" type="password" required class="form-control form-control-lg">
+                        </div>
+
+                        <div>
+                            <label for="signupConfirmPassword" class="form-label fw-medium text-secondary">Confirm
+                                password</label>
+                            <input id="signupConfirmPassword" type="password" required
+                                class="form-control form-control-lg">
+                        </div>
+
+                        <button type="submit"
+                            class="btn btn-brand-green btn-aura text-white w-100 py-3 fw-semibold d-flex align-items-center justify-content-center gap-2 shadow-sm">
+                            Create account <i class="fa-solid fa-arrow-right"></i>
+                        </button>
+                    </form>
+
+                    <p class="mt-4 text-center text-secondary small">
+                        Already have an account? <a href="#" class="fw-medium link-brand-green" data-bs-dismiss="modal"
+                            data-bs-toggle="modal" data-bs-target="#loginModal">Sign in</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+
+</html>

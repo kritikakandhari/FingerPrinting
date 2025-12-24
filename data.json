@@ -1,0 +1,30 @@
+{
+  "bookings": [
+    {
+      "id": 1766564943200,
+      "cancelToken": "1328b931-e0ea-4d02-afd6-efa486a1174d",
+      "name": "kritika",
+      "email": "kkandhari_be23@thapar.edu",
+      "phone": "7973644984",
+      "service": "FBI Background Check",
+      "date": "12/24/2025",
+      "time": "02:00 PM",
+      "status": "confirmed",
+      "createdAt": "2025-12-24T08:29:03.201Z"
+    },
+    {
+      "id": 1766565030035,
+      "cancelToken": "14a89ba8-c9c9-4530-8937-94bfdd5cb6e8",
+      "name": "kritika",
+      "email": "kkandhari_be23@thapar.edu",
+      "phone": "7973644984",
+      "service": "FBI Background Check",
+      "date": "12/24/2025",
+      "time": "04:30 PM",
+      "status": "confirmed",
+      "createdAt": "2025-12-24T08:30:30.035Z"
+    }
+  ],
+  "contacts": [],
+  "subscribers": []
+}
