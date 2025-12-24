@@ -464,6 +464,21 @@
 
             // Simulate Network Delay & Save to LocalStorage
             setTimeout(() => {
+                // 0. FINAL AVAILABILITY CHECK (Prevent Double Booking)
+                let globalCheck = JSON.parse(localStorage.getItem('globalReservations')) || [];
+                const isTaken = globalCheck.some(r => r.date === formObj.date && r.time === formObj.time);
+
+                if (isTaken) {
+                    alert('Apologies! This time slot was just booked by another user. Please select a different time.');
+                    btn.disabled = false;
+                    btn.innerHTML = originalText;
+
+                    // Reset UI to allow new selection
+                    // Reset step would require more complex state management, but refreshing availability is key
+                    fetchAvailability(); // This will visually disable the taken slot
+                    return;
+                }
+
                 // 1. Save to User History
                 let currentBookings = JSON.parse(localStorage.getItem('bookingHistory')) || [];
                 currentBookings.push(formObj);
