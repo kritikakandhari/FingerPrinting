@@ -386,12 +386,24 @@ body {
     display: none;
 }
 
-/* --- Typing Animation --- */
-.typing-line {
-    border-right: 4px solid var(--brand-green);
-    white-space: nowrap;
-    overflow: hidden;
-    animation: typing 3.5s steps(40, end), blink-caret .75s step-end infinite;
+/* --- Typing Animation (Desktop Only) --- */
+@media (min-width: 992px) {
+    .typing-line {
+        border-right: 4px solid var(--brand-green);
+        white-space: nowrap;
+        overflow: hidden;
+        animation: typing 3.5s steps(40, end), blink-caret .75s step-end infinite;
+    }
+}
+
+/* Ensure mobile text wraps normally and has no cursor artifact */
+@media (max-width: 991.98px) {
+    .typing-line {
+        white-space: normal !important;
+        border-right: none !important;
+        overflow: visible !important;
+        animation: none !important;
+    }
 }
 
 @keyframes typing {
