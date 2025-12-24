@@ -524,6 +524,11 @@ body {
     box-shadow: 0 15px 40px rgba(16, 185, 129, 0.1);
 }
 
+.process-step.active {
+    opacity: 1;
+    transform: translateY(0);
+}
+
 .step-number {
     position: absolute;
     top: -20px;
