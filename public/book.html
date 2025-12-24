@@ -414,16 +414,87 @@
             }
         }
 
-        // 2. Fetch Booked Slots
+        // 2. Fetch Booked Slots (Simulated Global DB)
         async function fetchAvailability() {
             try {
-                const res = await fetch('/api/booked-slots');
-                state.bookedSlots = await res.json();
+                // Simulate network delay
+                // const res = await fetch('/api/booked-slots'); 
+
+                // Read from LocalStorage "Global DB"
+                const globalBookings = JSON.parse(localStorage.getItem('globalReservations')) || [];
+                state.bookedSlots = globalBookings;
+
                 renderTimes(); // Refresh buttons
             } catch (err) {
                 console.error('Availability error:', err);
             }
         }
+
+        // ... (Date generation code remains matched by context if I don't touch it, but I need to be careful with range)
+
+        // ...
+
+        document.getElementById('booking-form').onsubmit = (e) => {
+            e.preventDefault();
+
+            // Check Authentication First
+            const userProfile = localStorage.getItem('userProfile');
+            if (!userProfile) {
+                alert('Please Sign In or Sign Up to complete your booking.');
+                return;
+            }
+
+            const formObj = {
+                id: Date.now(),
+                name: document.getElementById('booking-name').value,
+                email: document.getElementById('booking-email').value,
+                phone: document.getElementById('booking-phone').value,
+                dob: userProfile ? JSON.parse(userProfile).dob : 'N/A', // Add DOB
+                service: document.getElementById('booking-service').value,
+                date: state.selectedDate.toLocaleDateString('en-US'),
+                time: state.selectedTime,
+                status: 'Confirmed',
+                timestamp: new Date().toISOString()
+            };
+
+            const btn = e.target.querySelector('button[type="submit"]');
+            const originalText = btn.innerHTML;
+            btn.disabled = true;
+            btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Processing...';
+
+            // Simulate Network Delay & Save to LocalStorage
+            setTimeout(() => {
+                // 1. Save to User History
+                let currentBookings = JSON.parse(localStorage.getItem('bookingHistory')) || [];
+                currentBookings.push(formObj);
+                localStorage.setItem('bookingHistory', JSON.stringify(currentBookings));
+
+                // 2. Save to Global Reservations (For blocking slots)
+                let globalReservations = JSON.parse(localStorage.getItem('globalReservations')) || [];
+                globalReservations.push({
+                    date: formObj.date,
+                    time: formObj.time,
+                    service: formObj.service
+                });
+                localStorage.setItem('globalReservations', JSON.stringify(globalReservations));
+
+                // Success UI
+                state.step = 3;
+                document.getElementById('confirm-date').textContent = state.selectedDate.toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+                document.getElementById('confirm-time').textContent = state.selectedTime;
+                document.getElementById('confirm-email-display').textContent = formObj.email;
+                updateUI();
+
+                btn.disabled = false;
+                btn.innerHTML = originalText;
+            }, 1000);
+        };
+
+        // ...
+
+        // Start
+        checkCancellation();
+        fetchAvailability(); // Initialize Availability
 
         // Init Dates
         const dateContainer = document.getElementById('date-container');
@@ -533,52 +604,7 @@
             updateUI();
         };
 
-        document.getElementById('booking-form').onsubmit = (e) => {
-            e.preventDefault();
 
-            // Check Authentication First
-            const userProfile = localStorage.getItem('userProfile');
-            if (!userProfile) {
-                alert('Please Sign In or Sign Up to complete your booking.');
-                return;
-            }
-
-            const formObj = {
-                id: Date.now(),
-                name: document.getElementById('booking-name').value,
-                email: document.getElementById('booking-email').value,
-                phone: document.getElementById('booking-phone').value,
-                dob: userProfile ? JSON.parse(userProfile).dob : 'N/A', // Add DOB
-                service: document.getElementById('booking-service').value,
-                date: state.selectedDate.toLocaleDateString('en-US'),
-                time: state.selectedTime,
-                status: 'Confirmed',
-                timestamp: new Date().toISOString()
-            };
-
-            const btn = e.target.querySelector('button[type="submit"]');
-            const originalText = btn.innerHTML;
-            btn.disabled = true;
-            btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Processing...';
-
-            // Simulate Network Delay & Save to LocalStorage
-            setTimeout(() => {
-                // Save Booking
-                let currentBookings = JSON.parse(localStorage.getItem('bookingHistory')) || [];
-                currentBookings.push(formObj);
-                localStorage.setItem('bookingHistory', JSON.stringify(currentBookings));
-
-                // Success UI
-                state.step = 3;
-                document.getElementById('confirm-date').textContent = state.selectedDate.toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
-                document.getElementById('confirm-time').textContent = state.selectedTime;
-                document.getElementById('confirm-email-display').textContent = formObj.email;
-                updateUI();
-
-                btn.disabled = false;
-                btn.innerHTML = originalText;
-            }, 1000);
-        };
 
         function updateUI() {
             document.getElementById('step-1').classList.add('d-none');
