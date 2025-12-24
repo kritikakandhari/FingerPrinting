@@ -36,6 +36,10 @@ function updateAuthUI() {
             if (lastItem) navbarNav.insertBefore(profileLi, lastItem);
         }
 
+        // Legacy cleanup: Remove old hardcoded logout button if it exists
+        const legacyLogout = document.getElementById('logoutBtn');
+        if (legacyLogout && legacyLogout.closest('li')) legacyLogout.closest('li').remove();
+
         // Add Logout Button if not exists
         if (!document.getElementById('navLogoutBtn')) {
             const logoutLi = document.createElement('li');

@@ -33,13 +33,7 @@
                     <!-- Profile Link (Active) -->
                     <li class="nav-item"><a class="nav-link text-brand-green fw-bold active" href="profile.html">My
                             Profile</a></li>
-                    <li class="nav-item">
-                    <li class="nav-item">
-                        <button id="logoutBtn" class="btn btn-outline-danger btn-sm border-0 fw-medium">
-                            <i class="fa-solid fa-right-from-bracket"></i> Logout
-                        </button>
-                    </li>
-                    </li>
+
                     <li class="nav-item">
                         <a href="book.html"
                             class="btn btn-brand-green btn-aura text-white fw-semibold px-4 shadow-sm">Book
@@ -214,12 +208,7 @@
                 }
             });
 
-            // Logout
-            document.getElementById('logoutBtn').addEventListener('click', () => {
-                localStorage.removeItem('userProfile');
-                localStorage.removeItem('authToken');
-                window.location.href = 'index.html';
-            });
+
 
             // Load Bookings & Stats
             const bookings = JSON.parse(localStorage.getItem('bookingHistory')) || [];
