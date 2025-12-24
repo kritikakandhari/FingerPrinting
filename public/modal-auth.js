@@ -66,6 +66,11 @@ document.addEventListener('DOMContentLoaded', function () {
             const password = document.getElementById('signupPassword').value;
             const confirmPassword = document.getElementById('signupConfirmPassword').value;
 
+            if (!firstName || !lastName || !email || !dob || !phone || !password || !confirmPassword) {
+                alert('All fields are mandatory. Please fill in all details.');
+                return;
+            }
+
             if (password !== confirmPassword) {
                 alert('Passwords do not match!');
                 return;
