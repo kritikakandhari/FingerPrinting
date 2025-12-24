@@ -1236,17 +1236,51 @@ body {
 @media (max-width: 768px) {
     .accordion-wrapper {
         flex-direction: column;
-        height: 600px !important;
+        height: 700px !important;
+        /* Increased height for vertical stacking */
     }
 
     .accordion-card {
         width: 100%;
         min-height: 80px;
+        flex: 1;
     }
 
     .accordion-card:hover,
     .accordion-card.active {
-        flex: 3;
+        flex: 10;
+        /* Give considerably more space to active card on mobile */
+    }
+
+    .accordion-content {
+        padding: 1.5rem !important;
+    }
+
+    .accordion-content h3 {
+        font-size: 1.3rem;
+    }
+
+    .accordion-number {
+        width: 40px;
+        height: 40px;
+        font-size: 1rem !important;
+        margin: 1rem !important;
+    }
+
+    /* Scroll Reveal Mobile Tweaks */
+    .reveal-text {
+        font-size: 1.75rem !important;
+        /* Down from display-3 */
+        line-height: 1.4 !important;
+    }
+
+    .text-reveal-section .fa-fingerprint {
+        font-size: 200px !important;
+        /* Override inline 400px */
+    }
+
+    .text-reveal-section {
+        min-height: 50vh !important;
     }
 }
 
