@@ -426,9 +426,9 @@
                 // ALSO Read personal history for legacy bookings (Backward Compatibility)
                 // ALSO Read personal history for legacy bookings (Backward Compatibility)
                 const legacyHistory = JSON.parse(localStorage.getItem('bookingHistory')) || [];
-                // Fix: Ignore cancelled bookings
+                // Fix: Ignore cancelled bookings AND invalid entries
                 const legacyConverted = legacyHistory
-                    .filter(b => b.status !== 'Cancelled')
+                    .filter(b => b && b.date && b.time && b.status !== 'Cancelled')
                     .map(b => ({ date: b.date, time: b.time }));
 
                 // Combine both sources
