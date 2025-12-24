@@ -1144,9 +1144,32 @@ body {
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
 }
 
-.accordion-card:hover,
+/* Update: Only expand on active class, NOT hover */
 .accordion-card.active {
     flex: 6;
+    cursor: default;
+}
+
+/* Number Styling */
+.accordion-number {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(10px);
+    transition: all 0.4s ease;
+    opacity: 0.8;
+}
+
+.accordion-card.active .accordion-number {
+    background: var(--brand-green);
+    color: white !important;
+    opacity: 1;
+    transform: scale(1.1);
+    box-shadow: 0 10px 20px rgba(16, 185, 129, 0.3);
 }
 
 .accordion-card .overlay {
