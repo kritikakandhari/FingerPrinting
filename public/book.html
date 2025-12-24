@@ -529,7 +529,9 @@
 
             const isSelected = i === 0; // Default Select Today
             const btn = document.createElement('button');
-            btn.className = `btn flex-shrink-0 p-3 rounded-4 border text-center transition-all ${isSelected ? 'btn-brand-green border-brand-green text-white shadow' : 'btn-outline-light text-dark border-secondary-subtle'}`;
+            // FIX: Use btn-outline-secondary instead of btn-outline-light for better contrast on white background
+            // AND ensure text-dark is applied.
+            btn.className = `btn flex-shrink-0 p-3 rounded-4 border text-center transition-all ${isSelected ? 'btn-brand-green border-brand-green text-white shadow' : 'btn-outline-secondary text-dark border-secondary-subtle'}`;
             btn.style.width = '90px';
             btn.innerHTML = `
                 <div class="small fw-bold text-uppercase opacity-75">${d.toLocaleDateString('en-US', { weekday: 'short' })}</div>
@@ -539,7 +541,7 @@
 
             btn.onclick = () => {
                 Array.from(dateContainer.children).forEach(b => {
-                    b.className = 'btn flex-shrink-0 p-3 rounded-4 border text-center transition-all btn-outline-light text-dark border-secondary-subtle';
+                    b.className = 'btn flex-shrink-0 p-3 rounded-4 border text-center transition-all btn-outline-secondary text-dark border-secondary-subtle';
                 });
                 btn.className = 'btn flex-shrink-0 p-3 rounded-4 border text-center transition-all btn-brand-green border-brand-green text-white shadow';
                 state.selectedDate = d;
@@ -558,7 +560,8 @@
             const isToday = state.selectedDate.toDateString() === now.toDateString();
 
             timeSlots.forEach(time => {
-                const isBooked = state.bookedSlots.some(s => s.date === dateStr && s.time === time);
+                // Robust Check: Trim strings to avoid mismatches
+                const isBooked = state.bookedSlots.some(s => s.date.trim() === dateStr.trim() && s.time === time);
 
                 // Logic to check if time has passed
                 let isPast = false;
