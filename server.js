@@ -16,10 +16,14 @@ app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, 'public')));
 
 // Persistent Storage Helper
-const DATA_FILE = path.join(__dirname, 'data.json');
+// Persistent Storage Helper (Use /tmp in Vercel environment as root is read-only)
+const DATA_FILE = process.env.VERCEL
+    ? path.join('/tmp', 'data.json')
+    : path.join(__dirname, 'data.json');
 
 function getData() {
     if (!fs.existsSync(DATA_FILE)) {
+        // Initializes with empty structure if file missing
         return { bookings: [], contacts: [], subscribers: [] };
     }
     return JSON.parse(fs.readFileSync(DATA_FILE, 'utf8'));
@@ -29,6 +33,7 @@ function saveData(data) {
     fs.writeFileSync(DATA_FILE, JSON.stringify(data, null, 2));
 }
 
+// ... (Email Transporter setup remains the same)
 // Email Transporter
 const transporter = nodemailer.createTransport({
     host: process.env.EMAIL_HOST,
@@ -41,14 +46,19 @@ const transporter = nodemailer.createTransport({
 });
 
 // Routes
+// ... (Rest of routes remain the same)
 
 // 1. Serving Frontend
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
+// ... (Other routes: /api/book, /api/booked-slots, etc. - implied to be here)
+// Note: We are replacing the end of the file to handle export
+
 // 2. Booking API
 app.post('/api/book', async (req, res) => {
+    // ... (logic from original file)
     const { name, email, phone, service, date, time } = req.body;
 
     if (!name || !email || !date || !time) {
@@ -108,8 +118,6 @@ app.post('/api/book', async (req, res) => {
 
     try {
         await transporter.sendMail(mailOptions);
-
-        // Also send to User
         await transporter.sendMail({
             from: `"Point Zero" <${process.env.EMAIL_USER}>`,
             to: email,
@@ -159,7 +167,6 @@ app.post('/api/cancel-booking', async (req, res) => {
 
     console.log(`[CANCEL] Booking for ${booking.name} cancelled.`);
 
-    // Notify info@ email
     try {
         await transporter.sendMail({
             from: `"PZ System" <${process.env.EMAIL_USER}>`,
@@ -229,7 +236,6 @@ app.post('/api/subscribe', async (req, res) => {
 // 5. Auth APIs
 app.post('/api/login', (req, res) => {
     const { email, password } = req.body;
-    // Mock login logic
     if (email) {
         console.log(`[LOGIN] User ${email} logged in.`);
         return res.status(200).json({ token: 'mock-jwt-token', user: { email } });
@@ -243,8 +249,13 @@ app.post('/api/signup', (req, res) => {
     return res.status(200).json({ message: 'User created' });
 });
 
-// Start Server
-app.listen(PORT, () => {
-    console.log(`Server running at http://localhost:${PORT}`);
-    console.log('Serving static files from /public');
-});
+// Start Server (Only running listen if not in Vercel environment)
+if (require.main === module) {
+    app.listen(PORT, () => {
+        console.log(`Server running at http://localhost:${PORT}`);
+        console.log('Serving static files from /public');
+    });
+}
+
+// Export for Vercel
+module.exports = app;
