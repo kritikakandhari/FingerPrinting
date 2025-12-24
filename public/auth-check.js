@@ -55,8 +55,33 @@ function updateAuthUI() {
                 window.location.reload();
             });
         }
+        // Toggle Booking Buttons (Smart Links)
+        const bookingBtns = Array.from(document.querySelectorAll('a')).filter(a =>
+            a.textContent.includes('Book Appointment') ||
+            a.textContent.includes('Schedule Appointment') ||
+            a.textContent.includes('New Booking')
+        );
+
+        bookingBtns.forEach(btn => {
+            btn.removeAttribute('data-bs-toggle');
+            btn.removeAttribute('data-bs-target');
+            btn.href = 'book.html';
+        });
+
     } else {
         // User is Logged Out
+        // Reset Booking Buttons to trigger Login
+        const bookingBtns = Array.from(document.querySelectorAll('a')).filter(a =>
+            a.textContent.includes('Book Appointment') ||
+            a.textContent.includes('Schedule Appointment')
+        );
+
+        bookingBtns.forEach(btn => {
+            btn.setAttribute('data-bs-toggle', 'modal');
+            btn.setAttribute('data-bs-target', '#loginModal');
+            btn.href = '#';
+        });
+
         // Ensure Profile/Logout are gone
         if (profileLink && profileLink.parentElement.tagName === 'LI') profileLink.parentElement.remove();
         const logoutBtn = document.getElementById('navLogoutBtn');
