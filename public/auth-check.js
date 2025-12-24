@@ -67,17 +67,26 @@ function updateAuthUI() {
         );
 
         bookingBtns.forEach(btn => {
-            // Remove bootstrap triggers just in case
-            btn.removeAttribute('data-bs-toggle');
-            btn.removeAttribute('data-bs-target');
-            btn.href = 'book.html';
+            // Aggressive Fix: Clone the node to strip ALL event listeners (Bootstrap, etc.)
+            const newBtn = btn.cloneNode(true);
 
-            // Force click handling to override any lingering Bootstrap events
-            btn.onclick = function (e) {
+            // Clean attributes
+            newBtn.removeAttribute('data-bs-toggle');
+            newBtn.removeAttribute('data-bs-target');
+            newBtn.href = 'book.html';
+
+            // Add explicit click handler
+            newBtn.addEventListener('click', function (e) {
                 e.preventDefault();
                 e.stopPropagation();
+                e.stopImmediatePropagation();
                 window.location.href = 'book.html';
-            };
+            });
+
+            // Replace old button with new clean button
+            if (btn.parentNode) {
+                btn.parentNode.replaceChild(newBtn, btn);
+            }
         });
 
     } else {
