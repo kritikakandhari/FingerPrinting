@@ -60,14 +60,11 @@ function updateAuthUI() {
             });
         }
         // Toggle Booking Buttons (Smart Links)
-        const bookingBtns = Array.from(document.querySelectorAll('a')).filter(a =>
-            a.textContent.includes('Book Appointment') ||
-            a.textContent.includes('Schedule Appointment') ||
-            a.textContent.includes('New Booking')
-        );
+        // Select ALL links that target the login modal (more robust than text matching)
+        const bookingBtns = document.querySelectorAll('a[data-bs-target="#loginModal"]');
 
         bookingBtns.forEach(btn => {
-            // Aggressive Fix: Clone the node to strip ALL event listeners (Bootstrap, etc.)
+            // Aggressive Fix: Clone the node to strip ALL event listeners
             const newBtn = btn.cloneNode(true);
 
             // Clean attributes
