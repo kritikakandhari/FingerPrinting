@@ -265,9 +265,26 @@
             if (confirm('Are you sure you want to cancel this appointment?')) {
                 let bookings = JSON.parse(localStorage.getItem('bookingHistory')) || [];
                 const index = bookings.findIndex(b => b.id === id);
+
                 if (index !== -1) {
+                    const bookingToCancel = bookings[index];
+
+                    // 1. Update Status in User History
                     bookings[index].status = 'Cancelled';
                     localStorage.setItem('bookingHistory', JSON.stringify(bookings));
+
+                    // 2. Remove from Global Reservations (Release the slot)
+                    let globalReservations = JSON.parse(localStorage.getItem('globalReservations')) || [];
+                    const globalIndex = globalReservations.findIndex(r =>
+                        r.date === bookingToCancel.date &&
+                        r.time === bookingToCancel.time
+                    );
+
+                    if (globalIndex !== -1) {
+                        globalReservations.splice(globalIndex, 1);
+                        localStorage.setItem('globalReservations', JSON.stringify(globalReservations));
+                    }
+
                     window.location.reload();
                 }
             }

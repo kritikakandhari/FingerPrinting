@@ -424,8 +424,12 @@
                 const globalBookings = JSON.parse(localStorage.getItem('globalReservations')) || [];
 
                 // ALSO Read personal history for legacy bookings (Backward Compatibility)
+                // ALSO Read personal history for legacy bookings (Backward Compatibility)
                 const legacyHistory = JSON.parse(localStorage.getItem('bookingHistory')) || [];
-                const legacyConverted = legacyHistory.map(b => ({ date: b.date, time: b.time }));
+                // Fix: Ignore cancelled bookings
+                const legacyConverted = legacyHistory
+                    .filter(b => b.status !== 'Cancelled')
+                    .map(b => ({ date: b.date, time: b.time }));
 
                 // Combine both sources
                 state.bookedSlots = [...globalBookings, ...legacyConverted];
@@ -473,6 +477,8 @@
                 // 0. FINAL AVAILABILITY CHECK (Prevent Double Booking)
                 let globalCheck = JSON.parse(localStorage.getItem('globalReservations')) || [];
                 let legacyCheck = JSON.parse(localStorage.getItem('bookingHistory')) || [];
+                // Fix: Ignore cancelled bookings
+                legacyCheck = legacyCheck.filter(b => b.status !== 'Cancelled');
 
                 // Check both sources
                 const allBookings = [...globalCheck, ...legacyCheck];
