@@ -57,13 +57,19 @@
                 <div class="card border-0 rounded-4 shadow-sm h-100 animate-fade-in-up">
                     <div class="card-body p-4 text-center">
                         <div class="position-relative d-inline-block mb-3">
-                            <div class="rounded-circle bg-brand-green-subtle text-brand-green d-flex align-items-center justify-content-center"
-                                style="width: 100px; height: 100px; font-size: 2.5rem;">
-                                <i class="fa-solid fa-user"></i>
+                            <div class="rounded-circle overflow-hidden d-flex align-items-center justify-content-center bg-light border"
+                                style="width: 120px; height: 120px; border-width: 3px !important; border-color: var(--brand-green) !important;">
+                                <img id="profileImage" src="assets/images/default-avatar.png" alt="Profile"
+                                    style="width: 100%; height: 100%; object-fit: cover; display: none;">
+                                <i id="defaultIcon" class="fa-solid fa-user text-secondary"
+                                    style="font-size: 3rem;"></i>
                             </div>
-                            <div class="position-absolute bottom-0 end-0 bg-white rounded-circle p-1 shadow-sm">
-                                <i class="fa-solid fa-circle-check text-success fs-5"></i>
-                            </div>
+                            <label for="uploadAvatar"
+                                class="position-absolute bottom-0 end-0 bg-brand-green text-white rounded-circle p-2 shadow-sm cursor-pointer hover-scale"
+                                style="cursor: pointer; width: 35px; height: 35px; display: flex; align-items: center; justify-content: center;">
+                                <i class="fa-solid fa-camera small"></i>
+                            </label>
+                            <input type="file" id="uploadAvatar" accept="image/*" class="d-none">
                         </div>
                         <h4 class="fw-bold text-dark mb-1" id="profileName">Loading...</h4>
                         <p class="text-secondary small mb-3" id="profileEmail">user@example.com</p>
@@ -82,10 +88,60 @@
 
             <!-- Main Content / Booking History -->
             <div class="col-lg-8">
-                <div class="card border-0 rounded-4 shadow-sm animate-fade-in-up" style="animation-delay: 0.1s;">
-                    <div class="card-header bg-white border-bottom p-4">
+                <!-- Stats Row -->
+                <div class="row g-3 mb-4">
+                    <div class="col-md-4">
+                        <div class="card border-0 rounded-4 shadow-sm p-3 bg-brand-green text-white animate-fade-in-up">
+                            <div class="d-flex align-items-center gap-3">
+                                <div class="bg-white bg-opacity-25 rounded-circle p-3 d-flex align-items-center justify-content-center"
+                                    style="width: 50px; height: 50px;">
+                                    <i class="fa-solid fa-calendar-check fs-4"></i>
+                                </div>
+                                <div>
+                                    <h6 class="mb-0 opacity-75">Total Bookings</h6>
+                                    <h2 class="fw-bold mb-0" id="statTotal">0</h2>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card border-0 rounded-4 shadow-sm p-3 bg-white animate-fade-in-up"
+                            style="animation-delay: 0.1s;">
+                            <div class="d-flex align-items-center gap-3">
+                                <div class="bg-success-subtle text-success rounded-circle p-3 d-flex align-items-center justify-content-center"
+                                    style="width: 50px; height: 50px;">
+                                    <i class="fa-solid fa-clock fs-4"></i>
+                                </div>
+                                <div>
+                                    <h6 class="mb-0 text-secondary">Active / Upcoming</h6>
+                                    <h2 class="fw-bold mb-0 text-dark" id="statActive">0</h2>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card border-0 rounded-4 shadow-sm p-3 bg-white animate-fade-in-up"
+                            style="animation-delay: 0.2s;">
+                            <div class="d-flex align-items-center gap-3">
+                                <div class="bg-danger-subtle text-danger rounded-circle p-3 d-flex align-items-center justify-content-center"
+                                    style="width: 50px; height: 50px;">
+                                    <i class="fa-solid fa-ban fs-4"></i>
+                                </div>
+                                <div>
+                                    <h6 class="mb-0 text-secondary">Cancelled</h6>
+                                    <h2 class="fw-bold mb-0 text-dark" id="statCancelled">0</h2>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card border-0 rounded-4 shadow-sm animate-fade-in-up" style="animation-delay: 0.3s;">
+                    <div
+                        class="card-header bg-white border-bottom p-4 d-flex justify-content-between align-items-center">
                         <h5 class="fw-bold mb-0 text-dark"><i
-                                class="fa-solid fa-clock-rotate-left text-brand-green me-2"></i> Booking History</h5>
+                                class="fa-solid fa-clock-rotate-left text-brand-green me-2"></i> Recent Activity</h5>
+                        <small class="text-muted">History</small>
                     </div>
                     <div class="card-body p-0">
                         <div id="bookingList" class="list-group list-group-flush">
@@ -103,6 +159,7 @@
 
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="auth-check.js"></script>
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
@@ -118,6 +175,45 @@
             document.getElementById('profileEmail').textContent = user.email;
             document.getElementById('userIdDisplay').textContent = user.userId || 'N/A';
 
+            // Profile Picture Logic
+            const profileImg = document.getElementById('profileImage');
+            const defaultIcon = document.getElementById('defaultIcon');
+            const uploadInput = document.getElementById('uploadAvatar');
+
+            if (user.avatar) {
+                profileImg.src = user.avatar;
+                profileImg.style.display = 'block';
+                defaultIcon.style.display = 'none';
+            }
+
+            uploadInput.addEventListener('change', (e) => {
+                const file = e.target.files[0];
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onload = function (event) {
+                        const base64 = event.target.result;
+
+                        // Update UI
+                        profileImg.src = base64;
+                        profileImg.style.display = 'block';
+                        defaultIcon.style.display = 'none';
+
+                        // Save to Storage
+                        user.avatar = base64;
+                        localStorage.setItem('userProfile', JSON.stringify(user));
+
+                        // Also update in registeredUsers array
+                        const users = JSON.parse(localStorage.getItem('registeredUsers')) || [];
+                        const index = users.findIndex(u => u.email === user.email);
+                        if (index !== -1) {
+                            users[index].avatar = base64;
+                            localStorage.setItem('registeredUsers', JSON.stringify(users));
+                        }
+                    };
+                    reader.readAsDataURL(file);
+                }
+            });
+
             // Logout
             document.getElementById('logoutBtn').addEventListener('click', () => {
                 localStorage.removeItem('userProfile');
@@ -125,9 +221,18 @@
                 window.location.href = 'index.html';
             });
 
-            // Load Bookings
+            // Load Bookings & Stats
             const bookings = JSON.parse(localStorage.getItem('bookingHistory')) || [];
             const listContainer = document.getElementById('bookingList');
+
+            // Calculate Stats
+            const total = bookings.length;
+            const cancelled = bookings.filter(b => b.status === 'Cancelled').length;
+            const active = total - cancelled;
+
+            document.getElementById('statTotal').textContent = total;
+            document.getElementById('statActive').textContent = active;
+            document.getElementById('statCancelled').textContent = cancelled;
 
             if (bookings.length > 0) {
                 listContainer.innerHTML = ''; // Clear empty state

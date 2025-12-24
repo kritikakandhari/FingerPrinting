@@ -112,7 +112,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 const signupModal = bootstrap.Modal.getInstance(document.getElementById('signupModal'));
                 signupModal.hide();
 
-                window.location.href = 'book.html';
+                window.location.href = 'profile.html';
 
             }, 1500);
         });
