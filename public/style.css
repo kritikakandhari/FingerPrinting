@@ -1233,10 +1233,21 @@ body {
     transform: scale(1.1) rotate(5deg);
 }
 
-.accordion-card:hover,
-.accordion-card.active {
-    flex: 3;
-}
+@media (max-width: 768px) {
+    .accordion-wrapper {
+        flex-direction: column;
+        height: 600px !important;
+    }
+
+    .accordion-card {
+        width: 100%;
+        min-height: 80px;
+    }
+
+    .accordion-card:hover,
+    .accordion-card.active {
+        flex: 3;
+    }
 }
 
 /* Scroll Reveal Text Effect */
@@ -1245,10 +1256,10 @@ body {
 }
 
 .reveal-text {
-    /* The magic gradient: Green/Black on left, Light Gray on right */
+    /* The magic gradient: Black/Dark on left, Light Gray on right */
     background-image: linear-gradient(to right,
-            var(--brand-dark) 0%,
-            var(--brand-dark) var(--scroll),
+            #000000 0%,
+            #000000 var(--scroll),
             #d1d5db var(--scroll),
             #d1d5db 100%);
 

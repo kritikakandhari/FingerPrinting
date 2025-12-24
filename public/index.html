@@ -393,21 +393,24 @@
                 </a>
             </div>
         </div>
-        <!-- Horizontal Accordion Wrapper -->
-        <!-- ... (Accordion code remains) ... -->
-        </div>
     </section>
 
     <!-- Scroll Reveal Quote Section -->
-    <section class="text-reveal-section py-5 d-flex align-items-center justify-content-center"
+    <section
+        class="text-reveal-section py-5 d-flex align-items-center justify-content-center position-relative overflow-hidden"
         style="min-height: 60vh; background: #fcfcfc;">
-        <div class="container text-center">
-            <i class="fa-solid fa-quote-left text-brand-green mb-4 fs-1 opacity-25"></i>
-            <h2 class="reveal-text display-3 fw-bold lh-sm mb-4" style="max-width: 900px; margin: 0 auto;">
-                "Precision in every print, Security in every step. We verify your identity so you can move forward with
-                confidence."
+
+        <!-- Background Watermark -->
+        <div class="position-absolute top-50 start-50 translate-middle" style="opacity: 0.03; z-index: 0;">
+            <i class="fa-solid fa-fingerprint text-brand-green" style="font-size: 400px;"></i>
+        </div>
+
+        <div class="container text-center position-relative" style="z-index: 1;">
+            <!-- Quoted removed for minimal look as per reference -->
+            <h2 class="reveal-text display-3 fw-bold lh-sm mb-4 pe-3 ps-3"
+                style="max-width: 1000px; margin: 0 auto; line-height: 1.3;">
+                "Your Identity, Verified with Precision, Speed, Security, and Trust - All in One Place."
             </h2>
-            <p class="text-secondary fw-medium ls-1 text-uppercase small mt-3">- The Point Zero Promise</p>
         </div>
     </section>
 
