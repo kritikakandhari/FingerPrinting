@@ -61,6 +61,7 @@ document.addEventListener('DOMContentLoaded', function () {
             const firstName = document.getElementById('signupFirstName').value;
             const lastName = document.getElementById('signupLastName').value;
             const email = document.getElementById('signupEmail').value;
+            const dob = document.getElementById('signupDob').value; // Added DOB
             const phone = document.getElementById('signupPhone').value;
             const password = document.getElementById('signupPassword').value;
             const confirmPassword = document.getElementById('signupConfirmPassword').value;
@@ -91,6 +92,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     firstName,
                     lastName,
                     email,
+                    dob, // Save DOB
                     phone,
                     password, // In a real app, never store plain text passwords!
                     userId: 'FP-' + Math.floor(100000 + Math.random() * 900000),
@@ -115,4 +117,19 @@ document.addEventListener('DOMContentLoaded', function () {
             }, 1500);
         });
     }
+
+    // Forgot Password Handler (Delegated since likely reused)
+    document.addEventListener('click', function (e) {
+        if (e.target.matches('.modal-body a[href="#"]') && e.target.textContent.includes('Forgot password')) {
+            e.preventDefault();
+            const emailInput = document.getElementById('loginEmailOrPhone');
+            const email = emailInput ? emailInput.value : '';
+            if (email && email.includes('@')) {
+                alert(`Password reset link sent to ${email} (Mock)`);
+            } else {
+                const promptEmail = prompt("Please enter your email to reset password:");
+                if (promptEmail) alert(`Password reset link sent to ${promptEmail} (Mock)`);
+            }
+        }
+    });
 });

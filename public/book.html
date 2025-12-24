@@ -514,6 +514,18 @@
         document.getElementById('btn-step-1-next').onclick = () => {
             state.step = 2;
             updateUI();
+
+            // Auto-fill form if logged in
+            const userProfile = JSON.parse(localStorage.getItem('userProfile'));
+            if (userProfile) {
+                const nameInput = document.getElementById('booking-name');
+                const emailInput = document.getElementById('booking-email');
+                const phoneInput = document.getElementById('booking-phone');
+
+                if (nameInput && !nameInput.value) nameInput.value = userProfile.firstName + ' ' + userProfile.lastName;
+                if (emailInput && !emailInput.value) emailInput.value = userProfile.email;
+                if (phoneInput && !phoneInput.value && userProfile.phone) phoneInput.value = userProfile.phone;
+            }
         };
 
         document.getElementById('btn-step-2-back').onclick = () => {
@@ -536,6 +548,7 @@
                 name: document.getElementById('booking-name').value,
                 email: document.getElementById('booking-email').value,
                 phone: document.getElementById('booking-phone').value,
+                dob: userProfile ? JSON.parse(userProfile).dob : 'N/A', // Add DOB
                 service: document.getElementById('booking-service').value,
                 date: state.selectedDate.toLocaleDateString('en-US'),
                 time: state.selectedTime,
@@ -620,6 +633,23 @@
             })
             .catch(err => console.error('Failed to load auth modals:', err));
     </script>
+    <script>
+        // Load modal-auth.html content
+        fetch('modal-auth.html')
+            .then(response => response.text())
+            .then(html => {
+                document.body.insertAdjacentHTML('beforeend', html);
+                // Re-initialize scripts if needed or rely on global event delegation
+                // Dynamically load modal-auth.js if not present
+                if (!document.querySelector('script[src="modal-auth.js"]')) {
+                    const script = document.createElement('script');
+                    script.src = 'modal-auth.js';
+                    document.body.appendChild(script);
+                }
+            })
+            .catch(err => console.error('Failed to load auth modals:', err));
+    </script>
+    <script src="auth-check.js"></script>
 </body>
 
 </html>
