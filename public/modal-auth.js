@@ -17,36 +17,38 @@ document.addEventListener('DOMContentLoaded', function () {
             submitBtn.disabled = true;
             submitBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Signing in...';
 
-            // Simulate API Call (Mocking Auth)
+            // Simulate API Call (Client-Side Auth Logic)
             setTimeout(() => {
-                // Mock success
-                const isSuccess = true;
+                // Fetch registered users from storage
+                const users = JSON.parse(localStorage.getItem('registeredUsers')) || [];
 
-                if (isSuccess) {
-                    // Create Mock User Profile if not exists
-                    const mockUser = {
-                        firstName: 'Demo',
-                        lastName: 'User',
-                        email: emailOrPhone,
-                        userId: 'FP-' + Math.floor(100000 + Math.random() * 900000)
-                    };
+                // Find user by email (case insensitive)
+                const validUser = users.find(u => u.email.toLowerCase() === emailOrPhone.toLowerCase() && u.password === password);
 
-                    localStorage.setItem('authToken', 'mock-token-12345');
-                    localStorage.setItem('userProfile', JSON.stringify(mockUser));
+                if (validUser) {
+                    // Login Success
+                    localStorage.setItem('authToken', 'mock-token-' + Date.now());
+                    localStorage.setItem('userProfile', JSON.stringify(validUser));
 
-                    alert('Login successful!');
-                    // Close modal
+                    alert('Login successful! Welcome back, ' + validUser.firstName);
+
                     const modal = bootstrap.Modal.getInstance(document.getElementById('loginModal'));
                     modal.hide();
 
-                    // Redirect to Booking Page as requested
+                    // Redirect to Booking Page
                     window.location.href = 'book.html';
                 } else {
-                    alert('Login failed. Please check your credentials.');
+                    // Login Failed
+                    const userExists = users.some(u => u.email.toLowerCase() === emailOrPhone.toLowerCase());
+                    if (userExists) {
+                        alert('Incorrect password. Please try again.');
+                    } else {
+                        alert('Account not found. Please Sign Up first.');
+                    }
                     submitBtn.disabled = false;
                     submitBtn.innerHTML = originalText;
                 }
-            }, 1500);
+            }, 1000);
         });
     }
 
@@ -59,6 +61,7 @@ document.addEventListener('DOMContentLoaded', function () {
             const firstName = document.getElementById('signupFirstName').value;
             const lastName = document.getElementById('signupLastName').value;
             const email = document.getElementById('signupEmail').value;
+            const phone = document.getElementById('signupPhone').value;
             const password = document.getElementById('signupPassword').value;
             const confirmPassword = document.getElementById('signupConfirmPassword').value;
 
@@ -74,17 +77,35 @@ document.addEventListener('DOMContentLoaded', function () {
 
             // Simulate API Call
             setTimeout(() => {
+                const users = JSON.parse(localStorage.getItem('registeredUsers')) || [];
+
+                // Check if already exists
+                if (users.some(u => u.email.toLowerCase() === email.toLowerCase())) {
+                    alert('This email is already registered. Please Login.');
+                    submitBtn.disabled = false;
+                    submitBtn.innerHTML = originalText;
+                    return;
+                }
+
                 const newUser = {
                     firstName,
                     lastName,
                     email,
-                    userId: 'FP-' + Math.floor(100000 + Math.random() * 900000)
+                    phone,
+                    password, // In a real app, never store plain text passwords!
+                    userId: 'FP-' + Math.floor(100000 + Math.random() * 900000),
+                    joined: new Date().toISOString()
                 };
 
-                localStorage.setItem('authToken', 'mock-token-12345');
+                // Save to "DB"
+                users.push(newUser);
+                localStorage.setItem('registeredUsers', JSON.stringify(users));
+
+                // Auto-login after signup
+                localStorage.setItem('authToken', 'mock-token-' + Date.now());
                 localStorage.setItem('userProfile', JSON.stringify(newUser));
 
-                alert('Account created successfully! User ID: ' + newUser.userId);
+                alert('Account created successfully! Your User ID is ' + newUser.userId);
 
                 const signupModal = bootstrap.Modal.getInstance(document.getElementById('signupModal'));
                 signupModal.hide();
