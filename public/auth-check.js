@@ -75,10 +75,22 @@ function updateAuthUI() {
             if (lastItem) navbarNav.insertBefore(logoutLi, lastItem);
 
             // Bind Logout (Firebase SignOut)
-            document.getElementById('navLogoutBtn').addEventListener('click', () => {
-                firebase.auth().signOut().then(() => {
+            document.getElementById('navLogoutBtn').addEventListener('click', async (e) => {
+                e.preventDefault();
+                const btn = e.target.closest('button');
+                const originalText = btn.innerHTML;
+                btn.innerHTML = 'Signing out...';
+                btn.disabled = true;
+
+                try {
+                    await firebase.auth().signOut();
+                } catch (error) {
+                    console.error("Logout Error:", error);
+                } finally {
+                    localStorage.removeItem('userProfile');
+                    localStorage.removeItem('authToken');
                     window.location.reload();
-                });
+                }
             });
         }
 
