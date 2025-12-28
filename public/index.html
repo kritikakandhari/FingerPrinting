@@ -1122,15 +1122,68 @@
                         <p class="text-secondary">Join us to book appointments easily.</p>
                     </div>
 
-                    <!-- Google Sign Up ONLY -->
                     <div class="d-grid gap-2 mb-3">
                         <button id="googleSignupBtn"
-                            class="btn btn-outline-dark py-3 d-flex align-items-center justify-content-center gap-2 shadow-sm fs-5">
+                            class="btn btn-outline-dark py-2 d-flex align-items-center justify-content-center gap-2 shadow-sm">
                             <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google"
-                                style="width: 24px;">
+                                style="width: 20px;">
                             Sign up with Google
                         </button>
                     </div>
+
+                    <div class="d-flex align-items-center mb-3">
+                        <hr class="flex-grow-1">
+                        <span class="mx-2 text-secondary small">OR</span>
+                        <hr class="flex-grow-1">
+                    </div>
+
+                    <form id="signupForm" class="d-flex flex-column gap-3">
+                        <div class="row g-3">
+                            <div class="col-6">
+                                <label for="signupFirstName" class="form-label fw-medium text-secondary">First
+                                    name</label>
+                                <input id="signupFirstName" type="text" required class="form-control form-control-lg">
+                            </div>
+                            <div class="col-6">
+                                <label for="signupLastName" class="form-label fw-medium text-secondary">Last
+                                    name</label>
+                                <input id="signupLastName" type="text" required class="form-control form-control-lg">
+                            </div>
+                        </div>
+
+                        <div>
+                            <label for="signupEmail" class="form-label fw-medium text-secondary">Email address</label>
+                            <input id="signupEmail" type="email" required class="form-control form-control-lg">
+                        </div>
+
+                        <div>
+                            <label for="signupDob" class="form-label fw-medium text-secondary">Date of Birth</label>
+                            <input id="signupDob" type="date" required class="form-control form-control-lg">
+                        </div>
+
+                        <div>
+                            <label for="signupPhone" class="form-label fw-medium text-secondary">Phone Number</label>
+                            <input id="signupPhone" type="tel" required class="form-control form-control-lg"
+                                placeholder="+1 (555) 123-4567">
+                        </div>
+
+                        <div>
+                            <label for="signupPassword" class="form-label fw-medium text-secondary">Password</label>
+                            <input id="signupPassword" type="password" required class="form-control form-control-lg">
+                        </div>
+
+                        <div>
+                            <label for="signupConfirmPassword" class="form-label fw-medium text-secondary">Confirm
+                                password</label>
+                            <input id="signupConfirmPassword" type="password" required
+                                class="form-control form-control-lg">
+                        </div>
+
+                        <button type="submit"
+                            class="btn btn-brand-green btn-aura text-white w-100 py-3 fw-semibold d-flex align-items-center justify-content-center gap-2 shadow-sm">
+                            Create account <i class="fa-solid fa-arrow-right"></i>
+                        </button>
+                    </form>
 
                     <p class="mt-4 text-center text-secondary small">
                         Already have an account? <a href="#" class="fw-medium link-brand-green" data-bs-dismiss="modal"
@@ -1154,7 +1207,80 @@
     <!-- Custom JS -->
     <script src="main.js"></script>
     <!-- Modal Auth (with cache bust) -->
-    <script src="modal-auth.js?v=5"></script>
+    <script>
+        // --- Option 1: Verify with Google & Change Password ---
+        window.resetViaGoogle = async function () {
+            console.log("Starting Google Verification for Password Reset...");
+
+            if (typeof firebase === 'undefined' || !firebase.auth) {
+                alert("System connecting... please click again in 2 seconds.");
+                return;
+            }
+
+            const auth = firebase.auth();
+            const googleProvider = new firebase.auth.GoogleAuthProvider();
+
+            try {
+                // 1. Force Google Login to Verify Identity
+                const result = await auth.signInWithPopup(googleProvider);
+                const user = result.user;
+
+                console.log("User verified:", user.email);
+
+                // 2. Ask for New Password
+                const newPassword = prompt(`Verified as: ${user.email}\n\nPlease enter your NEW Password:`);
+
+                if (newPassword && newPassword.length >= 6) {
+                    await user.updatePassword(newPassword);
+                    alert("SUCCESS!\n\nYour password has been changed.\nYou are now logged in.");
+                    window.location.href = 'profile.html';
+                } else if (newPassword) {
+                    alert("Password must be at least 6 characters. Please try again.");
+                } else {
+                    alert("Action cancelled.");
+                }
+
+            } catch (error) {
+                console.error("Google Verification Error:", error);
+                if (error.code === 'auth/account-exists-with-different-credential') {
+                    alert("This account is protected. Please use the 'Send Reset Link' option below.");
+                } else {
+                    alert("Verification Failed: " + error.message);
+                }
+            }
+        };
+
+        // --- Option 2: Standard Email Link ---
+        window.resetViaEmail = async function () {
+            if (typeof firebase === 'undefined' || !firebase.auth) {
+                alert("System connecting... please wait.");
+                return;
+            }
+
+            const auth = firebase.auth();
+            const userInput = document.getElementById('loginEmailOrPhone');
+            let email = userInput ? userInput.value : '';
+
+            if (!email || email.trim() === "") {
+                email = prompt("Enter your registered email to receive the link:");
+            }
+
+            if (email) {
+                try {
+                    auth.languageCode = 'en';
+                    await auth.sendPasswordResetEmail(email.trim());
+                    alert(`Link Sent!\n\nCheck ${email} (and Spam folder) for the reset link.`);
+                } catch (error) {
+                    if (error.code === 'auth/user-not-found') {
+                        alert("Account not found. Please Sign Up.");
+                    } else {
+                        alert("Error: " + error.message);
+                    }
+                }
+            }
+        };
+    </script>
+    <script src="modal-auth.js?v=6"></script>
     <script src="auth-check.js?v=3"></script>
 </body>
 
