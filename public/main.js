@@ -70,5 +70,9 @@ document.addEventListener('DOMContentLoaded', () => {
             }, 3000); // Wait 3 seconds before hiding
         });
     }
+
+    // Manual Bootstrap Dropdown Initialization
+    const dropdownElementList = document.querySelectorAll('.dropdown-toggle');
+    const dropdownList = [...dropdownElementList].map(dropdownToggleEl => new bootstrap.Dropdown(dropdownToggleEl));
 });
 
