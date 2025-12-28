@@ -21,7 +21,8 @@ document.addEventListener('DOMContentLoaded', () => {
                     emailVerified: user.emailVerified
                 };
                 localStorage.setItem('userProfile', JSON.stringify(userProfile));
-                localStorage.setItem('authToken', 'firebase-token'); // Dummy token for checks
+                // Set token for checks
+                localStorage.setItem('authToken', 'firebase-token');
             } else {
                 // User is signed out.
                 localStorage.removeItem('userProfile');
@@ -38,7 +39,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // --- Sync State Across Tabs ---
     // This listener fires when localStorage is modified in ANOTHER tab/window.
     window.addEventListener('storage', (event) => {
-        if (event.key === 'userProfile' || event.key === 'authToken') {
+        if (event.key === 'userProfile' || event.key === 'authToken' || event.key === 'logoutEvent') {
             console.log("Auth state changed in another tab. Syncing...");
             // Reload to ensure full UI/logic reset (safest for auth changes)
             window.location.reload();
@@ -119,4 +120,29 @@ function updateAuthUI() {
         // the fact that they exist in the static HTML. If they were removed, a reload might be needed 
         // or we could reconstruct them, but typically a reload on logout handles this reset.
     }
+}
+
+async function handleLogout(e) {
+    if (e) e.preventDefault();
+    console.log("Signing out...");
+
+    // 1. Force a storage event for OTHER tabs immediately
+    localStorage.setItem('logoutEvent', Date.now());
+
+    // 2. Clear Local Storage
+    localStorage.removeItem('userProfile');
+    localStorage.removeItem('authToken');
+    localStorage.removeItem('tidycal_booking_data'); // Clear booking data specifically
+
+    // 3. Firebase SignOut
+    if (typeof firebase !== 'undefined' && firebase.auth) {
+        try {
+            await firebase.auth().signOut();
+        } catch (error) {
+            console.error("Logout Error:", error);
+        }
+    }
+
+    // 4. Reload Current Page
+    window.location.reload();
 }
