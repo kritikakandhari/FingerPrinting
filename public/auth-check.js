@@ -34,6 +34,16 @@ document.addEventListener('DOMContentLoaded', () => {
         console.error("Firebase not loaded! Auth check failed.");
         updateAuthUI();
     }
+
+    // --- Sync State Across Tabs ---
+    // This listener fires when localStorage is modified in ANOTHER tab/window.
+    window.addEventListener('storage', (event) => {
+        if (event.key === 'userProfile' || event.key === 'authToken') {
+            console.log("Auth state changed in another tab. Syncing...");
+            // Reload to ensure full UI/logic reset (safest for auth changes)
+            window.location.reload();
+        }
+    });
 });
 
 function updateAuthUI() {
