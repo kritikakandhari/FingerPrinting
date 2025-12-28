@@ -1052,51 +1052,73 @@
                         <hr class="flex-grow-1">
                     </div>
 
-                    <form id="loginForm" class="d-flex flex-column gap-3">
-                        <div>
-                            <label for="loginEmailOrPhone" class="form-label fw-medium text-secondary">Email or Phone
-                                Number</label>
-                            <input id="loginEmailOrPhone" type="text" required class="form-control form-control-lg"
-                                placeholder="Enter email or phone number">
-                        </div>
-
-                        <div>
-                            <label for="loginPassword" class="form-label fw-medium text-secondary">Password</label>
-                            <input id="loginPassword" type="password" required class="form-control form-control-lg">
-                        </div>
-
-                        <div class="d-flex align-items-center justify-content-between mb-2">
-                            <div class="form-check">
-                                <input id="rememberMe" name="rememberMe" type="checkbox" class="form-check-input">
-                                <label for="rememberMe" class="form-check-label text-secondary small">Remember
-                                    me</label>
+                    <!-- Step 1: Login Form (Default) -->
+                    <div id="loginStep1">
+                        <form id="loginForm" class="d-flex flex-column gap-3">
+                            <div>
+                                <label for="loginEmailOrPhone" class="form-label fw-medium text-secondary">Email or
+                                    Phone
+                                    Number</label>
+                                <input id="loginEmailOrPhone" type="text" required class="form-control form-control-lg"
+                                    placeholder="Enter email or phone number">
                             </div>
-                        </div>
 
-                        <button type="submit"
-                            class="btn btn-brand-green btn-aura text-white w-100 py-3 fw-semibold d-flex align-items-center justify-content-center gap-2 shadow-sm">
-                            Sign in <i class="fa-solid fa-arrow-right"></i>
-                        </button>
+                            <div>
+                                <label for="loginPassword" class="form-label fw-medium text-secondary">Password</label>
+                                <input id="loginPassword" type="password" required class="form-control form-control-lg">
+                            </div>
 
-                        <!-- Explicit Password Reset Options -->
-                        <div class="mt-4 pt-3 border-top">
-                            <p class="text-center text-secondary small fw-bold mb-2">Trouble signing in?</p>
+                            <div class="d-flex align-items-center justify-content-between mb-2">
+                                <div class="form-check">
+                                    <input id="rememberMe" name="rememberMe" type="checkbox" class="form-check-input">
+                                    <label for="rememberMe" class="form-check-label text-secondary small">Remember
+                                        me</label>
+                                </div>
+                            </div>
 
-                            <!-- Option 1: Google Verification (User Preferred) -->
-                            <button type="button" onclick="window.resetViaGoogle()"
-                                class="btn btn-outline-dark w-100 mb-2 d-flex align-items-center justify-content-center gap-2">
-                                <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="G"
-                                    style="width: 18px;">
-                                Verify ID & Change Password
+                            <button type="submit"
+                                class="btn btn-brand-green btn-aura text-white w-100 py-3 fw-semibold d-flex align-items-center justify-content-center gap-2 shadow-sm">
+                                Sign in <i class="fa-solid fa-arrow-right"></i>
                             </button>
 
-                            <!-- Option 2: Email Link -->
-                            <button type="button" onclick="window.resetViaEmail()"
-                                class="btn btn-link w-100 text-decoration-none text-muted small">
-                                Or send reset link to email
-                            </button>
+                            <!-- Explicit Password Reset Options -->
+                            <div class="mt-4 pt-3 border-top">
+                                <p class="text-center text-secondary small fw-bold mb-2">Trouble signing in?</p>
+
+                                <!-- Option 1: Google Verification (User Preferred) -->
+                                <button type="button" onclick="window.resetViaGoogle()"
+                                    class="btn btn-outline-dark w-100 mb-2 d-flex align-items-center justify-content-center gap-2">
+                                    <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg"
+                                        alt="G" style="width: 18px;">
+                                    Verify ID & Change Password
+                                </button>
+
+                                <!-- Option 2: Email Link -->
+                                <button type="button" onclick="window.resetViaEmail()"
+                                    class="btn btn-link w-100 text-decoration-none text-muted small">
+                                    Or send reset link to email
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <!-- Step 2: New Password Form (Hidden initially) -->
+                    <div id="resetPasswordStep2" class="d-none">
+                        <div class="alert alert-success small mb-3">
+                            <i class="fa-solid fa-check-circle"></i> Identity Verified! Set your new password.
                         </div>
-                    </form>
+                        <form id="resetPasswordForm" class="d-flex flex-column gap-3">
+                            <div>
+                                <label for="newResetPassword" class="form-label fw-medium text-secondary">New
+                                    Password</label>
+                                <input id="newResetPassword" type="password" required
+                                    class="form-control form-control-lg" placeholder="Min 6 characters">
+                            </div>
+                            <button type="submit" class="btn btn-brand-green w-100 py-3 fw-semibold shadow-sm">
+                                Update Password
+                            </button>
+                        </form>
+                    </div>
 
                     <p class="mt-3 text-center text-secondary small">
                         Don't have an account? <a href="#" class="fw-medium link-brand-green" data-bs-dismiss="modal"
@@ -1208,6 +1230,9 @@
     <script src="main.js"></script>
     <!-- Modal Auth (with cache bust) -->
     <script>
+        // Global User reference for password update
+        window.verifiedUserForReset = null;
+
         // --- Option 1: Verify with Google & Change Password ---
         window.resetViaGoogle = async function () {
             console.log("Starting Google Verification for Password Reset...");
@@ -1223,22 +1248,13 @@
             try {
                 // 1. Force Google Login to Verify Identity
                 const result = await auth.signInWithPopup(googleProvider);
-                const user = result.user;
+                window.verifiedUserForReset = result.user; // Store user
 
-                console.log("User verified:", user.email);
+                console.log("User verified:", window.verifiedUserForReset.email);
 
-                // 2. Ask for New Password
-                const newPassword = prompt(`Verified as: ${user.email}\n\nPlease enter your NEW Password:`);
-
-                if (newPassword && newPassword.length >= 6) {
-                    await user.updatePassword(newPassword);
-                    alert("SUCCESS!\n\nYour password has been changed.\nYou are now logged in.");
-                    window.location.href = 'profile.html';
-                } else if (newPassword) {
-                    alert("Password must be at least 6 characters. Please try again.");
-                } else {
-                    alert("Action cancelled.");
-                }
+                // 2. Switch UI to "New Password" Form
+                document.getElementById('loginStep1').classList.add('d-none');
+                document.getElementById('resetPasswordStep2').classList.remove('d-none');
 
             } catch (error) {
                 console.error("Google Verification Error:", error);
@@ -1249,6 +1265,34 @@
                 }
             }
         };
+
+        // Handle New Password Submission
+        document.addEventListener('submit', async (e) => {
+            if (e.target.id === 'resetPasswordForm') {
+                e.preventDefault();
+                const newPassword = document.getElementById('newResetPassword').value;
+
+                if (!window.verifiedUserForReset) {
+                    alert("Session expired. Please try verifying again.");
+                    window.location.reload();
+                    return;
+                }
+
+                if (newPassword.length < 6) {
+                    alert("Password must be at least 6 characters.");
+                    return;
+                }
+
+                try {
+                    await window.verifiedUserForReset.updatePassword(newPassword);
+                    alert("SUCCESS!\n\nYour password has been changed.\nYou are now logged in.");
+                    window.location.href = 'profile.html';
+                } catch (error) {
+                    console.error("Update Password Error:", error);
+                    alert("Failed to update password: " + error.message);
+                }
+            }
+        });
 
         // --- Option 2: Standard Email Link ---
         window.resetViaEmail = async function () {
