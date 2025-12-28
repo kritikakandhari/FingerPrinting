@@ -126,6 +126,11 @@
     </div>
 
     <!-- Bootstrap JS -->
+    <!-- Firebase SDKs -->
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
+    <script src="firebase-config.js"></script>
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="auth-check.js"></script>
 
@@ -190,9 +195,14 @@
             if (logoutBtn) {
                 logoutBtn.addEventListener('click', () => {
                     if (confirm('Are you sure you want to log out?')) {
-                        localStorage.removeItem('userProfile');
-                        localStorage.removeItem('authToken');
-                        window.location.href = 'index.html';
+                        firebase.auth().signOut().then(() => {
+                            window.location.href = 'index.html';
+                        }).catch(error => {
+                            console.error('Logout error:', error);
+                            // Fallback
+                            localStorage.clear();
+                            window.location.href = 'index.html';
+                        });
                     }
                 });
             }
