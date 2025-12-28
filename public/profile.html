@@ -75,6 +75,9 @@
                             <a href="book.html" class="btn btn-brand-green text-white fw-semibold rounded-pill">
                                 <i class="fa-solid fa-plus me-2"></i>New Booking
                             </a>
+                            <button id="sidebarLogoutBtn" class="btn btn-outline-danger fw-semibold rounded-pill">
+                                <i class="fa-solid fa-right-from-bracket me-2"></i>Logout
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -82,8 +85,8 @@
 
             <!-- Main Content / Booking Info -->
             <div class="col-lg-8">
-                <div class="card border-0 rounded-4 shadow-sm animate-fade-in-up">
-                    <div class="card-body p-5 text-center">
+                <div class="card border border-success-subtle rounded-4 shadow-sm animate-fade-in-up h-100">
+                    <div class="card-body p-5 text-center d-flex flex-column justify-content-center align-items-center">
                         <div class="mb-4">
                             <div class="d-inline-flex align-items-center justify-content-center bg-brand-green-subtle text-brand-green rounded-circle"
                                 style="width: 80px; height: 80px;">
@@ -182,6 +185,15 @@
 
 
             // Legacy booking logic removed.
+        });
+        // Sidebar Logout Logic
+        document.getElementById('sidebarLogoutBtn').addEventListener('click', () => {
+            if (confirm('Are you sure you want to log out?')) {
+                localStorage.removeItem('userProfile');
+                localStorage.removeItem('authToken');
+                window.location.href = 'index.html';
+            }
+        });
         });
     </script>
 </body>
