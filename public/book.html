@@ -107,8 +107,39 @@
         <div class="card shadow-lg border-0 rounded-4 overflow-hidden mx-auto" style="max-width: 1000px;">
             <div class="card-body p-0">
                 <!-- TidyCal Embed -->
-                <div class="tidycal-embed" data-path="pzfingerprinting/pzfingerprinting"></div>
-                <script src="https://asset-tidycal.b-cdn.net/js/embed.js" async></script>
+                <div id="tidycal-container" class="tidycal-embed" data-path="pzfingerprinting/pzfingerprinting"></div>
+
+                <script>
+                    // Dynamic TidyCal Embed with Pre-filled Data
+                    (function () {
+                        const container = document.getElementById('tidycal-container');
+                        let path = "pzfingerprinting/pzfingerprinting";
+
+                        // Check if user is logged in
+                        const userProfile = localStorage.getItem('userProfile');
+                        if (userProfile) {
+                            try {
+                                const user = JSON.parse(userProfile);
+                                const params = new URLSearchParams();
+                                if (user.email) params.append('email', user.email);
+                                if (user.firstName && user.lastName) params.append('name', user.firstName + ' ' + user.lastName);
+
+                                path += '?' + params.toString();
+                            } catch (e) {
+                                console.error('Error parsing user profile for TidyCal pre-fill', e);
+                            }
+                        }
+
+                        // Update the data-path attribute
+                        container.setAttribute('data-path', path);
+
+                        // Load the TidyCal script dynamically
+                        const script = document.createElement('script');
+                        script.src = "https://asset-tidycal.b-cdn.net/js/embed.js";
+                        script.async = true;
+                        document.body.appendChild(script);
+                    })();
+                </script>
             </div>
         </div>
     </div>
