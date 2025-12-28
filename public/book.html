@@ -284,22 +284,11 @@
             })
             .catch(err => console.error('Failed to load auth modals:', err));
     </script>
-    <script>
-        // Load modal-auth.html content
-        fetch('modal-auth.html')
-            .then(response => response.text())
-            .then(html => {
-                document.body.insertAdjacentHTML('beforeend', html);
-                // Re-initialize scripts if needed or rely on global event delegation
-                // Dynamically load modal-auth.js if not present
-                if (!document.querySelector('script[src="modal-auth.js"]')) {
-                    const script = document.createElement('script');
-                    script.src = 'modal-auth.js';
-                    document.body.appendChild(script);
-                }
-            })
-            .catch(err => console.error('Failed to load auth modals:', err));
-    </script>
+
+    <!-- Firebase SDKs -->
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
+    <script src="firebase-config.js"></script>
     <script src="auth-check.js"></script>
 </body>
 
