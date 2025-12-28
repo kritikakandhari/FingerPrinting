@@ -3,12 +3,13 @@
 // You can get these from the Firebase Console: Project Settings > General > Your Apps > SDK Setup/Config
 
 const firebaseConfig = {
-    apiKey: "YOUR_API_KEY_HERE",
-    authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
-    projectId: "YOUR_PROJECT_ID",
-    storageBucket: "YOUR_PROJECT_ID.appspot.com",
-    messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
-    appId: "YOUR_APP_ID"
+    apiKey: "AIzaSyBRdec0q7iULQhOE_l2sff1NfvM3WJxuus",
+    authDomain: "pz-fingerprinting.firebaseapp.com",
+    projectId: "pz-fingerprinting",
+    storageBucket: "pz-fingerprinting.firebasestorage.app",
+    messagingSenderId: "170864222606",
+    appId: "1:170864222606:web:a79135bce3af0f54b184df",
+    measurementId: "G-M56PNFBCLJ"
 };
 
 // Initialize Firebase
