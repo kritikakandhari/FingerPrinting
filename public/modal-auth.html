@@ -47,17 +47,22 @@
                             <label for="rememberMe" class="form-check-label text-secondary small">Remember
                                 me</label>
                         </div>
-                        <div>
-                            <button type="button" id="forgotPasswordBtn" onclick="triggerResetPassword()"
-                                class="btn btn-link p-0 text-decoration-none small fw-medium link-brand-green"
-                                style="z-index: 1055; position: relative;">Forgot password?</button>
-                        </div>
                     </div>
 
                     <button type="submit"
                         class="btn btn-brand-green btn-aura text-white w-100 py-3 fw-semibold d-flex align-items-center justify-content-center gap-2 shadow-sm">
                         Sign in <i class="fa-solid fa-arrow-right"></i>
                     </button>
+
+                    <!-- Moved Outside Flow for Safety -->
+                    <div class="text-center mt-3">
+                        <button type="button" id="forgotPasswordBtn"
+                            onclick="document.getElementById('fp-status').innerText='Starting...'; window.triggerResetPassword()"
+                            class="btn btn-link text-decoration-none fw-bold text-danger border p-2">
+                            Forgot Password? (Click Me)
+                        </button>
+                        <p id="fp-status" class="small text-muted mt-1"></p>
+                    </div>
                 </form>
 
                 <p class="mt-4 text-center text-secondary small">
