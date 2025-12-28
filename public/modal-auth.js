@@ -26,11 +26,30 @@ document.addEventListener('DOMContentLoaded', function () {
             try {
                 const result = await auth.signInWithPopup(googleProvider);
                 // You can save additional user info to Firestore here if needed
-                bootstrap.Modal.getInstance(document.getElementById('signupModal')).hide();
                 window.location.href = 'profile.html';
             } catch (error) {
                 console.error("Google Sign-Up Error:", error);
                 alert("Google Sign-Up failed: " + error.message);
+            }
+        });
+    }
+
+    // --- Forgot Password ---
+    const forgotPasswordBtn = document.getElementById('forgotPasswordBtn');
+    if (forgotPasswordBtn) {
+        forgotPasswordBtn.addEventListener('click', async (e) => {
+            e.preventDefault();
+            const email = document.getElementById('loginEmailOrPhone').value;
+            if (!email) {
+                alert("Please enter your email address in the box above so we can send you a reset link.");
+                return;
+            }
+            try {
+                await auth.sendPasswordResetEmail(email);
+                alert(`Password reset email sent to ${email}. Check your inbox!`);
+            } catch (error) {
+                console.error("Password Reset Error:", error);
+                alert("Error: " + error.message);
             }
         });
     }

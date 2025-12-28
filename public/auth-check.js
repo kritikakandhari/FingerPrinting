@@ -68,7 +68,7 @@ function updateAuthUI() {
             logoutLi.className = 'nav-item';
             logoutLi.innerHTML = `
                 <button id="navLogoutBtn" class="btn btn-link nav-link text-danger fw-medium" style="text-decoration: none;">
-                    <i class="fa-solid fa-right-from-bracket"></i> Logout
+                    <i class="fa-solid fa-right-from-bracket"></i> Sign Out
                 </button>
             `;
             const lastItem = navbarNav.lastElementChild;
