@@ -1,12 +1,24 @@
 // Modal Authentication JavaScript Handler (Firebase Version)
 // Using Event Delegation because modals are loaded dynamically via fetch()
 
+console.log("Modal Auth Script Loaded (v2)");
+
 document.addEventListener('click', async (e) => {
+    // Check if Firebase is loaded
+    if (typeof firebase === 'undefined' || !firebase.auth) {
+        console.error("Firebase SDK not loaded yet.");
+        if (e.target.closest('#googleLoginBtn') || e.target.closest('#googleSignupBtn')) {
+            alert("System is still loading... please wait 2 seconds and try again.");
+        }
+        return;
+    }
+
     const auth = firebase.auth();
     const googleProvider = new firebase.auth.GoogleAuthProvider();
 
     // --- Google Sign-In (Login Modal) ---
     if (e.target.closest('#googleLoginBtn')) {
+        console.log("Google Login Clicked");
         try {
             await auth.signInWithPopup(googleProvider);
             // Auth state change is handled in auth-check.js
