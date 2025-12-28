@@ -87,11 +87,18 @@ function updateAuthUI() {
             if (lastItem) navbarNav.insertBefore(logoutLi, lastItem);
         }
 
-        // Bind Logout (Firebase SignOut)
-        const logoutBtn = document.getElementById('navLogoutBtn');
-        if (logoutBtn) {
-            logoutBtn.removeEventListener('click', handleLogout); // Remove old listener if any to prevent duplicates
-            logoutBtn.addEventListener('click', handleLogout);
+        // Bind Logout (Firebase SignOut) - Navbar
+        const navLogoutBtn = document.getElementById('navLogoutBtn');
+        if (navLogoutBtn) {
+            navLogoutBtn.removeEventListener('click', handleLogout);
+            navLogoutBtn.addEventListener('click', handleLogout);
+        }
+
+        // Bind Logout (Firebase SignOut) - Sidebar (Profile Page)
+        const sidebarLogoutBtn = document.getElementById('sidebarLogoutBtn');
+        if (sidebarLogoutBtn) {
+            sidebarLogoutBtn.removeEventListener('click', handleLogout);
+            sidebarLogoutBtn.addEventListener('click', handleLogout);
         }
 
         // Smart Booking Buttons (Direct to book.html)
