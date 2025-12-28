@@ -1,3 +1,34 @@
+// Make it global so onclick works reliably
+window.triggerResetPassword = async function () {
+    console.log("Global Trigger Reset Password");
+    if (typeof firebase === 'undefined' || !firebase.auth) {
+        alert("System is still loading... please wait 2 seconds.");
+        return;
+    }
+    const auth = firebase.auth();
+    const emailInput = document.getElementById('loginEmailOrPhone');
+    let email = emailInput ? emailInput.value : '';
+
+    if (!email) {
+        email = prompt("Please enter your registered email address:");
+    }
+
+    if (email) {
+        try {
+            auth.languageCode = 'en';
+            await auth.sendPasswordResetEmail(email.trim());
+            alert(`SUCCESS! Password reset link sent to: ${email}\n\nPlease check your Inbox (and Spam folder).`);
+        } catch (error) {
+            console.error("Password Reset Error:", error);
+            if (error.code === 'auth/user-not-found') {
+                alert("Error: No account found with this email. Please Sign Up first.");
+            } else {
+                alert("Error sending reset email: " + error.message);
+            }
+        }
+    }
+};
+
 // Modal Authentication JavaScript Handler (Firebase Version)
 // Using Event Delegation because modals are loaded dynamically via fetch()
 
