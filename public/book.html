@@ -123,6 +123,7 @@
                                 const params = new URLSearchParams();
                                 if (user.email) params.append('email', user.email);
                                 if (user.firstName && user.lastName) params.append('name', user.firstName + ' ' + user.lastName);
+                                if (user.phone) params.append('phone', user.phone);
 
                                 path += '?' + params.toString();
                             } catch (e) {
