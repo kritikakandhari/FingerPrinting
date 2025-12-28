@@ -1,75 +1,78 @@
-// Modal Authentication JavaScript Handler
-// Handles form submissions for Login and Signup modals
-
+// Modal Authentication JavaScript Handler (Firebase Version)
 document.addEventListener('DOMContentLoaded', function () {
-    // Login Form Handler
+    const auth = firebase.auth();
+    const googleProvider = new firebase.auth.GoogleAuthProvider();
+
+    // --- Google Sign-In (Login Modal) ---
+    const googleLoginBtn = document.getElementById('googleLoginBtn');
+    if (googleLoginBtn) {
+        googleLoginBtn.addEventListener('click', async () => {
+            try {
+                await auth.signInWithPopup(googleProvider);
+                // Auth state change is handled in auth-check.js
+                bootstrap.Modal.getInstance(document.getElementById('loginModal')).hide();
+                window.location.href = 'book.html';
+            } catch (error) {
+                console.error("Google Sign-In Error:", error);
+                alert("Google Sign-In failed: " + error.message);
+            }
+        });
+    }
+
+    // --- Google Sign-In (Signup Modal) ---
+    const googleSignupBtn = document.getElementById('googleSignupBtn');
+    if (googleSignupBtn) {
+        googleSignupBtn.addEventListener('click', async () => {
+            try {
+                const result = await auth.signInWithPopup(googleProvider);
+                // You can save additional user info to Firestore here if needed
+                bootstrap.Modal.getInstance(document.getElementById('signupModal')).hide();
+                window.location.href = 'profile.html';
+            } catch (error) {
+                console.error("Google Sign-Up Error:", error);
+                alert("Google Sign-Up failed: " + error.message);
+            }
+        });
+    }
+
+    // --- Email Login ---
     const loginForm = document.getElementById('loginForm');
     if (loginForm) {
         loginForm.addEventListener('submit', async function (e) {
             e.preventDefault();
-
-            const emailOrPhone = document.getElementById('loginEmailOrPhone').value;
+            const email = document.getElementById('loginEmailOrPhone').value;
             const password = document.getElementById('loginPassword').value;
-            const rememberMe = document.getElementById('rememberMe').checked;
-
             const submitBtn = this.querySelector('button[type="submit"]');
             const originalText = submitBtn.innerHTML;
-            submitBtn.disabled = true;
-            submitBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Signing in...';
 
-            // Simulate API Call (Client-Side Auth Logic)
-            setTimeout(() => {
-                // Fetch registered users from storage
-                const users = JSON.parse(localStorage.getItem('registeredUsers')) || [];
+            try {
+                submitBtn.disabled = true;
+                submitBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Signing in...';
 
-                // Find user by email (case insensitive)
-                const validUser = users.find(u => u.email.toLowerCase() === emailOrPhone.toLowerCase() && u.password === password);
+                await auth.signInWithEmailAndPassword(email, password);
 
-                if (validUser) {
-                    // Login Success
-                    localStorage.setItem('authToken', 'mock-token-' + Date.now());
-                    localStorage.setItem('userProfile', JSON.stringify(validUser));
-
-                    alert('Sign In successful! Welcome back, ' + validUser.firstName);
-
-                    const modal = bootstrap.Modal.getInstance(document.getElementById('loginModal'));
-                    modal.hide();
-
-                    // Redirect to Booking Page
-                    window.location.href = 'book.html';
-                } else {
-                    // Login Failed
-                    const userExists = users.some(u => u.email.toLowerCase() === emailOrPhone.toLowerCase());
-                    if (userExists) {
-                        alert('Incorrect password. Please try again.');
-                    } else {
-                        alert('Account not found. Please Sign Up first.');
-                    }
-                    submitBtn.disabled = false;
-                    submitBtn.innerHTML = originalText;
-                }
-            }, 1000);
+                bootstrap.Modal.getInstance(document.getElementById('loginModal')).hide();
+                window.location.href = 'book.html';
+            } catch (error) {
+                console.error("Login Error:", error);
+                alert("Login failed: " + error.message);
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = originalText;
+            }
         });
     }
 
-    // Signup Form Handler
+    // --- Email Signup ---
     const signupForm = document.getElementById('signupForm');
     if (signupForm) {
-        signupForm.addEventListener('submit', function (e) {
+        signupForm.addEventListener('submit', async function (e) {
             e.preventDefault();
-
-            const firstName = document.getElementById('signupFirstName').value;
-            const lastName = document.getElementById('signupLastName').value;
             const email = document.getElementById('signupEmail').value;
-            const dob = document.getElementById('signupDob').value; // Added DOB
-            const phone = document.getElementById('signupPhone').value;
             const password = document.getElementById('signupPassword').value;
             const confirmPassword = document.getElementById('signupConfirmPassword').value;
-
-            if (!firstName || !lastName || !email || !dob || !phone || !password || !confirmPassword) {
-                alert('All fields are mandatory. Please fill in all details.');
-                return;
-            }
+            const firstName = document.getElementById('signupFirstName').value;
+            const lastName = document.getElementById('signupLastName').value;
+            const phone = document.getElementById('signupPhone').value; // Store in profile if needed?
 
             if (password !== confirmPassword) {
                 alert('Passwords do not match!');
@@ -78,63 +81,38 @@ document.addEventListener('DOMContentLoaded', function () {
 
             const submitBtn = this.querySelector('button[type="submit"]');
             const originalText = submitBtn.innerHTML;
-            submitBtn.disabled = true;
-            submitBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Creating account...';
 
-            // Simulate API Call
-            setTimeout(() => {
-                const users = JSON.parse(localStorage.getItem('registeredUsers')) || [];
+            try {
+                submitBtn.disabled = true;
+                submitBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Creating account...';
 
-                // Check if already exists
-                if (users.some(u => u.email.toLowerCase() === email.toLowerCase())) {
-                    alert('This email is already registered. Please Sign In.');
-                    submitBtn.disabled = false;
-                    submitBtn.innerHTML = originalText;
-                    return;
-                }
+                // 1. Create User
+                const userCredential = await auth.createUserWithEmailAndPassword(email, password);
+                const user = userCredential.user;
 
-                const newUser = {
-                    firstName,
-                    lastName,
-                    email,
-                    dob, // Save DOB
-                    phone,
-                    password, // In a real app, never store plain text passwords!
-                    userId: 'FP-' + Math.floor(100000 + Math.random() * 900000),
-                    joined: new Date().toISOString()
-                };
+                // 2. Update Profile (Display Name)
+                await user.updateProfile({
+                    displayName: `${firstName} ${lastName}`,
+                    // photoURL: ... if you want
+                });
 
-                // Save to "DB"
-                users.push(newUser);
-                localStorage.setItem('registeredUsers', JSON.stringify(users));
+                // 3. Send Verification Email
+                await user.sendEmailVerification();
+                alert(`Account created! A verification email has been sent to ${email}. Please verify before booking.`);
 
-                // Auto-login after signup
-                localStorage.setItem('authToken', 'mock-token-' + Date.now());
-                localStorage.setItem('userProfile', JSON.stringify(newUser));
-
-                alert('Account created successfully! Your User ID is ' + newUser.userId);
-
-                const signupModal = bootstrap.Modal.getInstance(document.getElementById('signupModal'));
-                signupModal.hide();
-
+                bootstrap.Modal.getInstance(document.getElementById('signupModal')).hide();
                 window.location.href = 'profile.html';
 
-            }, 1500);
+            } catch (error) {
+                console.error("Signup Error:", error);
+                let msg = "Signup failed: " + error.message;
+                if (error.code === 'auth/email-already-in-use') {
+                    msg = "This email is already registered. Please Sign In.";
+                }
+                alert(msg);
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = originalText;
+            }
         });
     }
-
-    // Forgot Password Handler (Delegated since likely reused)
-    document.addEventListener('click', function (e) {
-        if (e.target.matches('.modal-body a[href="#"]') && e.target.textContent.includes('Forgot password')) {
-            e.preventDefault();
-            const emailInput = document.getElementById('loginEmailOrPhone');
-            const email = emailInput ? emailInput.value : '';
-            if (email && email.includes('@')) {
-                alert(`Password reset link sent to ${email} (Mock)`);
-            } else {
-                const promptEmail = prompt("Please enter your email to reset password:");
-                if (promptEmail) alert(`Password reset link sent to ${promptEmail} (Mock)`);
-            }
-        }
-    });
 });
