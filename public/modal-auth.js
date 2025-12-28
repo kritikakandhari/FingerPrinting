@@ -49,21 +49,28 @@ document.addEventListener('click', async (e) => {
     // --- Forgot Password ---
     if (e.target.closest('#forgotPasswordBtn')) {
         e.preventDefault();
+        console.log("Forgot Password Clicked");
+
         const emailInput = document.getElementById('loginEmailOrPhone');
         let email = emailInput ? emailInput.value : '';
 
         if (!email) {
-            // User friendly: Ask for email if they didn't type it yet
-            email = prompt("Please enter your email address to reset your password:");
+            email = prompt("Please enter your registered email address:");
         }
 
         if (email) {
             try {
-                await auth.sendPasswordResetEmail(email);
-                alert(`Password reset link sent to ${email}.\nPlease check your Inbox (and Spam folder).`);
+                // Ensure language is set
+                auth.languageCode = 'en';
+                await auth.sendPasswordResetEmail(email.trim());
+                alert(`SUCCESS! Password reset link sent to: ${email}\n\nPlease check your Inbox (and Spam folder).`);
             } catch (error) {
                 console.error("Password Reset Error:", error);
-                alert("Error sending reset email: " + error.message);
+                if (error.code === 'auth/user-not-found') {
+                    alert("Error: No account found with this email. Please Sign Up first.");
+                } else {
+                    alert("Error sending reset email: " + error.message);
+                }
             }
         }
     }
