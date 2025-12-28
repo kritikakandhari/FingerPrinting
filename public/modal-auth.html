@@ -54,18 +54,27 @@
                         Sign in <i class="fa-solid fa-arrow-right"></i>
                     </button>
 
-                    <!-- Moved Outside Flow for Safety -->
-                    <div class="text-center mt-3">
-                        <button type="button" id="forgotPasswordBtn"
-                            onclick="document.getElementById('fp-status').innerText='Starting...'; window.triggerResetPassword()"
-                            class="btn btn-link text-decoration-none fw-bold text-danger border p-2">
-                            Forgot Password? (Click Me)
+                    <!-- Explicit Password Reset Options -->
+                    <div class="mt-4 pt-3 border-top">
+                        <p class="text-center text-secondary small fw-bold mb-2">Trouble signing in?</p>
+
+                        <!-- Option 1: Google Verification (User Preferred) -->
+                        <button type="button" onclick="window.resetViaGoogle()"
+                            class="btn btn-outline-dark w-100 mb-2 d-flex align-items-center justify-content-center gap-2">
+                            <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="G"
+                                style="width: 18px;">
+                            Verify ID & Change Password
                         </button>
-                        <p id="fp-status" class="small text-muted mt-1"></p>
+
+                        <!-- Option 2: Email Link -->
+                        <button type="button" onclick="window.resetViaEmail()"
+                            class="btn btn-link w-100 text-decoration-none text-muted small">
+                            Or send reset link to email
+                        </button>
                     </div>
                 </form>
 
-                <p class="mt-4 text-center text-secondary small">
+                <p class="mt-3 text-center text-secondary small">
                     Don't have an account? <a href="#" class="fw-medium link-brand-green" data-bs-dismiss="modal"
                         data-bs-toggle="modal" data-bs-target="#signupModal">Sign up for free</a>
                 </p>
@@ -161,72 +170,73 @@
 </div>
 
 <script>
-    // Inline script to guarantee function availability
-    window.triggerResetPassword = async function () {
-        console.log("Trigger Reset Password Flow");
+    // --- Option 1: Verify with Google & Change Password ---
+    window.resetViaGoogle = async function () {
+        console.log("Starting Google Verification for Password Reset...");
 
         if (typeof firebase === 'undefined' || !firebase.auth) {
-            alert("System is still connecting. Please wait 2 seconds.");
+            alert("System connecting... please click again in 2 seconds.");
             return;
         }
 
         const auth = firebase.auth();
         const googleProvider = new firebase.auth.GoogleAuthProvider();
 
-        // Standard Flow: Google Verification for Password Reset
-        const useGoogle = confirm("Secure Reset:\n\nClick OK to Verify with Google (Instant Password Change).\n\nClick Cancel to get a Reset Link via Email.");
+        try {
+            // 1. Force Google Login to Verify Identity
+            const result = await auth.signInWithPopup(googleProvider);
+            const user = result.user;
 
-        if (useGoogle) {
-            // Google Verification Flow
+            console.log("User verified:", user.email);
+
+            // 2. Ask for New Password
+            const newPassword = prompt(`Verified as: ${user.email}\n\nPlease enter your NEW Password:`);
+
+            if (newPassword && newPassword.length >= 6) {
+                await user.updatePassword(newPassword);
+                alert("SUCCESS!\n\nYour password has been changed.\nYou are now logged in.");
+                window.location.href = 'profile.html';
+            } else if (newPassword) {
+                alert("Password must be at least 6 characters. Please try again.");
+            } else {
+                alert("Action cancelled.");
+            }
+
+        } catch (error) {
+            console.error("Google Verification Error:", error);
+            if (error.code === 'auth/account-exists-with-different-credential') {
+                alert("This account is protected. Please use the 'Send Reset Link' option below.");
+            } else {
+                alert("Verification Failed: " + error.message);
+            }
+        }
+    };
+
+    // --- Option 2: Standard Email Link ---
+    window.resetViaEmail = async function () {
+        if (typeof firebase === 'undefined' || !firebase.auth) {
+            alert("System connecting... please wait.");
+            return;
+        }
+
+        const auth = firebase.auth();
+        const userInput = document.getElementById('loginEmailOrPhone');
+        let email = userInput ? userInput.value : '';
+
+        if (!email || email.trim() === "") {
+            email = prompt("Enter your registered email to receive the link:");
+        }
+
+        if (email) {
             try {
-                const result = await auth.signInWithPopup(googleProvider);
-                const user = result.user;
-
-                // User is now verified. Ask for new password.
-                const newPassword = prompt(`Verified as ${user.email}.\n\nPlease enter your NEW Password:`);
-
-                if (newPassword && newPassword.length >= 6) {
-                    await user.updatePassword(newPassword);
-                    alert("Success! Your password has been changed. You are now logged in.");
-                    window.location.href = 'profile.html';
-                } else if (newPassword) {
-                    alert("Password must be at least 6 characters.");
-                } else {
-                    alert("Password change cancelled.");
-                }
-
+                auth.languageCode = 'en';
+                await auth.sendPasswordResetEmail(email.trim());
+                alert(`Link Sent!\n\nCheck ${email} (and Spam folder) for the reset link.`);
             } catch (error) {
-                console.error("Google Verification Error:", error);
-
-                // Handle Account Linking Error (e.g. if they have password account but Google fails to link)
-                if (error.code === 'auth/account-exists-with-different-credential') {
-                    alert("This email is strictly protected by Password. Please use the Email Link option (Click Cancel next time).");
+                if (error.code === 'auth/user-not-found') {
+                    alert("Account not found. Please Sign Up.");
                 } else {
-                    alert("Verification Failed: " + error.message);
-                }
-            }
-        } else {
-            // Email Link Flow (Fallback)
-            const userInput = document.getElementById('loginEmailOrPhone');
-            let email = userInput ? userInput.value : '';
-
-            // Force ask if empty
-            if (!email || email.trim() === "") {
-                email = prompt("Please enter your registered email address:");
-            }
-
-            if (email) {
-                try {
-                    auth.languageCode = 'en';
-                    await auth.sendPasswordResetEmail(email.trim());
-                    alert("Email Sent! Please check your Inbox (and Spam) for the reset link.");
-                } catch (error) {
-                    console.error("Reset Error:", error);
-                    if (error.code === 'auth/user-not-found') {
-                        alert("Error: We could not find an account with that email. Please Sign Up first.");
-                    } else {
-                        alert("Error: " + error.message);
-                    }
+                    alert("Error: " + error.message);
                 }
             }
         }
