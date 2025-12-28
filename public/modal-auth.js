@@ -128,6 +128,12 @@ document.addEventListener('submit', async (e) => {
                 displayName: `${firstName} ${lastName}`,
             });
 
+            // Save phone to localStorage so auth-check.js can pick it up
+            const phone = document.getElementById('signupPhone').value;
+            localStorage.setItem('userProfile', JSON.stringify({
+                phone: phone
+            }));
+
             // 3. Send Verification Email
             await user.sendEmailVerification();
             alert(`Account created! A verification email has been sent to ${email}. Please verify before booking.`);

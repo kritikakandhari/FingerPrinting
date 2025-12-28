@@ -10,13 +10,14 @@ document.addEventListener('DOMContentLoaded', () => {
         firebase.auth().onAuthStateChanged(user => {
             if (user) {
                 // User is signed in.
+                const existingProfile = JSON.parse(localStorage.getItem('userProfile')) || {};
                 const userProfile = {
                     firstName: user.displayName ? user.displayName.split(' ')[0] : 'Member',
                     lastName: user.displayName ? user.displayName.split(' ').slice(1).join(' ') : '',
                     email: user.email,
                     avatar: user.photoURL,
                     userId: user.uid,
-                    phone: user.phoneNumber,
+                    phone: user.phoneNumber || existingProfile.phone || '', // Persist phone if exists locally
                     emailVerified: user.emailVerified
                 };
                 localStorage.setItem('userProfile', JSON.stringify(userProfile));
