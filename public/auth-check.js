@@ -84,25 +84,13 @@ function updateAuthUI() {
             `;
             const lastItem = navbarNav.lastElementChild;
             if (lastItem) navbarNav.insertBefore(logoutLi, lastItem);
+        }
 
-            // Bind Logout (Firebase SignOut)
-            document.getElementById('navLogoutBtn').addEventListener('click', async (e) => {
-                e.preventDefault();
-                const btn = e.target.closest('button');
-                const originalText = btn.innerHTML;
-                btn.innerHTML = 'Signing out...';
-                btn.disabled = true;
-
-                try {
-                    await firebase.auth().signOut();
-                } catch (error) {
-                    console.error("Logout Error:", error);
-                } finally {
-                    localStorage.removeItem('userProfile');
-                    localStorage.removeItem('authToken');
-                    window.location.reload();
-                }
-            });
+        // Bind Logout (Firebase SignOut)
+        const logoutBtn = document.getElementById('navLogoutBtn');
+        if (logoutBtn) {
+            logoutBtn.removeEventListener('click', handleLogout); // Remove old listener if any to prevent duplicates
+            logoutBtn.addEventListener('click', handleLogout);
         }
 
         // Smart Booking Buttons (Direct to book.html)
