@@ -65,6 +65,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 preloader.classList.add('hidden');
                 setTimeout(() => {
                     preloader.remove();
+                    document.body.classList.remove('overflow-hidden');
                 }, 500); // Transition duration
             }, 3000); // Wait 3 seconds before hiding
         });
