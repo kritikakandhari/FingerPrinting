@@ -71,8 +71,16 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Manual Bootstrap Dropdown Initialization
-    const dropdownElementList = document.querySelectorAll('.dropdown-toggle');
-    const dropdownList = [...dropdownElementList].map(dropdownToggleEl => new bootstrap.Dropdown(dropdownToggleEl));
+    // Explicitly handle Services Dropdown to ensure it works
+    const servicesDropdown = document.getElementById('servicesDropdown');
+    if (servicesDropdown) {
+        servicesDropdown.addEventListener('click', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+            // Use Bootstrap's static method to get or create the instance and toggle it
+            const bsDropdown = bootstrap.Dropdown.getOrCreateInstance(this);
+            bsDropdown.toggle();
+        });
+    }
 });
 
