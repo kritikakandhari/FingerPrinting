@@ -131,25 +131,28 @@ function updateAuthUI() {
 
 async function handleLogout(e) {
     if (e) e.preventDefault();
-    console.log("Signing out...");
+    console.log("Logging out started...");
 
-    // 1. Force a storage event for OTHER tabs immediately
+    // 1. Force a storage event for OTHER tabs
     localStorage.setItem('logoutEvent', Date.now());
 
-    // 2. Clear Local Storage
+    // 2. Clear Local Storage (The UI state)
     localStorage.removeItem('userProfile');
     localStorage.removeItem('authToken');
-    localStorage.removeItem('tidycal_booking_data'); // Clear booking data specifically
+    localStorage.removeItem('tidycal_booking_data');
 
-    // 3. Firebase SignOut
+    // 3. Attempt Firebase SignOut (Fire & Forget logic with safety)
     if (typeof firebase !== 'undefined' && firebase.auth) {
-        try {
-            await firebase.auth().signOut();
-        } catch (error) {
-            console.error("Logout Error:", error);
-        }
+        // We do NOT await this indefinitely to prevent hanging.
+        firebase.auth().signOut().catch(err => console.error("Firebase SignOut Warning:", err));
     }
 
-    // 4. Reload Current Page
-    window.location.reload();
+    // 4. Force Redirect immediately/shortly
+    // We don't wait for Firebase network request to finish.
+    // The local storage clear is enough to "sign out" the user on this device.
+    setTimeout(() => {
+        console.log("Redirecting to home...");
+        window.location.href = 'index.html';
+    }, 100);
 }
+```
