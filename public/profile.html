@@ -80,70 +80,41 @@
                 </div>
             </div>
 
-            <!-- Main Content / Booking History -->
+            <!-- Main Content / Booking Info -->
             <div class="col-lg-8">
-                <!-- Stats Row -->
-                <div class="row g-3 mb-4">
-                    <div class="col-md-4">
-                        <div class="card border-0 rounded-4 shadow-sm p-3 bg-brand-green text-white animate-fade-in-up">
-                            <div class="d-flex align-items-center gap-3">
-                                <div class="bg-white bg-opacity-25 rounded-circle p-3 d-flex align-items-center justify-content-center"
-                                    style="width: 50px; height: 50px;">
-                                    <i class="fa-solid fa-calendar-check fs-4"></i>
-                                </div>
-                                <div>
-                                    <h6 class="mb-0 opacity-75">Total Bookings</h6>
-                                    <h2 class="fw-bold mb-0" id="statTotal">0</h2>
-                                </div>
+                <div class="card border-0 rounded-4 shadow-sm animate-fade-in-up">
+                    <div class="card-body p-5 text-center">
+                        <div class="mb-4">
+                            <div class="d-inline-flex align-items-center justify-content-center bg-brand-green-subtle text-brand-green rounded-circle"
+                                style="width: 80px; height: 80px;">
+                                <i class="fa-regular fa-calendar-check fa-2x"></i>
                             </div>
                         </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="card border-0 rounded-4 shadow-sm p-3 bg-white animate-fade-in-up"
-                            style="animation-delay: 0.1s;">
-                            <div class="d-flex align-items-center gap-3">
-                                <div class="bg-success-subtle text-success rounded-circle p-3 d-flex align-items-center justify-content-center"
-                                    style="width: 50px; height: 50px;">
-                                    <i class="fa-solid fa-clock fs-4"></i>
-                                </div>
-                                <div>
-                                    <h6 class="mb-0 text-secondary">Active / Upcoming</h6>
-                                    <h2 class="fw-bold mb-0 text-dark" id="statActive">0</h2>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="card border-0 rounded-4 shadow-sm p-3 bg-white animate-fade-in-up"
-                            style="animation-delay: 0.2s;">
-                            <div class="d-flex align-items-center gap-3">
-                                <div class="bg-danger-subtle text-danger rounded-circle p-3 d-flex align-items-center justify-content-center"
-                                    style="width: 50px; height: 50px;">
-                                    <i class="fa-solid fa-ban fs-4"></i>
-                                </div>
-                                <div>
-                                    <h6 class="mb-0 text-secondary">Cancelled</h6>
-                                    <h2 class="fw-bold mb-0 text-dark" id="statCancelled">0</h2>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                        <h3 class="fw-bold text-dark mb-3">Manage Your Appointments</h3>
+                        <p class="text-secondary mb-4 mx-auto" style="max-width: 500px;">
+                            We have upgraded our booking system! Your appointments are now managed directly through your
+                            email confirmation.
+                        </p>
 
-                <div class="card border-0 rounded-4 shadow-sm animate-fade-in-up" style="animation-delay: 0.3s;">
-                    <div
-                        class="card-header bg-white border-bottom p-4 d-flex justify-content-between align-items-center">
-                        <h5 class="fw-bold mb-0 text-dark"><i
-                                class="fa-solid fa-clock-rotate-left text-brand-green me-2"></i> Recent Activity</h5>
-                        <small class="text-muted">History</small>
-                    </div>
-                    <div class="card-body p-0">
-                        <div id="bookingList" class="list-group list-group-flush">
-                            <!-- Bookings will be injected here via JS -->
-                            <div class="text-center py-5 text-secondary">
-                                <i class="fa-regular fa-folder-open fa-3x mb-3 opacity-50"></i>
-                                <p>No bookings found.</p>
+                        <div class="alert alert-light border d-inline-block text-start mb-4 p-3 rounded-3"
+                            style="max-width: 450px;">
+                            <div class="d-flex gap-3">
+                                <i class="fa-solid fa-circle-info text-brand-green mt-1"></i>
+                                <div>
+                                    <h6 class="fw-bold small mb-1">How to Reschedule or Cancel?</h6>
+                                    <p class="small text-secondary mb-0">
+                                        Please check the <strong>confirmation email</strong> you received from TidyCal
+                                        after booking. It contains a direct link to manage your appointment.
+                                    </p>
+                                </div>
                             </div>
+                        </div>
+
+                        <div class="d-grid gap-2 d-sm-flex justify-content-center">
+                            <a href="book.html"
+                                class="btn btn-brand-green text-white fw-semibold px-5 py-2 rounded-pill shadow-sm hover-scale">
+                                Book New Appointment
+                            </a>
                         </div>
                     </div>
                 </div>
@@ -210,85 +181,8 @@
 
 
 
-            // Load Bookings & Stats
-            const bookings = JSON.parse(localStorage.getItem('bookingHistory')) || [];
-            const listContainer = document.getElementById('bookingList');
-
-            // Calculate Stats
-            const total = bookings.length;
-            const cancelled = bookings.filter(b => b.status === 'Cancelled').length;
-            const active = total - cancelled;
-
-            document.getElementById('statTotal').textContent = total;
-            document.getElementById('statActive').textContent = active;
-            document.getElementById('statCancelled').textContent = cancelled;
-
-            if (bookings.length > 0) {
-                listContainer.innerHTML = ''; // Clear empty state
-                // Sort by date new to old
-                bookings.reverse().forEach((booking, index) => {
-                    const item = document.createElement('div');
-                    item.className = 'list-group-item p-4 hover-bg-light transition-all';
-
-                    const statusClass = booking.status === 'Cancelled' ? 'bg-danger-subtle text-danger' : 'bg-success-subtle text-success';
-                    const iconClass = booking.status === 'Cancelled' ? 'fa-circle-xmark' : 'fa-circle-check';
-
-                    item.innerHTML = `
-                        <div class="d-flex align-items-center justify-content-between flex-wrap gap-3">
-                            <div class="d-flex align-items-center gap-3">
-                                <div class="bg-light rounded-3 p-3 text-center" style="min-width: 80px;">
-                                    <div class="small fw-bold text-uppercase text-secondary">${new Date(booking.date).toLocaleString('default', { month: 'short' })}</div>
-                                    <div class="h4 fw-bold mb-0 text-dark">${new Date(booking.date).getDate()}</div>
-                                </div>
-                                <div>
-                                    <h6 class="fw-bold text-dark mb-1">${booking.service}</h6>
-                                    <p class="text-secondary small mb-1"><i class="fa-regular fa-clock me-1"></i> ${booking.time}</p>
-                                    <div class="badge ${statusClass} rounded-pill">
-                                        <i class="fa-solid ${iconClass} me-1"></i> ${booking.status}
-                                    </div>
-                                    <div class="text-muted small mt-1" style="font-size: 0.75rem;">Booked on: ${new Date(booking.timestamp).toLocaleDateString()}</div>
-                                </div>
-                            </div>
-                            
-                            ${booking.status !== 'Cancelled' ? `
-                            <button onclick="cancelBooking(${booking.id})" class="btn btn-outline-danger btn-sm rounded-pill px-3">
-                                Cancel
-                            </button>` : ''}
-                        </div>
-                    `;
-                    listContainer.appendChild(item);
-                });
-            }
+            // Legacy booking logic removed.
         });
-
-        function cancelBooking(id) {
-            if (confirm('Are you sure you want to cancel this appointment?')) {
-                let bookings = JSON.parse(localStorage.getItem('bookingHistory')) || [];
-                const index = bookings.findIndex(b => b.id === id);
-
-                if (index !== -1) {
-                    const bookingToCancel = bookings[index];
-
-                    // 1. Update Status in User History
-                    bookings[index].status = 'Cancelled';
-                    localStorage.setItem('bookingHistory', JSON.stringify(bookings));
-
-                    // 2. Remove from Global Reservations (Release the slot)
-                    let globalReservations = JSON.parse(localStorage.getItem('globalReservations')) || [];
-                    const globalIndex = globalReservations.findIndex(r =>
-                        r.date === bookingToCancel.date &&
-                        r.time === bookingToCancel.time
-                    );
-
-                    if (globalIndex !== -1) {
-                        globalReservations.splice(globalIndex, 1);
-                        localStorage.setItem('globalReservations', JSON.stringify(globalReservations));
-                    }
-
-                    window.location.reload();
-                }
-            }
-        }
     </script>
 </body>
 
