@@ -155,4 +155,40 @@
     </div>
 </div>
 
-<script src="modal-auth.js"></script>
+<script>
+    // Inline script to guarantee function availability
+    window.triggerResetPassword = async function () {
+        console.log("Inline Trigger Reset Password");
+
+        // Basic check
+        if (typeof firebase === 'undefined' || !firebase.auth) {
+            alert("System is still connecting to security services. Please wait 3 seconds and try again.");
+            return;
+        }
+
+        const auth = firebase.auth();
+        const userInput = document.getElementById('loginEmailOrPhone');
+        let email = userInput ? userInput.value : '';
+
+        // Force ask if empty
+        if (!email || email.trim() === "") {
+            email = prompt("Please enter your email address to reset password:");
+        }
+
+        if (email) {
+            try {
+                auth.languageCode = 'en';
+                await auth.sendPasswordResetEmail(email.trim());
+                alert("Email Sent! Please check your Inbox (and Spam) for the reset link.");
+            } catch (error) {
+                console.error("Reset Error:", error);
+                if (error.code === 'auth/user-not-found') {
+                    alert("Error: We could not find an account with that email. Please Sign Up first.");
+                } else {
+                    alert("Error: " + error.message);
+                }
+            }
+        }
+    };
+</script>
+<script src="modal-auth.js?v=4"></script>
