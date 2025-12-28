@@ -59,7 +59,17 @@ document.addEventListener('click', async (e) => {
             window.location.href = 'book.html';
         } catch (error) {
             console.error("Google Sign-In Error:", error);
-            alert("Google Sign-In failed: " + error.message);
+
+            // DIAGNOSTIC ERROR MESSAGES
+            if (error.code === 'auth/unauthorized-domain') {
+                alert("CONFIGURATION ERROR:\n\nThis website domain is blocked by Firebase.\n\nFIX:\n1. Go to Firebase Console > Authentication > Settings.\n2. Scroll to 'Authorized domains'.\n3. Add this domain: finger-printing.vercel.app");
+            } else if (error.code === 'auth/operation-not-allowed' || error.message.includes('restricted') || error.message.includes('invalid')) {
+                alert("CONFIGURATION ERROR:\n\nGoogle Sign-In is DISABLED in Firebase.\n\nFIX:\n1. Go to Firebase Console > Authentication > Sign-in method.\n2. Click 'Google'.\n3. Toggle 'Enable' to ON.\n4. Click Save.");
+            } else if (error.code === 'auth/popup-closed-by-user') {
+                // Ignore popup closed
+            } else {
+                alert("Google Sign-In Failed:\n" + error.message);
+            }
         }
     }
 
@@ -73,7 +83,16 @@ document.addEventListener('click', async (e) => {
             window.location.href = 'profile.html';
         } catch (error) {
             console.error("Google Sign-Up Error:", error);
-            alert("Google Sign-Up failed: " + error.message);
+
+            if (error.code === 'auth/unauthorized-domain') {
+                alert("CONFIGURATION ERROR:\n\nThis website domain is blocked by Firebase.\n\nFIX:\n1. Go to Firebase Console > Authentication > Settings.\n2. Scroll to 'Authorized domains'.\n3. Add this domain: finger-printing.vercel.app");
+            } else if (error.code === 'auth/operation-not-allowed' || error.message.includes('restricted') || error.message.includes('invalid')) {
+                alert("CONFIGURATION ERROR:\n\nGoogle Sign-In is DISABLED in Firebase.\n\nFIX:\n1. Go to Firebase Console > Authentication > Sign-in method.\n2. Click 'Google'.\n3. Toggle 'Enable' to ON.\n4. Click Save.");
+            } else if (error.code === 'auth/popup-closed-by-user') {
+                // Ignore
+            } else {
+                alert("Google Sign-Up Failed:\n" + error.message);
+            }
         }
     }
 
