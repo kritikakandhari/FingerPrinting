@@ -50,18 +50,21 @@ document.addEventListener('click', async (e) => {
     if (e.target.closest('#forgotPasswordBtn')) {
         e.preventDefault();
         const emailInput = document.getElementById('loginEmailOrPhone');
-        const email = emailInput ? emailInput.value : '';
+        let email = emailInput ? emailInput.value : '';
 
         if (!email) {
-            alert("Please enter your email address in the box above so we can send you a reset link.");
-            return;
+            // User friendly: Ask for email if they didn't type it yet
+            email = prompt("Please enter your email address to reset your password:");
         }
-        try {
-            await auth.sendPasswordResetEmail(email);
-            alert(`Password reset email sent to ${email}. Check your inbox!`);
-        } catch (error) {
-            console.error("Password Reset Error:", error);
-            alert("Error: " + error.message);
+
+        if (email) {
+            try {
+                await auth.sendPasswordResetEmail(email);
+                alert(`Password reset link sent to ${email}.\nPlease check your Inbox (and Spam folder).`);
+            } catch (error) {
+                console.error("Password Reset Error:", error);
+                alert("Error sending reset email: " + error.message);
+            }
         }
     }
 });
