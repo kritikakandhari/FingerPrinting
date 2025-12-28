@@ -1,11 +1,39 @@
 /**
  * auth-check.js
- * Checks localStorage for active session and updates UI accordingly.
- * Runs on every page.
+ * Checks Firebase Auth state and updates UI accordingly.
+ * Syncs Firebase user to localStorage for compatibility with legacy components.
  */
 
-document.addEventListener('DOMContentLoaded', updateAuthUI);
-window.addEventListener('pageshow', updateAuthUI); // Handle back/forward cache
+document.addEventListener('DOMContentLoaded', () => {
+    // Listen for Auth State Changes
+    if (typeof firebase !== 'undefined') {
+        firebase.auth().onAuthStateChanged(user => {
+            if (user) {
+                // User is signed in.
+                const userProfile = {
+                    firstName: user.displayName ? user.displayName.split(' ')[0] : 'Member',
+                    lastName: user.displayName ? user.displayName.split(' ').slice(1).join(' ') : '',
+                    email: user.email,
+                    avatar: user.photoURL,
+                    userId: user.uid,
+                    phone: user.phoneNumber,
+                    emailVerified: user.emailVerified
+                };
+                localStorage.setItem('userProfile', JSON.stringify(userProfile));
+                localStorage.setItem('authToken', 'firebase-token'); // Dummy token for checks
+            } else {
+                // User is signed out.
+                localStorage.removeItem('userProfile');
+                localStorage.removeItem('authToken');
+            }
+            // Update UI based on the new localStorage state
+            updateAuthUI();
+        });
+    } else {
+        console.error("Firebase not loaded! Auth check failed.");
+        updateAuthUI();
+    }
+});
 
 function updateAuthUI() {
     const user = JSON.parse(localStorage.getItem('userProfile'));
@@ -13,34 +41,28 @@ function updateAuthUI() {
 
     if (!navbarNav) return;
 
-    // Remove existing auth buttons if we need to re-render
-    // Strategy: Look for specific links we want to toggle
-
+    // --- Selectors ---
     const signInLink = Array.from(document.querySelectorAll('a')).find(a => a.textContent.includes('Sign In'));
     const signUpLink = Array.from(document.querySelectorAll('a')).find(a => a.textContent.includes('Sign Up'));
     const profileLink = Array.from(document.querySelectorAll('a')).find(a => a.href.includes('profile.html'));
 
     if (user) {
-        // User is Logged In
+        // --- LOGGED IN STATE ---
+
+        // Remove Sign In / Sign Up links
         if (signInLink && signInLink.parentElement.tagName === 'LI') signInLink.parentElement.remove();
         if (signUpLink && signUpLink.parentElement.tagName === 'LI') signUpLink.parentElement.remove();
 
-        // Ensure Profile Link exists (if not already there)
+        // Add 'My Profile' link if missing
         if (!profileLink) {
             const profileLi = document.createElement('li');
             profileLi.className = 'nav-item';
             profileLi.innerHTML = `<a class="nav-link text-brand-green fw-bold" href="profile.html">My Profile</a>`;
-
-            // Insert before the last item (Book Appointment button usually)
             const lastItem = navbarNav.lastElementChild;
             if (lastItem) navbarNav.insertBefore(profileLi, lastItem);
         }
 
-        // Legacy cleanup: Remove old hardcoded logout button if it exists
-        const legacyLogout = document.getElementById('logoutBtn');
-        if (legacyLogout && legacyLogout.closest('li')) legacyLogout.closest('li').remove();
-
-        // Add Logout Button if not exists
+        // Add 'Logout' button if missing
         if (!document.getElementById('navLogoutBtn')) {
             const logoutLi = document.createElement('li');
             logoutLi.className = 'nav-item';
@@ -52,63 +74,38 @@ function updateAuthUI() {
             const lastItem = navbarNav.lastElementChild;
             if (lastItem) navbarNav.insertBefore(logoutLi, lastItem);
 
-            // Bind Logout
+            // Bind Logout (Firebase SignOut)
             document.getElementById('navLogoutBtn').addEventListener('click', () => {
-                localStorage.removeItem('userProfile');
-                localStorage.removeItem('authToken');
-                window.location.reload();
+                firebase.auth().signOut().then(() => {
+                    window.location.reload();
+                });
             });
         }
-        // Toggle Booking Buttons (Smart Links)
-        // Select ALL links that target the login modal (more robust than text matching)
+
+        // Smart Booking Buttons (Direct to book.html)
         const bookingBtns = document.querySelectorAll('a[data-bs-target="#loginModal"]');
-
         bookingBtns.forEach(btn => {
-            // Aggressive Fix: Clone the node to strip ALL event listeners
             const newBtn = btn.cloneNode(true);
-
-            // Clean attributes
             newBtn.removeAttribute('data-bs-toggle');
             newBtn.removeAttribute('data-bs-target');
             newBtn.href = 'book.html';
-
-            // Add explicit click handler
-            newBtn.addEventListener('click', function (e) {
+            newBtn.addEventListener('click', (e) => {
                 e.preventDefault();
-                e.stopPropagation();
-                e.stopImmediatePropagation();
                 window.location.href = 'book.html';
             });
-
-            // Replace old button with new clean button
-            if (btn.parentNode) {
-                btn.parentNode.replaceChild(newBtn, btn);
-            }
+            if (btn.parentNode) btn.parentNode.replaceChild(newBtn, btn);
         });
 
     } else {
-        // User is Logged Out
-        // Reset Booking Buttons to trigger Login
-        const bookingBtns = Array.from(document.querySelectorAll('a')).filter(a =>
-            a.textContent.includes('Book Appointment') ||
-            a.textContent.includes('Schedule Appointment')
-        );
+        // --- LOGGED OUT STATE ---
 
-        bookingBtns.forEach(btn => {
-            btn.setAttribute('data-bs-toggle', 'modal');
-            btn.setAttribute('data-bs-target', '#loginModal');
-            btn.href = '#';
-        });
-
-        // Ensure Profile/Logout are gone
+        // Remove Profile / Logout
         if (profileLink && profileLink.parentElement.tagName === 'LI') profileLink.parentElement.remove();
         const logoutBtn = document.getElementById('navLogoutBtn');
         if (logoutBtn && logoutBtn.parentElement.tagName === 'LI') logoutBtn.parentElement.remove();
 
-        // Ensure Sign In / Sign Up exist (This part is tricky if they were removed; 
-        // ideally we just toggle visibility classes, but for now assuming page reload resets them 
-        // or we just don't remove them if we are doing clean SPA style, but this is multi-page. 
-        // Since we reload pages, the original HTML comes back, so we just need to remove them if (user) exists.)
-        // So the 'else' block is actually just "do nothing" or "remove profile link if it accidentally persisted".
+        // Note: We don't re-add Sign In/Up links dynamically because we rely on page reload or 
+        // the fact that they exist in the static HTML. If they were removed, a reload might be needed 
+        // or we could reconstruct them, but typically a reload on logout handles this reset.
     }
 }
