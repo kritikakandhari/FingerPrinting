@@ -132,6 +132,8 @@ document.addEventListener('submit', async (e) => {
                 // Send Verification
                 await user.sendEmailVerification();
                 alert(`Account created! Please check your email (${email}) to verify before booking.`);
+
+                return userCredential; // RETURN THIS!
             },
             submitBtn,
             "Creating Account...",
