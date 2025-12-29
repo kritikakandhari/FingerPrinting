@@ -179,9 +179,17 @@ function ensureFirebase() {
 async function performGoogleAuth(modalElement) {
     try {
         const provider = new firebase.auth.GoogleAuthProvider();
-        await firebase.auth().signInWithPopup(provider);
+        const result = await firebase.auth().signInWithPopup(provider);
+        const user = result.user;
 
-        // Force Sync Trigger
+        // Optimistic UI: Save to localStorage immediately
+        const userProfile = {
+            displayName: user.displayName,
+            email: user.email,
+            photoURL: user.photoURL,
+            uid: user.uid
+        };
+        localStorage.setItem('userProfile', JSON.stringify(userProfile));
         localStorage.setItem('loginEvent', Date.now());
 
         if (modalElement) {

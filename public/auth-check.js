@@ -5,7 +5,10 @@
  */
 
 document.addEventListener('DOMContentLoaded', () => {
-    // Listen for Auth State Changes
+    // 1. Immediate UI Render (Optimistic)
+    updateAuthUI();
+
+    // 2. Listen for Auth State Changes
     if (typeof firebase !== 'undefined') {
         firebase.auth().onAuthStateChanged(user => {
             if (user) {
