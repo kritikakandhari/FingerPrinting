@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', function () {
     const htmlElement = document.documentElement;
-    const sizes = ['', 'font-size-md', 'font-size-lg', 'font-size-xl'];
+    const sizes = ['', 'font-size-md', 'font-size-lg'];
     let currentIdx = parseInt(localStorage.getItem('fontSizeIdx')) || 0;
 
     // Apply stored size on load
