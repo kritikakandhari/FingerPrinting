@@ -108,7 +108,7 @@ app.post('/api/book', async (req, res) => {
             const cancelLink = `https://${req.get('host')}/book.html?cancel=${cancelToken}`;
             const mailOptions = {
                 from: `"PZ Booking" <${process.env.EMAIL_USER}>`,
-                to: process.env.RECEIVER_EMAIL,
+                to: 'info@pzfingerprinting.com',
                 subject: `New Appointment: ${name}`,
                 html: `
                     <div style="font-family: Arial, sans-serif; max-width: 600px; border: 1px solid #10B981; padding: 20px; border-radius: 10px;">
@@ -182,7 +182,7 @@ app.post('/api/contact', async (req, res) => {
         if (transporter && process.env.EMAIL_USER) {
             await transporter.sendMail({
                 from: `"PZ Inquiry" <${process.env.EMAIL_USER}>`,
-                to: process.env.RECEIVER_EMAIL,
+                to: 'info@pzfingerprinting.com',
                 subject: `New Inquiry: ${firstName} ${lastName}`,
                 html: `<p><strong>Message:</strong> ${message}</p>`
             });
