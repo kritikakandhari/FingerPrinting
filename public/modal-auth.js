@@ -218,8 +218,12 @@ async function performEmailAuth(authAction, submitBtn, loadingText, modalElement
             modal.hide();
         }
 
-        // Redirect
-        window.location.href = redirectUrl;
+        // Redirect or Reload
+        if (redirectUrl) {
+            window.location.href = redirectUrl;
+        } else {
+            window.location.reload();
+        }
 
     } catch (error) {
         console.error("Auth Error:", error);
