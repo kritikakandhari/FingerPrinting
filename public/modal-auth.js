@@ -34,11 +34,18 @@ async function executeSecureAuth(actionName, authFunction, submitBtn = null, mod
 
         // 2. PERSIST (Synchronously save to LocalStorage)
         // This is critical. We do this BEFORE reload/redirect to ensure data exists.
+        // Update: Standardizing structure to match auth-check.js
+        const displayName = user.displayName || 'Member';
+        const nameParts = displayName.split(' ');
+        const firstName = nameParts[0];
+        const lastName = nameParts.slice(1).join(' ');
+
         const userProfile = {
-            displayName: user.displayName || 'Member',
+            firstName: firstName,
+            lastName: lastName,
             email: user.email,
-            photoURL: user.photoURL,
-            uid: user.uid,
+            avatar: user.photoURL, // Match auth-check 'avatar' vs 'photoURL'
+            userId: user.uid, // Match auth-check 'userId' vs 'uid'
             emailVerified: user.emailVerified
         };
 

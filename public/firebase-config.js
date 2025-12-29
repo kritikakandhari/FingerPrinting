@@ -22,5 +22,11 @@ try {
 }
 
 // Export auth instance for other scripts to use
+// Export auth instance for other scripts to use
 const auth = firebase.auth();
 const googleProvider = new firebase.auth.GoogleAuthProvider();
+
+// Explicitly set persistence to LOCAL
+auth.setPersistence(firebase.auth.Auth.Persistence.LOCAL)
+    .then(() => console.log("Persistence set to LOCAL"))
+    .catch((error) => console.error("Persistence Error:", error));
