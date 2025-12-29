@@ -50,15 +50,14 @@
 
             .service-content {
                 padding: 1.5rem !important;
-                /* Add extra bottom padding so content clears the FAB/Arrows when scrolled */
-                padding-bottom: 100px !important;
+                /* Massive bottom padding to absolutely ensure no overlap with arrows/FAB */
+                padding-bottom: 160px !important;
                 max-height: none !important;
                 margin-top: 1rem;
                 box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
                 background: #ffffff;
                 border-radius: 15px;
                 text-align: center !important;
-                /* Center align text as requested */
             }
 
             /* Center align lists and remove bullets for cleaner look if centered */
@@ -78,6 +77,8 @@
                 justify-content: center;
                 display: flex;
                 align-items: center;
+                margin-top: 1.5rem;
+                /* Better spacing between sections */
             }
 
             /* HIDE the large image/icon column on mobile */
