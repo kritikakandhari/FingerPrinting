@@ -95,7 +95,7 @@ document.addEventListener('submit', async (e) => {
             submitBtn,
             "Signing in...",
             document.getElementById('loginModal'),
-            "book.html" // Redirect target
+            null // No redirect, just reload
         );
     }
 
@@ -136,7 +136,7 @@ document.addEventListener('submit', async (e) => {
             submitBtn,
             "Creating Account...",
             document.getElementById('signupModal'),
-            "profile.html" // Redirect target
+            null // No redirect, just reload
         );
     }
 
