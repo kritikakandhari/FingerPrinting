@@ -65,66 +65,8 @@ function updateAuthUI() {
     const navLogout = document.getElementById('navLinkLogout');
 
     // Booking Buttons (Global Class Selector)
-    const bookingBtns = document.querySelectorAll('.btn-brand-green.btn-aura'); // Matches the "Book Appointment" buttons
-
-    if (user) {
-        // --- LOGGED IN STATE ---
-        if (navSignIn) navSignIn.classList.add('d-none');
-        if (navSignUp) navSignUp.classList.add('d-none');
-
-        if (navProfile) navProfile.classList.remove('d-none');
-        if (navLogout) navLogout.classList.remove('d-none');
-
-        // Bind Logout
-        const navLogoutBtn = document.getElementById('navLogoutBtn');
-        if (navLogoutBtn) {
-            navLogoutBtn.removeEventListener('click', handleLogout);
-            navLogoutBtn.addEventListener('click', handleLogout);
-        }
-
-        // Bind Logout (Firebase SignOut) - Sidebar (Profile Page)
-        const sidebarLogoutBtn = document.getElementById('sidebarLogoutBtn');
-        if (sidebarLogoutBtn) {
-            sidebarLogoutBtn.removeEventListener('click', handleLogout);
-            sidebarLogoutBtn.addEventListener('click', handleLogout);
-        }
-
-        // Smart Booking Buttons: Direct to book.html
-        bookingBtns.forEach(btn => {
-            // Only modify if it was originally a modal trigger
-            if (btn.getAttribute('data-bs-toggle') === 'modal') {
-                btn.removeAttribute('data-bs-toggle');
-                btn.removeAttribute('data-bs-target');
-                btn.href = 'book.html';
-                // Clone to remove old listeners if any, or just add new one
-                // Since we removed data attributes, bootstrap modal won't trigger. 
-                // We add a simple click handler to be safe.
-                btn.onclick = (e) => {
-                    e.preventDefault();
-                    window.location.href = 'book.html';
-                };
-            }
-        });
-
-    } else {
-        // --- LOGGED OUT STATE ---
-        if (navSignIn) navSignIn.classList.remove('d-none');
-        if (navSignUp) navSignUp.classList.remove('d-none');
-
-        if (navProfile) navProfile.classList.add('d-none');
-        if (navLogout) navLogout.classList.add('d-none');
-
-        // Reset Booking Buttons: Open Login Modal
-        bookingBtns.forEach(btn => {
-            // Only restore if it's currently pointing to book.html (i.e. was modified)
-            if (!btn.getAttribute('data-bs-toggle') && btn.href.includes('book.html')) {
-                btn.setAttribute('data-bs-toggle', 'modal');
-                btn.setAttribute('data-bs-target', '#loginModal');
-                btn.href = '#';
-                btn.onclick = null; // Remove the direct redirect
-            }
-        });
-    }
+    // Booking Buttons Logic Removed - Allowing Direct Guest Access
+    // The buttons in HTML should now be hardcoded to href="book.html"
 }
 
 async function handleLogout(e) {

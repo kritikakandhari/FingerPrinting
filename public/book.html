@@ -10,12 +10,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/date-fns@2.30.0/index.min.js"></script>
     <!-- Optional polyfill if needed, relying on native JS Date here -->
-    <script>
-        // Auth Guard: Protect this page
-        if (!localStorage.getItem('userProfile')) {
-            window.location.replace('index.html?action=login');
-        }
-    </script>
+    <!-- Auth Guard Removed: Allow Guest Booking -->
 </head>
 
 <body class="bg-light pb-5 premium-bg">
