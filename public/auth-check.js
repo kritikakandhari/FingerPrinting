@@ -149,8 +149,8 @@ async function handleLogout(e) {
     // We don't wait for Firebase network request to finish.
     // The local storage clear is enough to "sign out" the user on this device.
     setTimeout(() => {
-        console.log("Redirecting to home...");
-        window.location.href = 'index.html';
+        console.log("Reloading to clear state...");
+        window.location.reload();
     }, 100);
 }
 
