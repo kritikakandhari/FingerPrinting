@@ -57,18 +57,39 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Remove preloader if it exists
+    // Smart Preloader Logic
     const preloader = document.getElementById('preloader');
     if (preloader) {
-        window.addEventListener('load', () => {
-            setTimeout(() => {
-                preloader.classList.add('hidden');
+        // Check session state
+        const isSessionFounded = sessionStorage.getItem('isSessionFounded');
+        const showAuthPreloader = sessionStorage.getItem('showAuthPreloader');
+
+        // Logic: Show IF (First Visit) OR (Auth Event Triggered)
+        const shouldShowPreloader = !isSessionFounded || showAuthPreloader === 'true';
+
+        if (shouldShowPreloader) {
+            // --- SHOW ANIMATION (Standard 2.5s - 3s) ---
+
+            // Mark session as founded so next clicks don't show it
+            sessionStorage.setItem('isSessionFounded', 'true');
+            // Clear the one-time auth flag if it existed
+            if (showAuthPreloader) sessionStorage.removeItem('showAuthPreloader');
+
+            window.addEventListener('load', () => {
                 setTimeout(() => {
-                    preloader.remove();
-                    document.body.classList.remove('overflow-hidden');
-                }, 500); // Transition duration
-            }, 3000); // Wait 3 seconds before hiding
-        });
+                    preloader.classList.add('hidden');
+                    setTimeout(() => {
+                        preloader.remove();
+                        document.body.classList.remove('overflow-hidden');
+                    }, 500);
+                }, 2500); // Reduced slightly from 3000ms for snappier feel
+            });
+        } else {
+            // --- HIDE IMMEDIATELY (Navigation) ---
+            preloader.style.display = 'none';
+            preloader.remove();
+            document.body.classList.remove('overflow-hidden');
+        }
     }
 
     // Explicitly handle Services Dropdown to ensure it works
