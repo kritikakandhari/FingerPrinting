@@ -42,42 +42,66 @@
 
         @media (max-width: 991.98px) {
             .carousel-item {
-                height: auto;
-                min-height: auto;
-                padding-bottom: 5rem;
+                height: auto !important;
+                min-height: auto !important;
+                padding-bottom: 4rem;
+                /* Space for indicators */
             }
 
             .service-content {
-                padding: 1.5rem;
+                padding: 1.5rem !important;
                 max-height: none !important;
-                /* Allow full content scroll */
                 margin-top: 1rem;
+                box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+                background: #ffffff;
+                /* Solid white for better readability */
+                border-radius: 15px;
             }
 
-            /* Make image container smaller on mobile */
-            .carousel-item .col-lg-5 .d-flex {
-                height: 250px !important;
-                width: 80% !important;
-                margin: 0 auto;
+            /* HIDE the large image/icon column on mobile */
+            .carousel-item .col-lg-5 {
+                display: none !important;
             }
 
-            .carousel-item .col-lg-5 i {
-                font-size: 5rem !important;
+            /* Ensure container doesn't fight for height */
+            .container.h-100 {
+                height: auto !important;
+                min-height: auto !important;
+                display: block !important;
+                /* Stack content, no flex centering */
+                padding-top: 4rem;
+                /* Clear fixed navbar */
+            }
+
+            /* Make arrows bigger and positioned better */
+            .carousel-control-prev,
+            .carousel-control-next {
+                width: 15%;
+                align-items: center;
+                opacity: 0.8;
+                z-index: 10;
+            }
+
+            .carousel-control-prev-icon,
+            .carousel-control-next-icon {
+                padding: 1.2rem;
+                background-color: var(--brand-green);
+                border-radius: 50%;
             }
 
             .carousel-indicators {
-                bottom: -20px;
+                bottom: -10px;
+                margin-bottom: 1rem;
             }
 
             h1.display-5 {
-                font-size: 2rem;
-                /* Smaller heading on mobile */
+                font-size: 1.75rem !important;
+                /* Optimized header size */
+                font-weight: 800;
             }
 
-            .container.h-100 {
-                height: auto !important;
-                padding-top: 2rem;
-                padding-bottom: 2rem;
+            p.lead {
+                font-size: 1rem !important;
             }
         }
     </style>
