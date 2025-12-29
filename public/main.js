@@ -77,7 +77,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         sessionStorage.setItem('isSessionFounded', 'true');
                         sessionStorage.removeItem('showAuthPreloader'); // Clear one-time auth flag
                     }, 500);
-                }, 2500); // 2.5s Animation
+                }, 3000); // 3s Animation
             });
         } else {
             // Case B: Normal Navigation -> Hide Immediately
