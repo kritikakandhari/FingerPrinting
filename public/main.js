@@ -64,7 +64,11 @@ document.addEventListener('DOMContentLoaded', () => {
         const isSessionFounded = sessionStorage.getItem('isSessionFounded');
         const showAuthPreloader = sessionStorage.getItem('showAuthPreloader');
 
-        if (!isSessionFounded || showAuthPreloader === 'true') {
+        // Detect Page Reload (Refresh)
+        const perfEntries = performance.getEntriesByType("navigation");
+        const isReload = perfEntries.length > 0 && perfEntries[0].type === 'reload';
+
+        if (!isSessionFounded || showAuthPreloader === 'true' || isReload) {
             // Case A: First Visit OR Auth Event -> Show Animation
             window.addEventListener('load', () => {
                 setTimeout(() => {
