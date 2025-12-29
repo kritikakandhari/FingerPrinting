@@ -1300,11 +1300,39 @@
     </script>
 
     <!-- Browse All Menu Button -->
-    <button
-        class="btn btn-brand-green text-white position-fixed shadow-lg d-flex align-items-center gap-2 px-4 py-2 rounded-pill fw-bold"
-        style="bottom: 80px; right: 30px; z-index: 1050; border: 2px solid white;" onclick="toggleServiceMenu()">
-        <i class="fa-solid fa-list-ul"></i> Browse All Services
+    <!-- Browse All Menu Button -->
+    <button id="browseServicesBtn"
+        class="btn btn-brand-green text-white position-fixed shadow-lg d-flex align-items-center justify-content-center gap-2 rounded-pill fw-bold"
+        onclick="toggleServiceMenu()">
+        <i class="fa-solid fa-list-ul"></i> <span class="d-none d-md-inline">Browse All Services</span>
     </button>
+
+    <style>
+        #browseServicesBtn {
+            bottom: 30px;
+            right: 30px;
+            z-index: 1050;
+            border: 2px solid white;
+            padding: 10px 20px;
+        }
+
+        /* Mobile specific styles for the button */
+        @media (max-width: 991.98px) {
+            #browseServicesBtn {
+                bottom: 20px;
+                right: 20px;
+                width: 50px;
+                height: 50px;
+                border-radius: 50% !important;
+                /* Circle on mobile */
+                padding: 0 !important;
+            }
+
+            #browseServicesBtn i {
+                font-size: 1.2rem;
+            }
+        }
+    </style>
 
     <!-- Side Menu Overlay -->
     <div id="serviceSideMenu" class="service-side-menu">
