@@ -41,95 +41,105 @@
         }
 
         @media (max-width: 991.98px) {
+
+            /* 1. Reset Carousel Item Structure */
             .carousel-item {
                 height: auto !important;
                 min-height: auto !important;
-                padding-bottom: 4rem;
-                /* Space for indicators */
+                padding-bottom: 80px !important;
+                /* Space for static arrows */
+                transition: transform 0.6s ease-in-out;
             }
 
+            /* 2. Card Content: Natural flow, no huge padding hacks */
             .service-content {
                 padding: 1.5rem !important;
-                /* Massive bottom padding to absolutely ensure no overlap with arrows/FAB */
-                padding-bottom: 160px !important;
+                padding-bottom: 2rem !important;
+                /* Normal padding */
+                margin-bottom: 20px;
+                /* Space below card */
                 max-height: none !important;
-                margin-top: 1rem;
                 box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
                 background: #ffffff;
                 border-radius: 15px;
                 text-align: center !important;
             }
 
-            /* Center align lists and remove bullets for cleaner look if centered */
-            .service-content ul {
-                display: inline-block;
-                text-align: left;
-                /* Keep lists left-aligned for readability but centered block? or center everything? */
-                /* User said "center mai", usually lists look bad centered.
-                   Let's keep the block centered but text start.
-                   Actually, simplest is to center everything first. */
-                list-style-position: inside;
-                padding-left: 0;
-            }
-
-            /* Center headers with icons */
+            /* 3. Center Align Content */
             .service-content h5 {
                 justify-content: center;
                 display: flex;
                 align-items: center;
-                margin-top: 1.5rem;
-                /* Better spacing between sections */
+                margin-top: 1rem;
             }
 
-            /* HIDE the large image/icon column on mobile */
+            .service-content ul {
+                display: inline-block;
+                text-align: left;
+                padding-left: 0;
+                list-style-position: inside;
+            }
+
+            /* 4. Hide Large Images */
             .carousel-item .col-lg-5 {
                 display: none !important;
             }
 
-            /* Ensure container doesn't fight for height */
-            .container.h-100 {
-                height: auto !important;
-                min-height: auto !important;
-                display: block !important;
-                /* Stack content, no flex centering */
-                padding-top: 4rem;
-                /* Clear fixed navbar */
-            }
-
-            /* Make arrows bigger, positioned at bottom to avoid text overlap */
+            /* 5. Static Navigation Arrows (KEY FIX) */
+            /* Position them relative to the slide, below the card */
             .carousel-control-prev,
             .carousel-control-next {
-                width: 20%;
-                align-items: flex-end;
-                /* Align to bottom */
-                padding-bottom: 1rem;
+                position: absolute;
+                bottom: 10px !important;
+                /* Pin to bottom of carousel-item container */
+                top: auto;
+                width: 60px;
+                /* Fixed button size */
+                height: 60px;
                 opacity: 1;
-                /* Always visible for clarity */
-                z-index: 10;
+                z-index: 100;
+                display: flex;
+                /* Ensure visible */
+                align-items: center;
+                justify-content: center;
+                margin: 0;
+                padding: 0;
             }
 
+            /* Spaced out Left/Right */
+            .carousel-control-prev {
+                left: 20% !important;
+            }
+
+            .carousel-control-next {
+                right: 20% !important;
+            }
+
+            /* Visual Style of Arrows */
             .carousel-control-prev-icon,
             .carousel-control-next-icon {
-                padding: 1rem;
                 background-color: var(--brand-green);
+                padding: 1.5rem;
                 border-radius: 50%;
-                box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+                background-size: 50%;
+                box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
             }
 
+            /* 6. Indicators */
             .carousel-indicators {
-                bottom: -35px;
-                /* Push indicators further down */
-                margin-bottom: 0;
+                bottom: -40px;
             }
 
             h1.display-5 {
                 font-size: 1.75rem !important;
                 font-weight: 800;
-                margin-top: 0.5rem;
+                margin-top: 1rem;
             }
 
-            p.lead {
-                font-size: 1rem !important;
+            /* 7. Ensure Carousel Container pushes Footer down */
+            #servicesCarousel {
+                margin-bottom: 60px;
+                /* Clear space for indicators/arrows */
             }
         }
     </style>
