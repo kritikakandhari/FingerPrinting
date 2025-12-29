@@ -150,11 +150,26 @@
         const db = firebase.firestore();
         const auth = firebase.auth();
 
+        // ---------------------------------------------------
+        // ADMIN CONFIGURATION
+        // Add your admin email addresses here
+        const ADMIN_EMAILS = [
+            'kritikakandhari1902@gmail.com',
+            'info@pzfingerprinting.com'
+        ];
+        // ---------------------------------------------------
+
         // Auth Guard
         auth.onAuthStateChanged(user => {
             if (!user) {
+                // Not logged in -> Go to Login
                 window.location.href = 'index.html?action=login';
+            } else if (!ADMIN_EMAILS.includes(user.email)) {
+                // Logged in but NOT Admin -> Kick them out
+                alert("Access Denied: You are not an admin.");
+                window.location.href = 'index.html';
             } else {
+                // Admin -> Show Data
                 document.getElementById('adminEmail').innerText = user.email;
                 fetchData();
             }
