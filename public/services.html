@@ -39,6 +39,47 @@
             padding: 2rem;
             background-size: 50%;
         }
+
+        @media (max-width: 991.98px) {
+            .carousel-item {
+                height: auto;
+                min-height: auto;
+                padding-bottom: 5rem;
+            }
+
+            .service-content {
+                padding: 1.5rem;
+                max-height: none !important;
+                /* Allow full content scroll */
+                margin-top: 1rem;
+            }
+
+            /* Make image container smaller on mobile */
+            .carousel-item .col-lg-5 .d-flex {
+                height: 250px !important;
+                width: 80% !important;
+                margin: 0 auto;
+            }
+
+            .carousel-item .col-lg-5 i {
+                font-size: 5rem !important;
+            }
+
+            .carousel-indicators {
+                bottom: -20px;
+            }
+
+            h1.display-5 {
+                font-size: 2rem;
+                /* Smaller heading on mobile */
+            }
+
+            .container.h-100 {
+                height: auto !important;
+                padding-top: 2rem;
+                padding-bottom: 2rem;
+            }
+        }
     </style>
 </head>
 
