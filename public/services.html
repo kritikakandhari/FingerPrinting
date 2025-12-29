@@ -1266,15 +1266,15 @@
                 <div class="col-lg-3 col-md-4">
                     <h5 class="footer-col-title">Services</h5>
                     <ul class="list-unstyled">
-                        <li class="footer-list-item"><a href="services.html#service-3" class="footer-link"><i
-                                    class="fa-solid fa-chevron-right"></i> USA Entry Waiver</a></li>
-                        <li class="footer-list-item"><a href="services.html#service-10" class="footer-link"><i
-                                    class="fa-solid fa-chevron-right"></i> Ink & Roll Fingerprinting</a></li>
                         <li class="footer-list-item"><a href="services.html#service-8" class="footer-link"><i
+                                    class="fa-solid fa-chevron-right"></i> USA Entry Waiver</a></li>
+                        <li class="footer-list-item"><a href="services.html#service-5" class="footer-link"><i
+                                    class="fa-solid fa-chevron-right"></i> Ink & Roll Fingerprinting</a></li>
+                        <li class="footer-list-item"><a href="services.html#service-3" class="footer-link"><i
                                     class="fa-solid fa-chevron-right"></i> Security License Application</a></li>
-                        <li class="footer-list-item"><a href="services.html#service-6" class="footer-link"><i
+                        <li class="footer-list-item"><a href="services.html#service-2" class="footer-link"><i
                                     class="fa-solid fa-chevron-right"></i> Name Change Application</a></li>
-                        <li class="footer-list-item"><a href="services.html#service-4" class="footer-link"><i
+                        <li class="footer-list-item"><a href="services.html#service-9" class="footer-link"><i
                                     class="fa-solid fa-chevron-right"></i> Police Certificate (ECPIC)</a></li>
                     </ul>
                 </div>
@@ -1508,6 +1508,41 @@
                 const depth = (index + 1) * 0.5;
                 blob.style.transform = `translate(${moveX * depth}px, ${moveY * depth}px)`;
             });
+        });
+
+        // 3. Carousel Deep Linking (Hash Handler)
+        document.addEventListener('DOMContentLoaded', function () {
+            const carouselElement = document.getElementById('servicesCarousel');
+            if (carouselElement) {
+                // Initialize Carousel
+                const carousel = new bootstrap.Carousel(carouselElement, {
+                    interval: false, // Manual navigation only unless requested
+                    wrap: true
+                });
+
+                // Function to switch slide based on hash
+                function handleHash() {
+                    const hash = window.location.hash; // e.g., "#service-2"
+                    if (hash && hash.startsWith('#service-')) {
+                        const serviceNum = parseInt(hash.replace('#service-', ''), 10);
+                        if (!isNaN(serviceNum) && serviceNum >= 1 && serviceNum <= 10) {
+                            // Bootstrap carousel is 0-indexed, so subtract 1
+                            // Allow a small delay to ensure DOM is fully ready / carousel initialized
+                            setTimeout(() => {
+                                carousel.to(serviceNum - 1);
+                                // Optional: Scroll to carousel
+                                carouselElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                            }, 100);
+                        }
+                    }
+                }
+
+                // Run on load
+                handleHash();
+
+                // Run on hash change (if user clicks links while already on page)
+                window.addEventListener('hashchange', handleHash);
+            }
         });
     </script>
     <!-- Accessibility Options -->
