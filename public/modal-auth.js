@@ -2,251 +2,218 @@
  * modal-auth.js
  * Consolidated Authentication Controller for Fingerprint Site
  * Handles: Google Login/Signup, Email Login/Signup, Password Reset
+ * Implements: Synchronous Persistence Pattern to prevent login loops.
  */
 
 console.log("Auth Controller Loaded");
 
-// --- Global Helpers for HTML onclick attributes ---
-window.resetViaGoogle = async function () {
-    console.log("Starting Google Verification for Password Reset...");
-    if (!ensureFirebase()) return;
-
-    const auth = firebase.auth();
-    const googleProvider = new firebase.auth.GoogleAuthProvider();
+/**
+ * CORE AUTH HANDLER
+ * Wraps all auth operations to ensure consistent state saving.
+ */
+async function executeSecureAuth(actionName, authFunction, submitBtn = null, modalId = null) {
+    let originalBtnText = "";
+    if (submitBtn) {
+        originalBtnText = submitBtn.innerHTML;
+        submitBtn.disabled = true;
+        submitBtn.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> Processing...`;
+    }
 
     try {
-        // 1. Force Google Login to Verify Identity
-        const result = await auth.signInWithPopup(googleProvider);
-        window.verifiedUserForReset = result.user; // Store user globally for the next step
+        if (!ensureFirebase()) throw new Error("System connecting... please try again.");
 
-        console.log("User verified:", window.verifiedUserForReset.email);
+        console.log(`Starting Auth Action: ${actionName}`);
 
-        // 2. Switch UI to "New Password" Form
-        const step1 = document.getElementById('loginStep1');
-        const step2 = document.getElementById('resetPasswordStep2');
+        // 1. EXECUTE (and await the UserCredential)
+        const credential = await authFunction();
+        const user = credential.user;
 
-        if (step1 && step2) {
-            step1.classList.add('d-none');
-            step2.classList.remove('d-none');
-        } else {
-            console.error("Critical: Password reset wizard elements not found in DOM.");
-            alert("Error: UI components missing. Please refresh the page.");
+        if (!user) throw new Error("Authentication succeeded but no user returned.");
+
+        console.log("Auth Successful, User:", user.email);
+
+        // 2. PERSIST (Synchronously save to LocalStorage)
+        // This is critical. We do this BEFORE reload/redirect to ensure data exists.
+        const userProfile = {
+            displayName: user.displayName || 'Member',
+            email: user.email,
+            photoURL: user.photoURL,
+            uid: user.uid,
+            emailVerified: user.emailVerified
+        };
+
+        localStorage.setItem('userProfile', JSON.stringify(userProfile));
+        localStorage.setItem('authToken', 'firebase-token-simulated'); // For auth-check.js
+        localStorage.setItem('loginEvent', Date.now()); // Trigger other tabs
+
+        console.log("User Profile Saved to LocalStorage");
+
+        // 3. UI CLEANUP
+        if (modalId) {
+            const modalEl = document.getElementById(modalId);
+            if (modalEl) {
+                const modal = bootstrap.Modal.getInstance(modalEl) || new bootstrap.Modal(modalEl);
+                modal.hide();
+            }
         }
 
+        // 4. RELOAD (To reflect state)
+        // We use reload to ensure all vanilla JS scripts re-run with the new auth state.
+        window.location.reload();
+
     } catch (error) {
-        console.error("Google Verification Error:", error);
-        handleAuthError(error, "Verification Failed");
+        console.error("Auth Failed:", error);
+        handleAuthError(error, actionName);
+
+        // Reset Button
+        if (submitBtn) {
+            submitBtn.disabled = false;
+            submitBtn.innerHTML = originalBtnText;
+        }
+    }
+}
+
+
+// --- Event Delegation ---
+
+document.addEventListener('click', async (e) => {
+    // 1. Google Login
+    if (e.target.closest('#googleLoginBtn')) {
+        e.preventDefault();
+        await executeSecureAuth(
+            "Google Login",
+            () => firebase.auth().signInWithPopup(new firebase.auth.GoogleAuthProvider()),
+            null,
+            'loginModal'
+        );
+    }
+
+    // 2. Google Signup
+    if (e.target.closest('#googleSignupBtn')) {
+        e.preventDefault();
+        await executeSecureAuth(
+            "Google Signup",
+            () => firebase.auth().signInWithPopup(new firebase.auth.GoogleAuthProvider()),
+            null,
+            'signupModal'
+        );
+    }
+});
+
+// --- Form Submissions ---
+
+document.addEventListener('submit', async (e) => {
+
+    // 1. Email Login
+    if (e.target.id === 'loginForm') {
+        e.preventDefault();
+        const email = document.getElementById('loginEmailOrPhone').value;
+        const password = document.getElementById('loginPassword').value;
+        const btn = e.target.querySelector('button[type="submit"]');
+
+        await executeSecureAuth(
+            "Email Login",
+            () => firebase.auth().signInWithEmailAndPassword(email, password),
+            btn,
+            'loginModal'
+        );
+    }
+
+    // 2. Email Signup
+    if (e.target.id === 'signupForm') {
+        e.preventDefault();
+        const email = document.getElementById('signupEmail').value;
+        const password = document.getElementById('signupPassword').value;
+        const confirm = document.getElementById('signupConfirmPassword').value;
+        const first = document.getElementById('signupFirstName').value;
+        const last = document.getElementById('signupLastName').value;
+        const phone = document.getElementById('signupPhone').value;
+        const btn = e.target.querySelector('button[type="submit"]');
+
+        if (password !== confirm) {
+            alert("Passwords do not match!");
+            return;
+        }
+
+        await executeSecureAuth(
+            "Email Signup",
+            async () => {
+                // Custom flow: Create -> Update Profile -> Return Credential
+                const cred = await firebase.auth().createUserWithEmailAndPassword(email, password);
+
+                // Important: Update the user object on the server
+                await cred.user.updateProfile({ displayName: `${first} ${last}` });
+
+                // Send verification (fire and forget)
+                cred.user.sendEmailVerification().catch(err => console.error("Verif Email Error", err));
+
+                // Save extra data partially (Phone) - will be merged in auth-check
+                // We don't want to overwrite the main profile yet, let executeSecureAuth handle it
+                // But we need 'phone' available.
+                const tempProfile = { phone: phone };
+                localStorage.setItem('tempSignupData', JSON.stringify(tempProfile));
+
+                return cred; // MUST return credential
+            },
+            btn,
+            'signupModal'
+        );
+    }
+
+    // 3. Password Reset (New Password Submission)
+    if (e.target.id === 'resetPasswordForm') {
+        e.preventDefault();
+        const pwd = document.getElementById('newResetPassword').value;
+        if (!window.verifiedUserForReset) return alert("Session expired. Verify ID again.");
+        if (pwd.length < 6) return alert("Password must be 6+ chars.");
+
+        try {
+            await window.verifiedUserForReset.updatePassword(pwd);
+            alert("Password updated! You are now logged in.");
+            window.location.href = 'profile.html';
+        } catch (err) {
+            handleAuthError(err, "Update Password");
+        }
+    }
+});
+
+
+// --- Helpers ---
+
+window.resetViaGoogle = async function () {
+    if (!ensureFirebase()) return;
+    try {
+        const res = await firebase.auth().signInWithPopup(new firebase.auth.GoogleAuthProvider());
+        window.verifiedUserForReset = res.user;
+        document.getElementById('loginStep1').classList.add('d-none');
+        document.getElementById('resetPasswordStep2').classList.remove('d-none');
+    } catch (err) {
+        handleAuthError(err, "Google Verification");
     }
 };
 
 window.resetViaEmail = async function () {
     if (!ensureFirebase()) return;
-
-    const auth = firebase.auth();
-    const userInput = document.getElementById('loginEmailOrPhone');
-    let email = userInput ? userInput.value : '';
-
-    if (!email || email.trim() === "") {
-        email = prompt("Enter your registered email to receive the link:");
-    }
-
-    if (email) {
-        try {
-            auth.languageCode = 'en';
-            await auth.sendPasswordResetEmail(email.trim());
-            alert(`Link Sent!\n\nCheck ${email} (and Spam folder) for the reset link.`);
-        } catch (error) {
-            handleAuthError(error, "Password Reset Failed");
-        }
+    const email = document.getElementById('loginEmailOrPhone').value || prompt("Enter email:");
+    if (!email) return;
+    try {
+        await firebase.auth().sendPasswordResetEmail(email);
+        alert(`Reset link sent to ${email}`);
+    } catch (err) {
+        handleAuthError(err, "Reset Email");
     }
 };
 
-
-// --- Event Delegation for Dynamic Modals ---
-document.addEventListener('click', async (e) => {
-    // 1. Google Login Button
-    if (e.target.closest('#googleLoginBtn')) {
-        e.preventDefault();
-        if (!ensureFirebase()) return;
-        await performGoogleAuth(document.getElementById('loginModal'));
-    }
-
-    // 2. Google Signup Button
-    if (e.target.closest('#googleSignupBtn')) {
-        e.preventDefault();
-        if (!ensureFirebase()) return;
-        await performGoogleAuth(document.getElementById('signupModal'));
-    }
-});
-
-// --- Form Submissions ---
-document.addEventListener('submit', async (e) => {
-    // 1. Email Login Form
-    if (e.target.id === 'loginForm') {
-        e.preventDefault();
-        if (!ensureFirebase()) return;
-
-        const email = document.getElementById('loginEmailOrPhone').value;
-        const password = document.getElementById('loginPassword').value;
-        const submitBtn = e.target.querySelector('button[type="submit"]');
-
-        await performEmailAuth(
-            async () => firebase.auth().signInWithEmailAndPassword(email, password),
-            submitBtn,
-            "Signing in...",
-            document.getElementById('loginModal'),
-            null // No redirect, just reload
-        );
-    }
-
-    // 2. Email Signup Form
-    if (e.target.id === 'signupForm') {
-        e.preventDefault();
-        if (!ensureFirebase()) return;
-
-        const email = document.getElementById('signupEmail').value;
-        const password = document.getElementById('signupPassword').value;
-        const confirmPassword = document.getElementById('signupConfirmPassword').value;
-        const firstName = document.getElementById('signupFirstName').value;
-        const lastName = document.getElementById('signupLastName').value;
-        const phone = document.getElementById('signupPhone').value;
-
-        if (password !== confirmPassword) {
-            alert('Passwords do not match!');
-            return;
-        }
-
-        const submitBtn = e.target.querySelector('button[type="submit"]');
-
-        await performEmailAuth(
-            async () => {
-                const userCredential = await firebase.auth().createUserWithEmailAndPassword(email, password);
-                const user = userCredential.user;
-
-                // Update Profile
-                await user.updateProfile({ displayName: `${firstName} ${lastName}` });
-
-                // Persist Phone locally for profile usage
-                localStorage.setItem('userProfile', JSON.stringify({ phone: phone }));
-
-                // Send Verification
-                await user.sendEmailVerification();
-                alert(`Account created! Please check your email (${email}) to verify before booking.`);
-
-                return userCredential; // RETURN THIS!
-            },
-            submitBtn,
-            "Creating Account...",
-            document.getElementById('signupModal'),
-            null // No redirect, just reload
-        );
-    }
-
-    // 3. New Password Form (Reset Flow)
-    if (e.target.id === 'resetPasswordForm') {
-        e.preventDefault();
-        const newPassword = document.getElementById('newResetPassword').value;
-
-        if (!window.verifiedUserForReset) {
-            alert("Session expired. Please click 'Verify ID' again.");
-            return;
-        }
-        if (newPassword.length < 6) {
-            alert("Password must be at least 6 characters.");
-            return;
-        }
-
-        try {
-            await window.verifiedUserForReset.updatePassword(newPassword);
-            alert("SUCCESS!\n\nYour password has been changed.\nYou are now logged in.");
-            window.location.href = 'profile.html';
-        } catch (error) {
-            console.error("Update Password Error:", error);
-            alert("Failed to update password: " + error.message);
-        }
-    }
-});
-
-
-// --- Helper Functions ---
-
 function ensureFirebase() {
-    if (typeof firebase === 'undefined' || !firebase.auth) {
-        alert("System is still connecting to the server... please wait 2 seconds and try again.");
-        return false;
-    }
-    return true;
-}
-
-async function performGoogleAuth(modalElement) {
-    try {
-        const provider = new firebase.auth.GoogleAuthProvider();
-        const result = await firebase.auth().signInWithPopup(provider);
-        const user = result.user;
-
-        // Optimistic UI: Save to localStorage immediately
-        const userProfile = {
-            displayName: user.displayName,
-            email: user.email,
-            photoURL: user.photoURL,
-            uid: user.uid
-        };
-        localStorage.setItem('userProfile', JSON.stringify(userProfile));
-        localStorage.setItem('loginEvent', Date.now());
-
-        if (modalElement) {
-            const modal = bootstrap.Modal.getInstance(modalElement) || new bootstrap.Modal(modalElement);
-            modal.hide();
-        }
-
-        // Reload to update UI clean
-        window.location.reload();
-    } catch (error) {
-        console.error("Google Auth Error:", error);
-        handleAuthError(error, "Google Sign-In Failed");
-    }
-}
-
-async function performEmailAuth(authAction, submitBtn, loadingText, modalElement, redirectUrl) {
-    const originalText = submitBtn.innerHTML;
-    try {
-        submitBtn.disabled = true;
-        submitBtn.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> ${loadingText}`;
-
-        await authAction();
-
-        if (modalElement) {
-            const modal = bootstrap.Modal.getInstance(modalElement) || new bootstrap.Modal(modalElement);
-            modal.hide();
-        }
-
-        // Redirect or Reload
-        if (redirectUrl) {
-            window.location.href = redirectUrl;
-        } else {
-            window.location.reload();
-        }
-
-    } catch (error) {
-        console.error("Auth Error:", error);
-        handleAuthError(error, "Authentication Failed");
-        submitBtn.disabled = false;
-        submitBtn.innerHTML = originalText;
-    }
+    return (typeof firebase !== 'undefined' && firebase.auth);
 }
 
 function handleAuthError(error, title) {
     let msg = error.message;
-    if (error.code === 'auth/email-already-in-use') {
-        msg = "This email is already registered. Please Sign In instead.";
-    } else if (error.code === 'auth/wrong-password') {
-        msg = "Incorrect password. Please try again or reset it.";
-    } else if (error.code === 'auth/user-not-found') {
-        msg = "No account found with this email. Please Sign Up.";
-    } else if (error.code === 'auth/popup-closed-by-user') {
-        return; // Ignore
-    } else if (error.code === 'auth/unauthorized-domain') {
-        msg = "This domain is not authorized in Firebase Console.";
-    }
-    alert(`${title}:\n\n${msg}`);
+    if (error.code === 'auth/email-already-in-use') msg = "Email already registered. Please Sign In.";
+    if (error.code === 'auth/wrong-password') msg = "Incorrect password.";
+    if (error.code === 'auth/user-not-found') msg = "No account found. Please Sign Up.";
+    if (error.code === 'auth/popup-closed-by-user') return;
+
+    alert(`${title} Failed:\n\n${msg}`);
 }

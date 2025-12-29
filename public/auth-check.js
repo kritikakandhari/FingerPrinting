@@ -13,16 +13,21 @@ document.addEventListener('DOMContentLoaded', () => {
         firebase.auth().onAuthStateChanged(user => {
             if (user) {
                 // User is signed in.
-                const existingProfile = JSON.parse(localStorage.getItem('userProfile')) || {};
+                // Check for temp signup data (phone number)
+                const tempSignupData = JSON.parse(localStorage.getItem('tempSignupData')) || {};
+
                 const userProfile = {
                     firstName: user.displayName ? user.displayName.split(' ')[0] : 'Member',
                     lastName: user.displayName ? user.displayName.split(' ').slice(1).join(' ') : '',
                     email: user.email,
                     avatar: user.photoURL,
                     userId: user.uid,
-                    phone: user.phoneNumber || existingProfile.phone || '', // Persist phone if exists locally
+                    phone: user.phoneNumber || tempSignupData.phone || existingProfile.phone || '',
                     emailVerified: user.emailVerified
                 };
+
+                // Clear temp data
+                if (tempSignupData.phone) localStorage.removeItem('tempSignupData');
                 localStorage.setItem('userProfile', JSON.stringify(userProfile));
                 // Set token for checks
                 localStorage.setItem('authToken', 'firebase-token');
@@ -148,4 +153,4 @@ async function handleLogout(e) {
         window.location.href = 'index.html';
     }, 100);
 }
-```
+
