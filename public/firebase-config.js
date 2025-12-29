@@ -23,7 +23,9 @@ try {
 
 // Export auth instance for other scripts to use
 // Export auth instance for other scripts to use
+// Export auth instance for other scripts to use
 const auth = firebase.auth();
+const db = firebase.firestore(); // Initialize Firestore
 const googleProvider = new firebase.auth.GoogleAuthProvider();
 
 // Explicitly set persistence to LOCAL
