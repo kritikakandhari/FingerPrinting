@@ -70,16 +70,26 @@
                         </a>
                         <ul class="dropdown-menu dropdown-menu-end shadow-lg border-0 rounded-3 mt-2"
                             aria-labelledby="servicesDropdown" style="min-width: 250px;">
-                            <li><a class="dropdown-item py-2 px-3 small" href="services.html#service-1">Digital Fingerprinting</a></li>
-                            <li><a class="dropdown-item py-2 px-3 small" href="services.html#service-2">Name Change Application</a></li>
-                            <li><a class="dropdown-item py-2 px-3 small" href="services.html#service-3">Security License Application</a></li>
-                            <li><a class="dropdown-item py-2 px-3 small" href="services.html#service-4">Employment Screening</a></li>
-                            <li><a class="dropdown-item py-2 px-3 small" href="services.html#service-5">Ink & Roll Fingerprinting</a></li>
-                            <li><a class="dropdown-item py-2 px-3 small" href="services.html#service-6">Background Checks</a></li>
-                            <li><a class="dropdown-item py-2 px-3 small" href="services.html#service-7">Police Check (Outside CA)</a></li>
-                            <li><a class="dropdown-item py-2 px-3 small" href="services.html#service-8">USA Entry Waiver</a></li>
-                            <li><a class="dropdown-item py-2 px-3 small" href="services.html#service-9">Police Certificate (ECPIC)</a></li>
-                            <li><a class="dropdown-item py-2 px-3 small" href="services.html#service-10">Criminal Record Checks</a></li>
+                            <li><a class="dropdown-item py-2 px-3 small" href="services.html#service-1">Digital
+                                    Fingerprinting</a></li>
+                            <li><a class="dropdown-item py-2 px-3 small" href="services.html#service-2">Name Change
+                                    Application</a></li>
+                            <li><a class="dropdown-item py-2 px-3 small" href="services.html#service-3">Security License
+                                    Application</a></li>
+                            <li><a class="dropdown-item py-2 px-3 small" href="services.html#service-4">Employment
+                                    Screening</a></li>
+                            <li><a class="dropdown-item py-2 px-3 small" href="services.html#service-5">Ink & Roll
+                                    Fingerprinting</a></li>
+                            <li><a class="dropdown-item py-2 px-3 small" href="services.html#service-6">Background
+                                    Checks</a></li>
+                            <li><a class="dropdown-item py-2 px-3 small" href="services.html#service-7">Police Check
+                                    (Outside CA)</a></li>
+                            <li><a class="dropdown-item py-2 px-3 small" href="services.html#service-8">USA Entry
+                                    Waiver</a></li>
+                            <li><a class="dropdown-item py-2 px-3 small" href="services.html#service-9">Police
+                                    Certificate (ECPIC)</a></li>
+                            <li><a class="dropdown-item py-2 px-3 small" href="services.html#service-10">Criminal Record
+                                    Checks</a></li>
                             <li>
                                 <hr class="dropdown-divider">
                             </li>
@@ -92,10 +102,18 @@
                     </li>
                     <li class="nav-item"><a class="nav-link text-secondary fw-medium"
                             href="index.html#contact">Contact</a></li>
-                    <li class="nav-item"><a class="nav-link text-secondary fw-medium" href="#" data-bs-toggle="modal"
-                            data-bs-target="#loginModal">Sign In</a></li>
-                    <li class="nav-item"><a class="nav-link text-secondary fw-medium" href="#" data-bs-toggle="modal"
-                            data-bs-target="#signupModal">Sign Up</a>
+                    <!-- Auth Links (Synced with index.html) -->
+                    <li class="nav-item" id="navLinkSignIn"><a class="nav-link text-secondary fw-medium" href="#"
+                            data-bs-toggle="modal" data-bs-target="#loginModal">Sign In</a></li>
+                    <li class="nav-item" id="navLinkSignUp"><a class="nav-link text-secondary fw-medium" href="#"
+                            data-bs-toggle="modal" data-bs-target="#signupModal">Sign Up</a></li>
+                    <li class="nav-item d-none" id="navLinkProfile"><a class="nav-link text-brand-green fw-bold"
+                            href="profile.html">My Profile</a></li>
+                    <li class="nav-item d-none" id="navLinkLogout">
+                        <button id="navLogoutBtn" class="btn btn-link nav-link text-danger fw-medium"
+                            style="text-decoration: none;">
+                            <i class="fa-solid fa-right-from-bracket"></i> Sign Out
+                        </button>
                     </li>
                     <li class="nav-item">
                         <a href="book.html"
@@ -111,20 +129,30 @@
     <div id="servicesCarousel" class="carousel slide mt-5 pt-4" data-bs-ride="false">
         <!-- data-bs-ride="carousel" for auto play, false for manual -->
         <div class="carousel-indicators">
-            <button type="button" data-bs-target="#servicesCarousel" data-bs-slide-to="0" class="active bg-brand-green" aria-current="true" aria-label="Slide 1"></button>
-            <button type="button" data-bs-target="#servicesCarousel" data-bs-slide-to="1" class="bg-brand-green" aria-label="Slide 2"></button>
-            <button type="button" data-bs-target="#servicesCarousel" data-bs-slide-to="2" class="bg-brand-green" aria-label="Slide 3"></button>
-            <button type="button" data-bs-target="#servicesCarousel" data-bs-slide-to="3" class="bg-brand-green" aria-label="Slide 4"></button>
-            <button type="button" data-bs-target="#servicesCarousel" data-bs-slide-to="4" class="bg-brand-green" aria-label="Slide 5"></button>
-            <button type="button" data-bs-target="#servicesCarousel" data-bs-slide-to="5" class="bg-brand-green" aria-label="Slide 6"></button>
-            <button type="button" data-bs-target="#servicesCarousel" data-bs-slide-to="6" class="bg-brand-green" aria-label="Slide 7"></button>
-            <button type="button" data-bs-target="#servicesCarousel" data-bs-slide-to="7" class="bg-brand-green" aria-label="Slide 8"></button>
-            <button type="button" data-bs-target="#servicesCarousel" data-bs-slide-to="8" class="bg-brand-green" aria-label="Slide 9"></button>
-            <button type="button" data-bs-target="#servicesCarousel" data-bs-slide-to="9" class="bg-brand-green" aria-label="Slide 10"></button>
+            <button type="button" data-bs-target="#servicesCarousel" data-bs-slide-to="0" class="active bg-brand-green"
+                aria-current="true" aria-label="Slide 1"></button>
+            <button type="button" data-bs-target="#servicesCarousel" data-bs-slide-to="1" class="bg-brand-green"
+                aria-label="Slide 2"></button>
+            <button type="button" data-bs-target="#servicesCarousel" data-bs-slide-to="2" class="bg-brand-green"
+                aria-label="Slide 3"></button>
+            <button type="button" data-bs-target="#servicesCarousel" data-bs-slide-to="3" class="bg-brand-green"
+                aria-label="Slide 4"></button>
+            <button type="button" data-bs-target="#servicesCarousel" data-bs-slide-to="4" class="bg-brand-green"
+                aria-label="Slide 5"></button>
+            <button type="button" data-bs-target="#servicesCarousel" data-bs-slide-to="5" class="bg-brand-green"
+                aria-label="Slide 6"></button>
+            <button type="button" data-bs-target="#servicesCarousel" data-bs-slide-to="6" class="bg-brand-green"
+                aria-label="Slide 7"></button>
+            <button type="button" data-bs-target="#servicesCarousel" data-bs-slide-to="7" class="bg-brand-green"
+                aria-label="Slide 8"></button>
+            <button type="button" data-bs-target="#servicesCarousel" data-bs-slide-to="8" class="bg-brand-green"
+                aria-label="Slide 9"></button>
+            <button type="button" data-bs-target="#servicesCarousel" data-bs-slide-to="9" class="bg-brand-green"
+                aria-label="Slide 10"></button>
         </div>
 
         <div class="carousel-inner">
-<!-- Slide 1: Digital Fingerprinting Services -->
+            <!-- Slide 1: Digital Fingerprinting Services -->
             <div class="carousel-item active">
 
                 <div class="container h-100 d-flex align-items-center justify-content-center position-relative"
@@ -228,8 +256,8 @@
                 </div>
             </div>
 
-            
-<!-- Slide 2: Name Change Application -->
+
+            <!-- Slide 2: Name Change Application -->
             <div class="carousel-item">
 
                 <div class="container h-100 d-flex align-items-center justify-content-center position-relative"
@@ -313,8 +341,8 @@
                 </div>
             </div>
 
-            
-<!-- Slide 3: Security License Application -->
+
+            <!-- Slide 3: Security License Application -->
             <div class="carousel-item">
 
                 <div class="container h-100 d-flex align-items-center justify-content-center position-relative"
@@ -399,8 +427,8 @@
                 </div>
             </div>
 
-            
-<!-- Slide 4: Employment Screening -->
+
+            <!-- Slide 4: Employment Screening -->
             <div class="carousel-item">
 
                 <div class="container h-100 d-flex align-items-center justify-content-center position-relative"
@@ -531,8 +559,8 @@
                 </div>
             </div>
 
-            
-<!-- Slide 5: Ink & Roll Fingerprinting -->
+
+            <!-- Slide 5: Ink & Roll Fingerprinting -->
             <div class="carousel-item">
 
                 <div class="container h-100 d-flex align-items-center justify-content-center position-relative"
@@ -609,8 +637,8 @@
                 </div>
             </div>
 
-            
-<!-- Slide 6: Background Checks -->
+
+            <!-- Slide 6: Background Checks -->
             <div class="carousel-item">
 
                 <div class="container h-100 d-flex align-items-center justify-content-center position-relative"
@@ -703,8 +731,8 @@
                 </div>
             </div>
 
-            
-<!-- Slide 7: Police Check Outside Canada -->
+
+            <!-- Slide 7: Police Check Outside Canada -->
             <div class="carousel-item">
 
                 <div class="container h-100 d-flex align-items-center justify-content-center position-relative"
@@ -787,8 +815,8 @@
                 </div>
             </div>
 
-            
-<!-- Slide 8: USA Entry Waiver -->
+
+            <!-- Slide 8: USA Entry Waiver -->
             <div class="carousel-item">
 
                 <div class="container h-100 d-flex align-items-center justify-content-center position-relative"
@@ -890,8 +918,8 @@
                 </div>
             </div>
 
-            
-<!-- Slide 9: Police Certificate (ECPIC) -->
+
+            <!-- Slide 9: Police Certificate (ECPIC) -->
             <div class="carousel-item">
 
                 <div class="container h-100 d-flex align-items-center justify-content-center position-relative"
@@ -969,8 +997,8 @@
                 </div>
             </div>
 
-            
-<!-- Slide 10: Criminal Record Checks -->
+
+            <!-- Slide 10: Criminal Record Checks -->
             <div class="carousel-item">
 
                 <div class="container h-100 d-flex align-items-center justify-content-center position-relative"
@@ -1062,8 +1090,8 @@
                 </div>
             </div>
 
-        
-</div>
+
+        </div>
 
         <button class="carousel-control-prev" type="button" data-bs-target="#servicesCarousel" data-bs-slide="prev">
             <span class="carousel-control-prev-icon shadow-lg" aria-hidden="true"></span>
@@ -1160,12 +1188,14 @@
                         <span class="opacity-75 small">(+1) 778-297-2000</span>
                     </div>
                     <div class="d-flex gap-2 mt-4 pt-2">
-                        <a href="#" class="social-icon-circle"><i class="fa-brands fa-facebook-f"></i></a>
-                        <a href="#" class="social-icon-circle"><i class="fa-brands fa-twitter"></i></a>
-                        <a href="#" class="social-icon-circle"><i class="fa-brands fa-linkedin-in"></i></a>
+                        <a href="https://www.facebook.com/share/15jZdpXVzV/" class="social-icon-circle"><i
+                                class="fa-brands fa-facebook-f"></i></a>
+                        <a href="https://www.linkedin.com/company/point-zero-global-services-ltd/"
+                            class="social-icon-circle"><i class="fa-brands fa-linkedin-in"></i></a>
                         <a href="https://www.instagram.com/pointzeroglobal?igsh=OHV4cWUzZ3UzMG9x"
                             class="social-icon-circle"><i class="fa-brands fa-instagram"></i></a>
-                        <a href="#" class="social-icon-circle"><i class="fa-brands fa-youtube"></i></a>
+                        <a href="https://youtube.com/@pointzeroglobalservices?si=YqFDrh3mho8H6I3E"
+                            class="social-icon-circle"><i class="fa-brands fa-youtube"></i></a>
                     </div>
                 </div>
             </div>
@@ -1276,7 +1306,7 @@
                     onclick="toggleServiceMenu()">
                     <span class="badge bg-light text-brand-green px-2 py-1">10</span> Criminal Record Checks
                 </a>
-</div>
+            </div>
         </div>
     </div>
 
@@ -1357,6 +1387,11 @@
             })
             .catch(err => console.error('Failed to load auth modals:', err));
     </script>
+    <!-- Firebase SDKs -->
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
+    <script src="firebase-config.js"></script>
+
     <script src="auth-check.js"></script>
 </body>
 

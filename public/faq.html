@@ -133,10 +133,18 @@
                     </li>
                     <li class="nav-item"><a class="nav-link text-secondary fw-medium"
                             href="index.html#contact">Contact</a></li>
-                    <li class="nav-item"><a class="nav-link text-secondary fw-medium" href="#" data-bs-toggle="modal"
-                            data-bs-target="#loginModal">Sign In</a></li>
-                    <li class="nav-item"><a class="nav-link text-secondary fw-medium" href="#" data-bs-toggle="modal"
-                            data-bs-target="#signupModal">Sign Up</a>
+                    <!-- Auth Links (Synced with index.html) -->
+                    <li class="nav-item" id="navLinkSignIn"><a class="nav-link text-secondary fw-medium" href="#"
+                            data-bs-toggle="modal" data-bs-target="#loginModal">Sign In</a></li>
+                    <li class="nav-item" id="navLinkSignUp"><a class="nav-link text-secondary fw-medium" href="#"
+                            data-bs-toggle="modal" data-bs-target="#signupModal">Sign Up</a></li>
+                    <li class="nav-item d-none" id="navLinkProfile"><a class="nav-link text-brand-green fw-bold"
+                            href="profile.html">My Profile</a></li>
+                    <li class="nav-item d-none" id="navLinkLogout">
+                        <button id="navLogoutBtn" class="btn btn-link nav-link text-danger fw-medium"
+                            style="text-decoration: none;">
+                            <i class="fa-solid fa-right-from-bracket"></i> Sign Out
+                        </button>
                     </li>
                     <li class="nav-item">
                         <a href="book.html"
@@ -524,12 +532,14 @@
                         <span class="opacity-75 small">(+1) 778-297-2000</span>
                     </div>
                     <div class="d-flex gap-2 mt-4 pt-2">
-                        <a href="#" class="social-icon-circle"><i class="fa-brands fa-facebook-f"></i></a>
-                        <a href="#" class="social-icon-circle"><i class="fa-brands fa-twitter"></i></a>
-                        <a href="#" class="social-icon-circle"><i class="fa-brands fa-linkedin-in"></i></a>
+                        <a href="https://www.facebook.com/share/15jZdpXVzV/" class="social-icon-circle"><i
+                                class="fa-brands fa-facebook-f"></i></a>
+                        <a href="https://www.linkedin.com/company/point-zero-global-services-ltd/"
+                            class="social-icon-circle"><i class="fa-brands fa-linkedin-in"></i></a>
                         <a href="https://www.instagram.com/pointzeroglobal?igsh=OHV4cWUzZ3UzMG9x"
                             class="social-icon-circle"><i class="fa-brands fa-instagram"></i></a>
-                        <a href="#" class="social-icon-circle"><i class="fa-brands fa-youtube"></i></a>
+                        <a href="https://youtube.com/@pointzeroglobalservices?si=YqFDrh3mho8H6I3E"
+                            class="social-icon-circle"><i class="fa-brands fa-youtube"></i></a>
                     </div>
                 </div>
             </div>
@@ -575,6 +585,11 @@
             })
             .catch(err => console.error('Failed to load auth modals:', err));
     </script>
+    <!-- Firebase SDKs -->
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
+    <script src="firebase-config.js"></script>
+
     <script src="auth-check.js"></script>
 </body>
 
