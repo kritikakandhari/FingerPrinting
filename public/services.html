@@ -46,8 +46,8 @@
             .carousel-item {
                 height: auto !important;
                 min-height: auto !important;
-                padding-bottom: 80px !important;
-                /* Space for static arrows */
+                padding-bottom: 150px !important;
+                /* Huge space for static arrows */
                 transition: transform 0.6s ease-in-out;
             }
 
@@ -56,23 +56,26 @@
                 height: auto !important;
                 min-height: auto !important;
                 display: block !important;
-                /* Stack content, no flex centering */
-                padding-top: 7rem;
-                /* Increased to CLEAR fixed navbar */
+                padding-top: 5rem;
+                /* Sufficient top clearance */
+                width: 100% !important;
+                padding-left: 0.5rem;
+                padding-right: 0.5rem;
             }
 
-            /* 2. Card Content: Natural flow, no huge padding hacks */
+            /* 2. Card Content: Widen text area */
             .service-content {
-                padding: 1.5rem !important;
+                padding: 1.5rem 1rem !important;
+                /* Reduced side padding (1rem) for wider text */
                 padding-bottom: 2rem !important;
-                /* Normal padding */
-                margin-bottom: 20px;
-                /* Space below card */
+                margin-bottom: 0;
                 max-height: none !important;
                 box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
                 background: #ffffff;
                 border-radius: 15px;
                 text-align: center !important;
+                width: 100% !important;
+                /* Force full width utilization */
             }
 
             /* 3. Center Align Content */
@@ -96,40 +99,37 @@
             }
 
             /* 5. Static Navigation Arrows (KEY FIX) */
-            /* Position them relative to the slide, below the card */
             .carousel-control-prev,
             .carousel-control-next {
                 position: absolute;
-                bottom: 10px !important;
-                /* Pin to bottom of carousel-item container */
+                bottom: 40px !important;
+                /* Sit well below the card in the padding-bottom area */
                 top: auto;
-                width: 60px;
-                /* Fixed button size */
-                height: 60px;
+                width: 50px;
+                height: 50px;
                 opacity: 1;
                 z-index: 100;
                 display: flex;
-                /* Ensure visible */
                 align-items: center;
                 justify-content: center;
                 margin: 0;
                 padding: 0;
             }
 
-            /* Spaced out Left/Right */
+            /* Center the arrows relative to screen width */
             .carousel-control-prev {
-                left: 20% !important;
+                left: 30% !important;
             }
 
             .carousel-control-next {
-                right: 20% !important;
+                right: 30% !important;
             }
 
             /* Visual Style of Arrows */
             .carousel-control-prev-icon,
             .carousel-control-next-icon {
                 background-color: var(--brand-green);
-                padding: 1.5rem;
+                padding: 1.2rem;
                 border-radius: 50%;
                 background-size: 50%;
                 box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
@@ -137,7 +137,8 @@
 
             /* 6. Indicators */
             .carousel-indicators {
-                bottom: -40px;
+                bottom: 10px;
+                /* Below arrows */
             }
 
             h1.display-5 {
