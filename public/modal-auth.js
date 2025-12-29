@@ -66,6 +66,7 @@ async function executeSecureAuth(actionName, authFunction, submitBtn = null, mod
 
         // 4. RELOAD (To reflect state)
         // We use reload to ensure all vanilla JS scripts re-run with the new auth state.
+        sessionStorage.setItem('showAuthPreloader', 'true');
         window.location.reload();
 
     } catch (error) {

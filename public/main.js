@@ -57,35 +57,30 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    // Remove preloader if it exists
     // Smart Preloader Logic
     const preloader = document.getElementById('preloader');
     if (preloader) {
-        // Check session state
         const isSessionFounded = sessionStorage.getItem('isSessionFounded');
         const showAuthPreloader = sessionStorage.getItem('showAuthPreloader');
 
-        // Logic: Show IF (First Visit) OR (Auth Event Triggered)
-        const shouldShowPreloader = !isSessionFounded || showAuthPreloader === 'true';
-
-        if (shouldShowPreloader) {
-            // --- SHOW ANIMATION (Standard 2.5s - 3s) ---
-
-            // Mark session as founded so next clicks don't show it
-            sessionStorage.setItem('isSessionFounded', 'true');
-            // Clear the one-time auth flag if it existed
-            if (showAuthPreloader) sessionStorage.removeItem('showAuthPreloader');
-
+        if (!isSessionFounded || showAuthPreloader === 'true') {
+            // Case A: First Visit OR Auth Event -> Show Animation
             window.addEventListener('load', () => {
                 setTimeout(() => {
                     preloader.classList.add('hidden');
                     setTimeout(() => {
                         preloader.remove();
                         document.body.classList.remove('overflow-hidden');
+
+                        // Set flags
+                        sessionStorage.setItem('isSessionFounded', 'true');
+                        sessionStorage.removeItem('showAuthPreloader'); // Clear one-time auth flag
                     }, 500);
-                }, 2500); // Reduced slightly from 3000ms for snappier feel
+                }, 2500); // 2.5s Animation
             });
         } else {
-            // --- HIDE IMMEDIATELY (Navigation) ---
+            // Case B: Normal Navigation -> Hide Immediately
             preloader.style.display = 'none';
             preloader.remove();
             document.body.classList.remove('overflow-hidden');

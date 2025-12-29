@@ -150,7 +150,6 @@ async function handleLogout(e) {
     // The local storage clear is enough to "sign out" the user on this device.
     setTimeout(() => {
         console.log("Reloading to clear state...");
-        // Flag preloader to show on reload for 'Signing Out' effect
         sessionStorage.setItem('showAuthPreloader', 'true');
         window.location.reload();
     }, 100);
