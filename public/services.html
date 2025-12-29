@@ -51,6 +51,16 @@
                 transition: transform 0.6s ease-in-out;
             }
 
+            /* Ensure container doesn't fight for height */
+            .container.h-100 {
+                height: auto !important;
+                min-height: auto !important;
+                display: block !important;
+                /* Stack content, no flex centering */
+                padding-top: 7rem;
+                /* Increased to CLEAR fixed navbar */
+            }
+
             /* 2. Card Content: Natural flow, no huge padding hacks */
             .service-content {
                 padding: 1.5rem !important;
