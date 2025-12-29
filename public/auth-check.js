@@ -39,7 +39,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // --- Sync State Across Tabs ---
     // This listener fires when localStorage is modified in ANOTHER tab/window.
     window.addEventListener('storage', (event) => {
-        if (event.key === 'userProfile' || event.key === 'authToken' || event.key === 'logoutEvent') {
+        if (event.key === 'userProfile' || event.key === 'authToken' || event.key === 'logoutEvent' || event.key === 'loginEvent') {
             console.log("Auth state changed in another tab. Syncing...");
             // Reload to ensure full UI/logic reset (safest for auth changes)
             window.location.reload();
@@ -49,45 +49,25 @@ document.addEventListener('DOMContentLoaded', () => {
 
 function updateAuthUI() {
     const user = JSON.parse(localStorage.getItem('userProfile'));
-    const navbarNav = document.querySelector('.navbar-nav');
 
-    if (!navbarNav) return;
+    // Selectors by ID
+    const navSignIn = document.getElementById('navLinkSignIn');
+    const navSignUp = document.getElementById('navLinkSignUp');
+    const navProfile = document.getElementById('navLinkProfile');
+    const navLogout = document.getElementById('navLinkLogout');
 
-    // --- Selectors ---
-    const signInLink = Array.from(document.querySelectorAll('a')).find(a => a.textContent.includes('Sign In'));
-    const signUpLink = Array.from(document.querySelectorAll('a')).find(a => a.textContent.includes('Sign Up'));
-    const profileLink = Array.from(document.querySelectorAll('a')).find(a => a.href.includes('profile.html'));
+    // Booking Buttons (Global Class Selector)
+    const bookingBtns = document.querySelectorAll('.btn-brand-green.btn-aura'); // Matches the "Book Appointment" buttons
 
     if (user) {
         // --- LOGGED IN STATE ---
+        if (navSignIn) navSignIn.classList.add('d-none');
+        if (navSignUp) navSignUp.classList.add('d-none');
 
-        // Remove Sign In / Sign Up links
-        if (signInLink && signInLink.parentElement.tagName === 'LI') signInLink.parentElement.remove();
-        if (signUpLink && signUpLink.parentElement.tagName === 'LI') signUpLink.parentElement.remove();
+        if (navProfile) navProfile.classList.remove('d-none');
+        if (navLogout) navLogout.classList.remove('d-none');
 
-        // Add 'My Profile' link if missing
-        if (!profileLink) {
-            const profileLi = document.createElement('li');
-            profileLi.className = 'nav-item';
-            profileLi.innerHTML = `<a class="nav-link text-brand-green fw-bold" href="profile.html">My Profile</a>`;
-            const lastItem = navbarNav.lastElementChild;
-            if (lastItem) navbarNav.insertBefore(profileLi, lastItem);
-        }
-
-        // Add 'Logout' button if missing
-        if (!document.getElementById('navLogoutBtn')) {
-            const logoutLi = document.createElement('li');
-            logoutLi.className = 'nav-item';
-            logoutLi.innerHTML = `
-                <button id="navLogoutBtn" class="btn btn-link nav-link text-danger fw-medium" style="text-decoration: none;">
-                    <i class="fa-solid fa-right-from-bracket"></i> Sign Out
-                </button>
-            `;
-            const lastItem = navbarNav.lastElementChild;
-            if (lastItem) navbarNav.insertBefore(logoutLi, lastItem);
-        }
-
-        // Bind Logout (Firebase SignOut) - Navbar
+        // Bind Logout
         const navLogoutBtn = document.getElementById('navLogoutBtn');
         if (navLogoutBtn) {
             navLogoutBtn.removeEventListener('click', handleLogout);
@@ -101,31 +81,41 @@ function updateAuthUI() {
             sidebarLogoutBtn.addEventListener('click', handleLogout);
         }
 
-        // Smart Booking Buttons (Direct to book.html)
-        const bookingBtns = document.querySelectorAll('a[data-bs-target="#loginModal"]');
+        // Smart Booking Buttons: Direct to book.html
         bookingBtns.forEach(btn => {
-            const newBtn = btn.cloneNode(true);
-            newBtn.removeAttribute('data-bs-toggle');
-            newBtn.removeAttribute('data-bs-target');
-            newBtn.href = 'book.html';
-            newBtn.addEventListener('click', (e) => {
-                e.preventDefault();
-                window.location.href = 'book.html';
-            });
-            if (btn.parentNode) btn.parentNode.replaceChild(newBtn, btn);
+            // Only modify if it was originally a modal trigger
+            if (btn.getAttribute('data-bs-toggle') === 'modal') {
+                btn.removeAttribute('data-bs-toggle');
+                btn.removeAttribute('data-bs-target');
+                btn.href = 'book.html';
+                // Clone to remove old listeners if any, or just add new one
+                // Since we removed data attributes, bootstrap modal won't trigger. 
+                // We add a simple click handler to be safe.
+                btn.onclick = (e) => {
+                    e.preventDefault();
+                    window.location.href = 'book.html';
+                };
+            }
         });
 
     } else {
         // --- LOGGED OUT STATE ---
+        if (navSignIn) navSignIn.classList.remove('d-none');
+        if (navSignUp) navSignUp.classList.remove('d-none');
 
-        // Remove Profile / Logout
-        if (profileLink && profileLink.parentElement.tagName === 'LI') profileLink.parentElement.remove();
-        const logoutBtn = document.getElementById('navLogoutBtn');
-        if (logoutBtn && logoutBtn.parentElement.tagName === 'LI') logoutBtn.parentElement.remove();
+        if (navProfile) navProfile.classList.add('d-none');
+        if (navLogout) navLogout.classList.add('d-none');
 
-        // Note: We don't re-add Sign In/Up links dynamically because we rely on page reload or 
-        // the fact that they exist in the static HTML. If they were removed, a reload might be needed 
-        // or we could reconstruct them, but typically a reload on logout handles this reset.
+        // Reset Booking Buttons: Open Login Modal
+        bookingBtns.forEach(btn => {
+            // Only restore if it's currently pointing to book.html (i.e. was modified)
+            if (!btn.getAttribute('data-bs-toggle') && btn.href.includes('book.html')) {
+                btn.setAttribute('data-bs-toggle', 'modal');
+                btn.setAttribute('data-bs-target', '#loginModal');
+                btn.href = '#';
+                btn.onclick = null; // Remove the direct redirect
+            }
+        });
     }
 }
 

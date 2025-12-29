@@ -52,11 +52,13 @@ document.addEventListener('click', async (e) => {
         console.log("Google Login Clicked");
         try {
             await auth.signInWithPopup(googleProvider);
+            // Force Sync
+            localStorage.setItem('loginEvent', Date.now());
             // Auth state change is handled in auth-check.js
             const modalEl = document.getElementById('loginModal');
             const modal = bootstrap.Modal.getInstance(modalEl) || new bootstrap.Modal(modalEl);
             modal.hide();
-            window.location.href = 'book.html';
+            window.location.reload(); // Force reload to clarify state
         } catch (error) {
             console.error("Google Sign-In Error:", error);
 
@@ -77,10 +79,13 @@ document.addEventListener('click', async (e) => {
     if (e.target.closest('#googleSignupBtn')) {
         try {
             const result = await auth.signInWithPopup(googleProvider);
+            // Force Sync
+            localStorage.setItem('loginEvent', Date.now());
+
             const modalEl = document.getElementById('signupModal');
             const modal = bootstrap.Modal.getInstance(modalEl) || new bootstrap.Modal(modalEl);
             modal.hide();
-            window.location.href = 'profile.html';
+            window.location.reload(); // Force reload
         } catch (error) {
             console.error("Google Sign-Up Error:", error);
 
