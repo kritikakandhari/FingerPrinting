@@ -898,54 +898,56 @@
     </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- EmailJS SDK -->
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+    <script type="text/javascript">
+        (function () {
+            // https://dashboard.emailjs.com/admin/account
+            emailjs.init("x40CR_RE_N_73d2gQ");
+        })();
+    </script>
+
     <script>
-        // Contact Form Submission
-        // Contact Form Submission (To Firebase)
+        // Contact Form Submission (Via EmailJS for GoDaddy Compatibility)
         document.getElementById('contact-form').onsubmit = async (e) => {
             e.preventDefault();
-            const formData = new FormData(e.target);
-            const data = Object.fromEntries(formData.entries());
-
-            // Add timestamp
-            data.createdAt = new Date();
-            data.status = 'new'; // For admin tracking
 
             const btn = e.target.querySelector('button[type="submit"]');
             const originalText = btn.innerHTML;
 
             // UI State: Loading
             btn.disabled = true;
-            btn.style.opacity = '0.7'; // Ensuring it doesn't disappear
+            btn.style.opacity = '0.7';
             btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Sending...';
 
+            const formData = new FormData(e.target);
+            const data = Object.fromEntries(formData.entries());
+            data.createdAt = new Date();
+
             try {
-                // 1. Attempt Firestore Write (Best Effort, Don't Block)
-                // We check if db exists, but we don't await the add() so it runs in background
+                // 1. Attempt Firestore Write (Start in background)
                 if (typeof db !== 'undefined') {
-                    db.collection('inquiries').add(data).catch(e => console.warn("Firestore write failed (likely permission/guest issue):", e));
+                    db.collection('inquiries').add(data).catch(e => console.warn("Firestore write failed:", e));
                 } else if (typeof firebase !== 'undefined') {
                     try {
                         window.db = firebase.firestore();
-                        window.db.collection('inquiries').add(data).catch(e => console.warn("Firestore write failed:", e));
-                    } catch (e) { console.warn("Firebase init failed:", e); }
+                        window.db.collection('inquiries').add(data).catch(e => console.warn("Firestore init failed:", e));
+                    } catch (e) { }
                 }
 
-                // 2. Call Backend API to send Email (PRIORITY)
-                const response = await fetch('/api/contact', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(data)
-                });
+                // 2. Send Email via EmailJS (Client-Side)
+                // You need to create a Service and Template in EmailJS dashboard
+                const serviceID = 'service_juvmhrs';
+                const templateID = 'template_7u5ifz9';
 
-                if (!response.ok) {
-                    throw new Error(`Email server responded with ${response.status}`);
-                }
+                // Passing 'this' (the form) auto-maps inputs to template params matching their 'name' attributes
+                await emailjs.sendForm(serviceID, templateID, e.target);
 
                 alert('Message sent successfully! We will get back to you soon.');
                 e.target.reset();
 
             } catch (err) {
-                console.error('Submission Error:', err);
+                console.error('EmailJS Error:', err);
                 alert('Connection error. Please try again or email us directly at info@pzfingerprinting.com');
             } finally {
                 // Restore Button
