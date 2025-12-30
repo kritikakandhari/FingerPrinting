@@ -47,22 +47,22 @@ function saveData(data) {
     }
 }
 
-// ... (Email Transporter setup remains the same)
-// Email Transporter (Wrapped in try/catch to avoid crash on startup if ENVs missing)
-let transporter;
-try {
-    transporter = nodemailer.createTransport({
-        host: process.env.EMAIL_HOST,
-        port: process.env.EMAIL_PORT,
+// Email Transporter Helper (Lazy Load)
+const createTransporter = () => {
+    if (!process.env.EMAIL_USER || !process.env.EMAIL_PASS) {
+        console.warn('[MAIL SETUP] Missing EMAIL_USER or EMAIL_PASS env vars');
+        return null;
+    }
+    return nodemailer.createTransport({
+        host: process.env.EMAIL_HOST || 'smtp.gmail.com',
+        port: process.env.EMAIL_PORT || 587,
         secure: process.env.EMAIL_PORT == 465,
         auth: {
             user: process.env.EMAIL_USER,
             pass: process.env.EMAIL_PASS
         }
     });
-} catch (err) {
-    console.error('[NODEMAILER SETUP ERROR]', err.message);
-}
+};
 
 // Routes
 
@@ -81,6 +81,7 @@ app.post('/api/book', async (req, res) => {
         }
 
         const data = getData();
+        // Check for double booking
         const clash = data.bookings.find(b => b.date === date && b.time === time && b.status !== 'cancelled');
         if (clash) {
             return res.status(409).json({ error: 'This slot has just been booked by someone else.' });
@@ -99,16 +100,18 @@ app.post('/api/book', async (req, res) => {
             status: 'confirmed',
             createdAt: new Date()
         };
+
         data.bookings.push(booking);
-        saveData(data);
+        saveData(data); // Try to save, but don't crash if fails
 
-        console.log(`[BOOKING] New appointment saved: ${name}`);
+        console.log(`[BOOKING] New appointment: ${name}`);
 
-        if (transporter && process.env.EMAIL_USER) {
+        const transporter = createTransporter();
+        if (transporter) {
             const cancelLink = `https://${req.get('host')}/book.html?cancel=${cancelToken}`;
             const mailOptions = {
                 from: `"PZ Booking" <${process.env.EMAIL_USER}>`,
-                to: process.env.EMAIL_USER, // Send to self
+                to: process.env.EMAIL_USER, // Send to admin
                 subject: `New Appointment: ${name}`,
                 html: `
                     <div style="font-family: Arial, sans-serif; max-width: 600px; border: 1px solid #10B981; padding: 20px; border-radius: 10px;">
@@ -121,8 +124,12 @@ app.post('/api/book', async (req, res) => {
                         <p><strong>Time:</strong> ${time}</p>
                     </div>`
             };
-            await transporter.sendMail(mailOptions);
-            console.log('[BOOKING EMAIL] Sent notification to admin.');
+            try {
+                await transporter.sendMail(mailOptions);
+                console.log('[BOOKING EMAIL] Sent notification to admin.');
+            } catch (mailErr) {
+                console.error('[BOOKING EMAIL ERROR]', mailErr.message);
+            }
         }
         return res.status(200).json({ message: 'Booking successful', bookingId: booking.id, cancelToken });
     } catch (err) {
@@ -171,33 +178,44 @@ app.post('/api/cancel-booking', async (req, res) => {
 
 // 3. Contact Form API
 app.post('/api/contact', async (req, res) => {
-    // ... (logic remains similar, wrapped in try/catch if needed, but existing is okay-ish. Adding wrap for safety)
     try {
         const { firstName, lastName, email, service, message } = req.body;
+        // Basic validation
         if (!firstName) return res.status(400).json({ error: 'Missing fields' });
 
+        // Save to 'store' (best effort)
         const data = getData();
         data.contacts.push({ id: Date.now(), firstName, lastName, email, service, message });
         saveData(data);
 
-        console.log(`[EMAIL] Attempting to send email from ${process.env.EMAIL_USER} to ${process.env.EMAIL_USER}`);
-        const info = await transporter.sendMail({
-            from: `"PZ Inquiry" <${process.env.EMAIL_USER}>`,
-            to: process.env.EMAIL_USER, // Send to self (the admin)
-            subject: `New Inquiry: ${firstName} ${lastName}`,
-            html: `<p><strong>Name:</strong> ${firstName} ${lastName}</p>
-                       <p><strong>Email:</strong> ${email}</p>
-                       <p><strong>Service:</strong> ${service}</p>
-                       <p><strong>Message:</strong> ${message}</p>`
-        });
-        console.log('[EMAIL] Sent:', info.messageId);
-    } else {
-        console.warn('[EMAIL] Transporter or EMAIL_USER not configured.');
+        // Send Email
+        const transporter = createTransporter();
+        if (transporter) {
+            console.log(`[EMAIL] Attempting to send email from ${process.env.EMAIL_USER} to ${process.env.EMAIL_USER}`);
+
+            try {
+                const info = await transporter.sendMail({
+                    from: `"PZ Inquiry" <${process.env.EMAIL_USER}>`,
+                    to: process.env.EMAIL_USER, // Send to self (the admin)
+                    subject: `New Inquiry: ${firstName} ${lastName}`,
+                    html: `<p><strong>Name:</strong> ${firstName} ${lastName}</p>
+                           <p><strong>Email:</strong> ${email}</p>
+                           <p><strong>Service:</strong> ${service}</p>
+                           <p><strong>Message:</strong> ${message}</p>`
+                });
+                console.log('[EMAIL] Sent:', info.messageId);
+            } catch (mailErr) {
+                console.error('[EMAIL SEND FAIL]', mailErr);
+                // Don't fail the request, just log
+            }
+        } else {
+            console.warn('[EMAIL] Transporter or EMAIL_USER not configured.');
+        }
+        return res.status(200).json({ message: 'Sent' });
+    } catch (err) {
+        console.error('[CONTACT API ERROR]', err);
+        return res.status(500).json({ error: 'Internal Error' });
     }
-    return res.status(200).json({ message: 'Sent' });
-} catch (err) {
-    return res.status(500).json({ error: 'Internal Error' });
-}
 });
 
 // 4. Subscribe API
@@ -217,8 +235,9 @@ app.post('/api/subscribe', async (req, res) => {
     }
 });
 
-// 5. Auth APIs
+// 5. Auth APIs (Mock/Placeholder or Deprecated)
 app.post('/api/login', (req, res) => {
+    // Deprecated for removing auth, but keeping to avoid 404s if legacy code calls it
     const { email } = req.body;
     if (email) return res.status(200).json({ token: 'mock-jwt-token', user: { email } });
     return res.status(401).json({ error: 'Invalid credentials' });
