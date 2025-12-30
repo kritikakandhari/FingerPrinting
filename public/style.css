@@ -350,6 +350,13 @@ body {
     color: white;
 }
 
+.btn-brand-green:disabled {
+    background-color: var(--brand-green);
+    color: white;
+    opacity: 0.7;
+    cursor: not-allowed;
+}
+
 .link-brand-green {
     color: var(--brand-green);
     text-decoration: none;
