@@ -204,14 +204,15 @@ app.post('/api/contact', async (req, res) => {
                            <p><strong>Message:</strong> ${message}</p>`
                 });
                 console.log('[EMAIL] Sent:', info.messageId);
+                return res.status(200).json({ message: 'Sent' });
             } catch (mailErr) {
                 console.error('[EMAIL SEND FAIL]', mailErr);
-                // Don't fail the request, just log
+                return res.status(500).json({ error: 'Failed to send email via SMTP.' });
             }
         } else {
             console.warn('[EMAIL] Transporter or EMAIL_USER not configured.');
+            return res.status(500).json({ error: 'Server email configuration missing.' });
         }
-        return res.status(200).json({ message: 'Sent' });
     } catch (err) {
         console.error('[CONTACT API ERROR]', err);
         return res.status(500).json({ error: 'Internal Error' });
