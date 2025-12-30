@@ -103,18 +103,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Auto-Open Login Modal (Redirect Handler)
-    const urlParams = new URLSearchParams(window.location.search);
-    if (urlParams.get('action') === 'login') {
-        // Clean URL first
-        window.history.replaceState({}, document.title, window.location.pathname);
-        // Small delay to ensure modals are ready
-        setTimeout(() => {
-            const loginModal = new bootstrap.Modal(document.getElementById('loginModal'));
-            loginModal.show();
-            // Optional: Show a specific message?
-            alert("Please Sign In to access that page.");
-        }, 500);
-    }
+    // Auto-Open Login Modal Logic Removed
+
 });
 
