@@ -108,7 +108,7 @@ app.post('/api/book', async (req, res) => {
             const cancelLink = `https://${req.get('host')}/book.html?cancel=${cancelToken}`;
             const mailOptions = {
                 from: `"PZ Booking" <${process.env.EMAIL_USER}>`,
-                to: 'info@pzfingerprinting.com',
+                to: process.env.EMAIL_USER, // Send to self
                 subject: `New Appointment: ${name}`,
                 html: `
                     <div style="font-family: Arial, sans-serif; max-width: 600px; border: 1px solid #10B981; padding: 20px; border-radius: 10px;">
@@ -122,6 +122,7 @@ app.post('/api/book', async (req, res) => {
                     </div>`
             };
             await transporter.sendMail(mailOptions);
+            console.log('[BOOKING EMAIL] Sent notification to admin.');
         }
         return res.status(200).json({ message: 'Booking successful', bookingId: booking.id, cancelToken });
     } catch (err) {
@@ -179,18 +180,24 @@ app.post('/api/contact', async (req, res) => {
         data.contacts.push({ id: Date.now(), firstName, lastName, email, service, message });
         saveData(data);
 
-        if (transporter && process.env.EMAIL_USER) {
-            await transporter.sendMail({
-                from: `"PZ Inquiry" <${process.env.EMAIL_USER}>`,
-                to: 'info@pzfingerprinting.com',
-                subject: `New Inquiry: ${firstName} ${lastName}`,
-                html: `<p><strong>Message:</strong> ${message}</p>`
-            });
-        }
-        return res.status(200).json({ message: 'Sent' });
-    } catch (err) {
-        return res.status(500).json({ error: 'Internal Error' });
+        console.log(`[EMAIL] Attempting to send email from ${process.env.EMAIL_USER} to ${process.env.EMAIL_USER}`);
+        const info = await transporter.sendMail({
+            from: `"PZ Inquiry" <${process.env.EMAIL_USER}>`,
+            to: process.env.EMAIL_USER, // Send to self (the admin)
+            subject: `New Inquiry: ${firstName} ${lastName}`,
+            html: `<p><strong>Name:</strong> ${firstName} ${lastName}</p>
+                       <p><strong>Email:</strong> ${email}</p>
+                       <p><strong>Service:</strong> ${service}</p>
+                       <p><strong>Message:</strong> ${message}</p>`
+        });
+        console.log('[EMAIL] Sent:', info.messageId);
+    } else {
+        console.warn('[EMAIL] Transporter or EMAIL_USER not configured.');
     }
+    return res.status(200).json({ message: 'Sent' });
+} catch (err) {
+    return res.status(500).json({ error: 'Internal Error' });
+}
 });
 
 // 4. Subscribe API
