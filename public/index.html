@@ -919,19 +919,18 @@
             btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Sending...';
 
             try {
-                // Ensure db is available (from firebase-config.js via window or global)
-                if (typeof db === 'undefined' && typeof firebase !== 'undefined') {
-                    window.db = firebase.firestore();
+                // 1. Attempt Firestore Write (Best Effort, Don't Block)
+                // We check if db exists, but we don't await the add() so it runs in background
+                if (typeof db !== 'undefined') {
+                    db.collection('inquiries').add(data).catch(e => console.warn("Firestore write failed (likely permission/guest issue):", e));
+                } else if (typeof firebase !== 'undefined') {
+                    try {
+                        window.db = firebase.firestore();
+                        window.db.collection('inquiries').add(data).catch(e => console.warn("Firestore write failed:", e));
+                    } catch (e) { console.warn("Firebase init failed:", e); }
                 }
 
-                if (!db) throw new Error("Database connection pending...");
-
-                // 1. Write to Firestore 'inquiries' collection
-                // We await this to ensure data is saved
-                await db.collection('inquiries').add(data);
-
-                // 2. Call Backend API to send Email
-                // Now awaiting to ensure we know if it succeeded
+                // 2. Call Backend API to send Email (PRIORITY)
                 const response = await fetch('/api/contact', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
@@ -947,9 +946,7 @@
 
             } catch (err) {
                 console.error('Submission Error:', err);
-                // Even if email fails, if Firestore succeeded, we might want to tell them "Received" but maybe tech error
-                // But generally, just alert error to be safe
-                alert('Connection error or email failed. Please email us directly at info@pzfingerprinting.com');
+                alert('Connection error. Please try again or email us directly at info@pzfingerprinting.com');
             } finally {
                 // Restore Button
                 btn.disabled = false;
